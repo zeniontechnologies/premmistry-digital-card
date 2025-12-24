@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Prem Mistry - Zenion Technologies">
+    <meta property="og:description" content="Digital Business Card - Engineering the Future, End to End.">
+    <meta property="og:image" content="https://media.licdn.com/dms/image/v2/D4D03AQEWitIGD2n5dA/profile-displayphoto-scale_200_200/B4DZiT3KLhH8AY-/0/1754827369989?e=1768435200&v=beta&t=O_WMs8OO9oULfdSk-_bEnU-S2wMXOmL6sf0CkGwz2HM">
+    <title>Prem Mistry - Zenion Technologies</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            bg: '#020617', // Slate 950
+                            card: '#0f172a',
+                            accent: '#38bdf8', 
+                        }
+                    },
+                    boxShadow: {
+                        'premium': '0 20px 40px -10px rgba(0, 0, 0, 0.7), inset 0 1px 0 0 rgba(255, 255, 255, 0.15)',
+                        'glow-blue': '0 0 20px rgba(56, 189, 248, 0.25)',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 3s infinite',
+                        'slide-up-fade': 'slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '0.6', transform: 'scale(1)' },
+                            '50%': { opacity: '1', transform: 'scale(1.05)' },
+                        },
+                        slideUpFade: {
+                            '0%': { transform: 'translateY(40px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #020617;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 20%);
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Premium Glass Card */
+        .glass-premium {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(24px) saturate(140%);
+            -webkit-backdrop-filter: blur(24px) saturate(140%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Glass Tiles for Feature Grid */
+        .glass-tile {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        .glass-tile:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Floating Social Dock Icons */
+        .social-btn {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .social-btn:hover {
+            transform: translateY(-5px) scale(1.1);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.3);
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-4">
+
+    <!-- Ambient Background Light -->
+    <div class="fixed top-0 left-0 w-full h-full pointer-events-none z-0">
+        <div class="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] animate-pulse-glow"></div>
+        <div class="absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px] bg-purple-600/15 rounded-full blur-[100px] animate-pulse-glow" style="animation-delay: 2s;"></div>
+    </div>
+
+    <!-- Main Card -->
+    <div class="glass-premium w-full max-w-[360px] rounded-[32px] overflow-hidden animate-slide-up-fade relative flex flex-col z-10 border-t border-white/10">
+        
+        <!-- Banner Area -->
+        <div class="h-32 relative bg-slate-900 overflow-hidden">
+            <img 
+                src="https://media.licdn.com/dms/image/v2/C5616AQEbM7jEuB4oLA/profile-displaybackgroundimage-shrink_350_1400/profile-displaybackgroundimage-shrink_350_1400/0/1644636542076?e=1768435200&v=beta&t=68dMNRXCdsKemd_uv5qPcvuOT4qV-wXWpOSBLwYDVvQ" 
+                onerror="this.src='banner.jpg'; this.onerror=function(){this.style.display='none'}" 
+                alt="Banner" 
+                class="absolute inset-0 w-full h-full object-cover opacity-80"
+            >
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/20 to-[#0f172a]/90"></div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="px-6 pb-8 -mt-16 relative flex flex-col items-center">
+            
+            <!-- Profile Avatar with Status Ring -->
+            <div class="relative mb-4">
+                <div class="absolute inset-0 bg-blue-500 rounded-full blur-md opacity-40 animate-pulse"></div>
+                <div class="relative w-28 h-28 rounded-full p-[3px] bg-gradient-to-br from-blue-400 via-purple-400 to-slate-800">
+                    <div class="w-full h-full rounded-full overflow-hidden bg-slate-900 border-2 border-slate-900 relative">
+                        <span class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-slate-600">PM</span>
+                        <img 
+                            src="https://media.licdn.com/dms/image/v2/D4D03AQEWitIGD2n5dA/profile-displayphoto-scale_200_200/B4DZiT3KLhH8AY-/0/1754827369989?e=1768435200&v=beta&t=O_WMs8OO9oULfdSk-_bEnU-S2wMXOmL6sf0CkGwz2HM" 
+                            onerror="this.src='profile.jpg'; this.onerror=function(){this.style.display='none'}" 
+                            alt="Prem Mistry" 
+                            class="relative z-10 w-full h-full object-cover"
+                        >
+                    </div>
+                </div>
+                <!-- Verified Badge REMOVED here -->
+            </div>
+
+            <!-- Name & Title -->
+            <div class="text-center w-full mb-6">
+                <h1 class="text-2xl font-bold text-white tracking-tight flex items-center justify-center gap-2">
+                    Prem Mistry
+                </h1>
+                <p class="text-blue-400 font-medium text-xs tracking-widest uppercase mt-1">Zenion Technologies</p>
+                <p class="text-[11px] text-slate-400 mt-2 italic font-light">"Engineering the Future, End to End."</p>
+            </div>
+
+            <!-- Social Dock (Floating Row) -->
+            <div class="flex items-center justify-center gap-3 mb-8 w-full">
+                <a href="tel:+919408075958" class="social-btn w-10 h-10 rounded-xl flex items-center justify-center text-slate-300 hover:text-white" title="Call">
+                    <i class="fas fa-phone text-sm"></i>
+                </a>
+                <a href="mailto:info@zeniontechnologies.com" class="social-btn w-10 h-10 rounded-xl flex items-center justify-center text-slate-300 hover:text-white" title="Email">
+                    <i class="fas fa-envelope text-sm"></i>
+                </a>
+                <a href="https://www.zeniontechnologies.com" target="_blank" class="social-btn w-10 h-10 rounded-xl flex items-center justify-center text-slate-300 hover:text-white" title="Website">
+                    <i class="fas fa-globe text-sm"></i>
+                </a>
+                <a href="https://wa.me/919408075958" target="_blank" class="social-btn w-10 h-10 rounded-xl flex items-center justify-center text-slate-300 hover:text-white" title="WhatsApp">
+                    <i class="fab fa-whatsapp text-base"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/prem-mistry21" target="_blank" class="social-btn w-10 h-10 rounded-xl flex items-center justify-center text-slate-300 hover:text-white" title="LinkedIn">
+                    <i class="fab fa-linkedin-in text-sm"></i>
+                </a>
+            </div>
+
+            <!-- Zenion Ecosystem (Feature Grid) -->
+            <div class="w-full grid grid-cols-2 gap-3 mb-6">
+                <div class="glass-tile rounded-2xl p-4 flex flex-col items-center text-center group cursor-default">
+                    <div class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center mb-2 group-hover:bg-blue-500/20 transition-colors">
+                        <i class="fas fa-lightbulb text-blue-400 text-xs"></i>
+                    </div>
+                    <span class="text-xs font-semibold text-slate-200">Innovation</span>
+                    <span class="text-[9px] text-slate-500 mt-1 leading-tight">Future-ready tech solutions</span>
+                </div>
+                
+                <div class="glass-tile rounded-2xl p-4 flex flex-col items-center text-center group cursor-default">
+                    <div class="w-8 h-8 rounded-full bg-purple-500/10 flex items-center justify-center mb-2 group-hover:bg-purple-500/20 transition-colors">
+                        <i class="fas fa-cogs text-purple-400 text-xs"></i>
+                    </div>
+                    <span class="text-xs font-semibold text-slate-200">Engineering</span>
+                    <span class="text-[9px] text-slate-500 mt-1 leading-tight">End-to-end development</span>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="w-full flex gap-3">
+                <button id="save-btn" onclick="downloadVCard()" class="flex-1 relative overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl py-3 shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 active:scale-[0.98] transition-all group">
+                    <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                    <div class="relative flex items-center justify-center gap-2">
+                        <i id="save-icon" class="fas fa-user-plus text-xs"></i>
+                        <span id="save-text" class="text-sm font-semibold tracking-wide">Save Contact</span>
+                    </div>
+                </button>
+                
+                <button onclick="toggleQR()" class="w-12 bg-slate-800 border border-white/5 rounded-xl flex items-center justify-center hover:bg-slate-700 hover:border-white/10 transition-colors active:scale-95 text-slate-400 hover:text-white">
+                    <i class="fas fa-qrcode text-sm"></i>
+                </button>
+            </div>
+
+            <!-- Minimal Footer -->
+            <div class="mt-6">
+                <p class="text-[9px] text-slate-600 uppercase tracking-widest hover:text-slate-400 transition-colors cursor-default">Zenion Technologies</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- QR Modal -->
+    <div id="qr-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300" onclick="toggleQR()">
+        <div class="bg-[#0f172a] border border-white/10 p-6 rounded-3xl shadow-2xl transform scale-95 transition-all duration-300 max-w-xs mx-4 text-center" id="qr-content" onclick="event.stopPropagation()">
+            <div class="w-12 h-12 rounded-full bg-blue-500/10 mx-auto flex items-center justify-center mb-4 text-blue-400">
+                <i class="fas fa-qrcode text-xl"></i>
+            </div>
+            <h3 class="text-white font-bold text-lg mb-1">Scan to Connect</h3>
+            <p class="text-slate-400 text-xs mb-6">Point your camera at the code</p>
+            <div class="bg-white p-2 rounded-xl inline-block">
+                <img id="qr-image" src="" alt="QR" class="w-40 h-40 object-contain">
+            </div>
+            <button onclick="toggleQR()" class="mt-6 w-full py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 transition-colors">Close</button>
+        </div>
+    </div>
+
+    <script>
+        const contact = {
+            name: "Prem Mistry",
+            company: "Zenion Technologies",
+            phone: "+919408075958",
+            email: "info@zeniontechnologies.com",
+            website: "https://www.zeniontechnologies.com",
+            linkedin: "https://www.linkedin.com/in/prem-mistry21"
+        };
+
+        function toggleQR() {
+            const modal = document.getElementById('qr-modal');
+            const content = document.getElementById('qr-content');
+            const qrImage = document.getElementById('qr-image');
+            
+            if (modal.classList.contains('opacity-0')) {
+                // Generate high-res QR
+                qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${encodeURIComponent(window.location.href)}&color=0f172a&bgcolor=ffffff&margin=0`;
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            } else {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                content.classList.remove('scale-100');
+                content.classList.add('scale-95');
+            }
+        }
+
+        async function downloadVCard() {
+            // UI Feedback (Loading)
+            const btn = document.getElementById('save-btn');
+            const text = document.getElementById('save-text');
+            const icon = document.getElementById('save-icon');
+            const originalText = text.innerText;
+            const originalIconClass = icon.className;
+
+            // Haptic
+            if (navigator.vibrate) navigator.vibrate(50);
+
+            text.innerText = "Opening...";
+            icon.className = "fas fa-circle-notch fa-spin text-xs";
+
+            // VCF Data
+            const vCardData = [
+                'BEGIN:VCARD', 'VERSION:3.0',
+                `FN:${contact.name}`, 
+                `ORG:${contact.company}`,
+                `TEL;TYPE=WORK,VOICE:${contact.phone}`,
+                `EMAIL:${contact.email}`, 
+                `URL:${contact.website}`,
+                `X-SOCIALPROFILE;type=linkedin:${contact.linkedin}`,
+                `NOTE:Engineering the Future, End to End.`, 
+                'END:VCARD'
+            ].join('\n');
+
+            try {
+                // Method 1: Web Share API (The "Android Dialog" style)
+                // This forces the "Share" sheet to open, which contains "Add to Contacts"
+                const file = new File([vCardData], "contact.vcf", { type: "text/vcard" });
+                
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    await navigator.share({
+                        files: [file],
+                        title: contact.name,
+                        text: 'Save to Contacts'
+                    });
+                    
+                    // If share successful
+                    text.innerText = "Opened!";
+                    icon.className = "fas fa-check text-xs";
+                } else {
+                    // Force Error to trigger fallback for Desktop/unsupported browsers
+                    throw new Error("Web Share not supported");
+                }
+            } catch (err) {
+                // Method 2: Legacy Fallback (Direct Download)
+                // Necessary for Desktop or older browsers where "Share Sheet" doesn't exist
+                if (err.name !== 'AbortError') { 
+                    const blob = new Blob([vCardData], { type: 'text/vcard' });
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none'; 
+                    a.href = url; 
+                    a.download = 'prem-mistry.vcf';
+                    document.body.appendChild(a); 
+                    a.click();
+                    window.URL.revokeObjectURL(url); 
+                    document.body.removeChild(a);
+                    
+                    text.innerText = "Saved!";
+                    icon.className = "fas fa-check text-xs";
+                } else {
+                    // User cancelled share
+                    text.innerText = originalText;
+                    icon.className = originalIconClass;
+                }
+            }
+
+            // Reset UI after delay
+            setTimeout(() => {
+                text.innerText = originalText;
+                icon.className = originalIconClass;
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
