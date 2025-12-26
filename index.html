@@ -7,7 +7,7 @@
   <meta property="og:description" content="Digital Business Card - Engineering the Future, End to End." />
   <title>Prem Mistry - Zenion Technologies</title>
 
-  <!-- If hosted, set stable URL for sharing/QR link (optional) -->
+  <!-- Optional stable URL (recommended when hosted) -->
   <!-- <link rel="canonical" href="https://your-domain.com/prem" /> -->
   <!-- <meta property="og:url" content="https://your-domain.com/prem" /> -->
 
@@ -15,13 +15,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Fast local QR (no network lag) -->
+  <!-- Fast local QR -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <script>
-    tailwind.config = {
-      theme: { extend: { fontFamily: { sans: ['Outfit', 'sans-serif'] } } }
-    }
+    tailwind.config = { theme: { extend: { fontFamily: { sans: ['Outfit', 'sans-serif'] } } } }
   </script>
 
   <style>
@@ -39,7 +37,6 @@
       touch-action: manipulation;
     }
 
-    /* Futuristic animated background */
     .space{ position: fixed; inset: 0; z-index: 0; pointer-events:none; overflow:hidden; }
     .space::before{
       content:""; position:absolute; inset:-30%;
@@ -150,11 +147,7 @@
       background: linear-gradient(to bottom, transparent, rgba(2,6,23,.15), rgba(15,23,42,.94));
     }
 
-    .content{
-      padding: 0 22px 22px;
-      margin-top: -58px;
-      position:relative;
-    }
+    .content{ padding: 0 22px 22px; margin-top: -58px; position:relative; }
 
     .avatarRing{
       width: 104px; height:104px;
@@ -166,9 +159,7 @@
       margin: 0 auto;
     }
     .avatarRing::before{
-      content:"";
-      position:absolute; inset:-12px;
-      border-radius: 999px;
+      content:""; position:absolute; inset:-12px; border-radius: 999px;
       background: radial-gradient(circle, rgba(56,189,248,.35), transparent 60%);
       filter: blur(10px);
       opacity: .7;
@@ -224,6 +215,7 @@
       color: rgba(226,232,240,.78);
       transition: transform .22s cubic-bezier(.2,1.2,.3,1), background .22s, border-color .22s, box-shadow .22s;
       box-shadow: 0 18px 30px rgba(0,0,0,.35);
+      cursor: pointer;
     }
     .sbtn:hover{
       transform: translateY(-6px) scale(1.08);
@@ -300,6 +292,7 @@
       color: rgba(226,232,240,.85);
       font-weight: 800;
       transition: transform .16s ease, border-color .16s ease, background .16s ease;
+      cursor:pointer;
     }
     .mini:hover{ transform: translateY(-2px); border-color: rgba(56,189,248,.22); background: rgba(255,255,255,.06); color:#fff; }
     .mini:active{ transform: translateY(0px) scale(.99); }
@@ -307,7 +300,6 @@
 
     .footer{ margin-top: 14px; text-align:center; font-size: 9px; letter-spacing: .26em; text-transform: uppercase; color: rgba(100,116,139,.75); user-select:none; }
 
-    /* Modal base */
     .modal{
       position: fixed; inset: 0; z-index: 50;
       display:flex; align-items:center; justify-content:center;
@@ -349,12 +341,12 @@
       background: rgba(255,255,255,.04);
       color: rgba(226,232,240,.8);
       font-weight: 800;
+      cursor:pointer;
       transition: background .14s ease, border-color .14s ease, transform .14s ease;
     }
     .sheetBtn:hover{ background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.18); color:#fff; transform: translateY(-1px); }
     .sheetBtn:active{ transform: translateY(0px) scale(.99); }
 
-    /* Toast */
     .toast{
       position: fixed;
       left: 50%;
@@ -479,7 +471,6 @@
       </div>
 
       <h3 class="text-white font-extrabold text-lg text-center">Scan to add contact</h3>
-      <p class="text-center text-xs mt-1" style="color: rgba(148,163,184,.85);"></p>
 
       <div class="mt-4 flex justify-center">
         <div class="qrBox">
@@ -493,26 +484,6 @@
       </div>
 
       <button class="sheetBtn mt-3 w-full" onclick="closeQR()">Close</button>
-    </div>
-  </div>
-
-  <!-- Name Modal (for WhatsApp message personalization) -->
-  <div id="name-modal" class="modal" onclick="closeNameModal()">
-    <div class="sheet" onclick="event.stopPropagation()">
-      <h3 class="text-white font-extrabold text-lg text-center">Your name</h3>
-      <p class="text-center text-xs mt-1" style="color: rgba(148,163,184,.85);">
-        This will be used inside your WhatsApp message.
-      </p>
-
-      <div class="mt-4">
-        <input id="sender-name" type="text" placeholder="e.g., Rahul"
-          class="w-full px-4 py-3 rounded-2xl bg-slate-900/70 border border-white/10 text-white outline-none focus:border-sky-400/60">
-      </div>
-
-      <div class="sheetBtns">
-        <button class="sheetBtn" onclick="saveSenderName()">Save</button>
-        <button class="sheetBtn" onclick="closeNameModal()">Cancel</button>
-      </div>
     </div>
   </div>
 
@@ -532,7 +503,6 @@
       note: "Engineering the Future, End to End."
     };
 
-    // ====== Toast ======
     function toast(msg) {
       const t = document.getElementById("toast");
       t.textContent = msg;
@@ -540,7 +510,6 @@
       setTimeout(() => t.classList.remove("show"), 1200);
     }
 
-    // ====== URL helpers ======
     function getCardUrlAuto() {
       const canonical = document.querySelector('link[rel="canonical"]')?.href;
       if (canonical) return canonical;
@@ -553,7 +522,7 @@
       return String(phone).replace(/\D/g, "");
     }
 
-    // ====== Clipboard: secure + fallback ======
+    // Clipboard API is secure-context gated in many browsers. [web:160]
     function legacyCopy(text) {
       const ta = document.createElement("textarea");
       ta.value = text;
@@ -568,7 +537,6 @@
     }
 
     async function safeCopy(text) {
-      // Clipboard.writeText is secure-context gated in many browsers. [web:160]
       try {
         if (window.isSecureContext && navigator.clipboard?.writeText) {
           await navigator.clipboard.writeText(text);
@@ -594,13 +562,12 @@ LinkedIn: ${contact.linkedin}`;
       await safeCopy(text);
     }
 
-    // ====== Share: secure + fallback ======
+    // navigator.share is not available everywhere and needs user activation. [web:12]
     async function shareCard() {
       const url = getCardUrlAuto();
       const title = `${contact.fullName} - ${contact.company}`;
       const text = `Connect with ${contact.fullName}`;
 
-      // navigator.share is secure-context gated and needs user gesture. [web:12]
       try {
         if (window.isSecureContext && navigator.share) {
           await navigator.share({ title, text, url });
@@ -613,6 +580,17 @@ LinkedIn: ${contact.linkedin}`;
         await safeCopy(url);
         toast("Link copied");
       }
+    }
+
+    // WhatsApp click-to-chat with prefilled text. [web:136]
+    function openWhatsApp() {
+      const waNum = toWaNumber(contact.phone);
+      const msg =
+        `Hi Prem,\n` +
+        `I found your digital card and would like to connect.\n` +
+        `Can we discuss a project/requirement?`;
+      const url = `https://wa.me/${waNum}?text=${encodeURIComponent(msg)}`;
+      window.open(url, "_blank", "noopener");
     }
 
     // ====== vCard + QR ======
@@ -654,7 +632,7 @@ LinkedIn: ${contact.linkedin}`;
 
     function openQR() {
       if (navigator.vibrate) navigator.vibrate(20);
-      setQR(buildVCard());              // always vCard QR (best “add contact” UX)
+      setQR(buildVCard());
       document.getElementById("qr-modal").classList.add("open");
     }
 
@@ -688,54 +666,13 @@ LinkedIn: ${contact.linkedin}`;
       toast("vCard copied");
     }
 
-    // ====== WhatsApp: ask visitor name once ======
-    function openNameModal() {
-      const m = document.getElementById("name-modal");
-      m.classList.add("open");
-      setTimeout(() => document.getElementById("sender-name")?.focus(), 0);
-    }
-
-    function closeNameModal() {
-      document.getElementById("name-modal").classList.remove("open");
-    }
-
-    function getSenderName() {
-      return (localStorage.getItem("senderName") || "").trim();
-    }
-
-    function saveSenderName() {
-      const v = (document.getElementById("sender-name").value || "").trim();
-      if (!v) { toast("Enter name"); return; }
-      localStorage.setItem("senderName", v);
-      closeNameModal();
-      openWhatsApp();
-    }
-
-    function openWhatsApp() {
-      const sender = getSenderName();
-      if (!sender) { openNameModal(); return; }
-
-      const waNum = toWaNumber(contact.phone);
-
-      const msg =
-        `Hi Prem, this is ${sender} here.\n` +
-        `I found your digital card and would like to connect.`;
-
-      // wa.me + ?text pre-fills message. [web:108]
-      const url = `https://wa.me/${waNum}?text=${encodeURIComponent(msg)}`;
-      window.open(url, "_blank", "noopener");
-    }
-
-    // ====== Pre-warm QR + 3D tilt ======
+    // Pre-warm QR so opening is instant
     document.addEventListener("DOMContentLoaded", () => {
       ensureQrInit();
       setQR(buildVCard());
-
-      // If name exists, keep it in the input for convenience
-      const saved = getSenderName();
-      if (saved) document.getElementById("sender-name").value = saved;
     });
 
+    // Optional: subtle 3D tilt
     const card3d = document.getElementById("card3d");
     const tiltEnabled = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
