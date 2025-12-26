@@ -818,8 +818,10 @@
           class="w-12 h-12 bg-cyan-500/10 rounded-full flex items-center justify-center mx-auto mb-4 text-cyan-400 ring-1 ring-cyan-500/20">
           <i class="fas fa-qrcode text-xl"></i>
         </div>
-        <h3 class="text-lg font-bold text-white mb-1">Scan to Connect</h3>
-        <p class="text-xs text-slate-400 mb-5">Point your camera to save details directly</p>
+        <h3 class="text-lg font-bold text-white mb-1">Scan to Save Contact</h3>
+<p class="text-xs text-slate-400 mb-5">
+  Scan to instantly save my contact details
+</p>
         <div class="bg-white p-3 rounded-xl inline-block shadow-lg">
           <div id="qr-code"></div>
         </div>
@@ -1316,16 +1318,32 @@
     let qrInstance = null;
     const qrModal = document.getElementById('qr-modal');
     function openQR() {
-      const qrContainer = document.getElementById('qr-code');
-      qrContainer.innerHTML = "";
-      qrInstance = new QRCode(qrContainer, {
-        text: "https://zeniontechnologies.com",
-        width: 180,
-        height: 180,
-        correctLevel: QRCode.CorrectLevel.M
-      });
-      qrModal.classList.add('active');
-    }
+  const qrContainer = document.getElementById('qr-code');
+  qrContainer.innerHTML = "";
+
+  const vCardData = `
+BEGIN:VCARD
+VERSION:3.0
+N:Mistry;Prem;;;
+FN:Prem Mistry
+ORG:Zenion Technologies
+TITLE:Engineer
+TEL;TYPE=CELL:+919408075958
+EMAIL;TYPE=WORK:info@zeniontechnologies.com
+URL:https://www.zeniontechnologies.com
+END:VCARD
+  `.trim();
+
+  qrInstance = new QRCode(qrContainer, {
+    text: vCardData,
+    width: 180,
+    height: 180,
+    correctLevel: QRCode.CorrectLevel.M
+  });
+
+  qrModal.classList.add('active');
+}
+
 
     function closeQR() { qrModal.classList.remove('active'); }
 
@@ -1343,7 +1361,7 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = "contact.vcf";
+      a.download = "Prem Mistry.vcf";
       document.body.appendChild(a); // Appending to body is required for Firefox/iOS in some cases
       a.click();
       document.body.removeChild(a);
