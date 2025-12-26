@@ -1,342 +1,761 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="Prem Mistry - Zenion Technologies">
-    <meta property="og:description" content="Digital Business Card - Engineering the Future, End to End.">
-    <meta property="og:image" content="https://media.licdn.com/dms/image/v2/D4D03AQEWitIGD2n5dA/profile-displayphoto-scale_200_200/B4DZiT3KLhH8AY-/0/1754827369989?e=1768435200&v=beta&t=O_WMs8OO9oULfdSk-_bEnU-S2wMXOmL6sf0CkGwz2HM">
-    <title>Prem Mistry - Zenion Technologies</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Outfit', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            bg: '#020617', // Slate 950
-                            card: '#0f172a',
-                            accent: '#38bdf8', 
-                        }
-                    },
-                    boxShadow: {
-                        'premium': '0 20px 40px -10px rgba(0, 0, 0, 0.7), inset 0 1px 0 0 rgba(255, 255, 255, 0.15)',
-                        'glow-blue': '0 0 20px rgba(56, 189, 248, 0.25)',
-                    },
-                    animation: {
-                        'float': 'float 6s ease-in-out infinite',
-                        'pulse-glow': 'pulseGlow 3s infinite',
-                        'slide-up-fade': 'slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
-                        },
-                        pulseGlow: {
-                            '0%, 100%': { opacity: '0.6', transform: 'scale(1)' },
-                            '50%': { opacity: '1', transform: 'scale(1.05)' },
-                        },
-                        slideUpFade: {
-                            '0%': { transform: 'translateY(40px)', opacity: '0' },
-                            '100%': { transform: 'translateY(0)', opacity: '1' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            background-color: #020617;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 20%);
-            min-height: 100vh;
-            color: #fff;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta property="og:title" content="Prem Mistry - Zenion Technologies" />
+  <meta property="og:description" content="Digital Business Card - Engineering the Future, End to End." />
+  <title>Prem Mistry - Zenion Technologies</title>
 
-        /* Premium Glass Card */
-        .glass-premium {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(24px) saturate(140%);
-            -webkit-backdrop-filter: blur(24px) saturate(140%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
-        }
+  <!-- If hosted, set stable URL for sharing/QR link (optional) -->
+  <!-- <link rel="canonical" href="https://your-domain.com/prem" /> -->
+  <!-- <meta property="og:url" content="https://your-domain.com/prem" /> -->
 
-        /* Glass Tiles for Feature Grid */
-        .glass-tile {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
-        }
-        .glass-tile:hover {
-            background: rgba(255, 255, 255, 0.07);
-            border-color: rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px);
-        }
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-        /* Floating Social Dock Icons */
-        .social-btn {
-            background: rgba(30, 41, 59, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .social-btn:hover {
-            transform: translateY(-5px) scale(1.1);
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.3);
-        }
+  <!-- Fast local QR (no network lag) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-        .text-gradient {
-            background: linear-gradient(to right, #ffffff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-    </style>
+  <script>
+    tailwind.config = {
+      theme: { extend: { fontFamily: { sans: ['Outfit', 'sans-serif'] } } }
+    }
+  </script>
+
+  <style>
+    :root{
+      --bg:#020617;
+      --card: rgba(15, 23, 42, 0.62);
+      --card2: rgba(2, 6, 23, 0.55);
+      --shadow: 0 30px 80px rgba(0,0,0,.55);
+    }
+    html, body { height:100%; }
+    body{
+      margin:0; background: var(--bg); color:#fff; overflow-x:hidden;
+      -webkit-font-smoothing: antialiased;
+      font-family: 'Outfit', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      touch-action: manipulation;
+    }
+
+    /* Futuristic animated background */
+    .space{ position: fixed; inset: 0; z-index: 0; pointer-events:none; overflow:hidden; }
+    .space::before{
+      content:""; position:absolute; inset:-30%;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(56,189,248,.18), transparent 35%),
+        radial-gradient(circle at 85% 80%, rgba(139,92,246,.16), transparent 38%),
+        radial-gradient(circle at 70% 15%, rgba(34,197,94,.10), transparent 36%),
+        radial-gradient(circle at 30% 85%, rgba(56,189,248,.10), transparent 40%);
+      filter: blur(10px);
+      animation: drift 10s ease-in-out infinite alternate;
+      opacity: .95;
+    }
+    .space::after{
+      content:""; position:absolute; inset:0;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,.09) 1px, transparent 2px),
+        radial-gradient(circle at 70% 60%, rgba(255,255,255,.07) 1px, transparent 2px),
+        radial-gradient(circle at 50% 80%, rgba(255,255,255,.06) 1px, transparent 2px);
+      background-size: 240px 240px, 300px 300px, 360px 360px;
+      opacity: .35;
+      animation: stars 18s linear infinite;
+      mix-blend-mode: screen;
+    }
+    @keyframes drift{
+      0%   { transform: translate3d(-2%, -1%, 0) scale(1.02) rotate(0deg); }
+      100% { transform: translate3d( 2%,  1%, 0) scale(1.05) rotate(2deg); }
+    }
+    @keyframes stars{
+      0%   { transform: translate3d(0,0,0); }
+      100% { transform: translate3d(-40px, 60px, 0); }
+    }
+
+    .wrap{
+      min-height: 100dvh;
+      display:flex; align-items:center; justify-content:center;
+      padding: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card3d{
+      width: min(390px, 95vw);
+      transform-style: preserve-3d;
+      will-change: transform;
+      position:relative;
+    }
+
+    .glass{
+      border-radius: 34px;
+      overflow: hidden;
+      background: linear-gradient(180deg, var(--card), var(--card2));
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(26px) saturate(150%);
+      -webkit-backdrop-filter: blur(26px) saturate(150%);
+      position:relative;
+    }
+
+    .glass::before{
+      content:"";
+      position:absolute; inset:-2px;
+      border-radius: 36px;
+      background:
+        conic-gradient(from 140deg,
+          rgba(56,189,248,.55),
+          rgba(139,92,246,.50),
+          rgba(34,197,94,.40),
+          rgba(56,189,248,.55));
+      filter: blur(12px);
+      opacity: .35;
+      animation: spin 6s linear infinite;
+      pointer-events:none;
+    }
+    @keyframes spin{ to { transform: rotate(1turn); } }
+
+    .scan{
+      position:absolute; inset:0;
+      background:
+        repeating-linear-gradient(to bottom,
+          rgba(255,255,255,.03),
+          rgba(255,255,255,.03) 1px,
+          transparent 1px,
+          transparent 7px
+        );
+      opacity: .13;
+      pointer-events:none;
+      mix-blend-mode: overlay;
+    }
+
+    .banner{
+      height: 140px;
+      position: relative;
+      background: radial-gradient(circle at 30% 20%, rgba(56,189,248,.25), transparent 55%),
+                  radial-gradient(circle at 80% 70%, rgba(139,92,246,.22), transparent 60%),
+                  rgba(2,6,23,.9);
+      overflow:hidden;
+    }
+    .banner img{
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      object-fit: cover;
+      opacity: .85;
+      transform: scale(1.05);
+    }
+    .banner::after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(to bottom, transparent, rgba(2,6,23,.15), rgba(15,23,42,.94));
+    }
+
+    .content{
+      padding: 0 22px 22px;
+      margin-top: -58px;
+      position:relative;
+    }
+
+    .avatarRing{
+      width: 104px; height:104px;
+      border-radius: 999px;
+      padding: 3px;
+      background: conic-gradient(from 220deg, rgba(56,189,248,.95), rgba(139,92,246,.9), rgba(34,197,94,.7), rgba(56,189,248,.95));
+      position: relative;
+      box-shadow: 0 0 0 1px rgba(255,255,255,.06), 0 25px 55px rgba(0,0,0,.6);
+      margin: 0 auto;
+    }
+    .avatarRing::before{
+      content:"";
+      position:absolute; inset:-12px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(56,189,248,.35), transparent 60%);
+      filter: blur(10px);
+      opacity: .7;
+      animation: pulse 1.8s ease-in-out infinite alternate;
+      pointer-events:none;
+    }
+    @keyframes pulse{ from { transform: scale(.98); opacity:.55; } to { transform: scale(1.03); opacity:.85; } }
+
+    .avatar{
+      width:100%; height:100%;
+      border-radius:999px;
+      overflow:hidden;
+      background: rgba(2,6,23,.9);
+      border: 2px solid rgba(2,6,23,.9);
+      position: relative;
+    }
+    .avatar span{
+      position:absolute; inset:0;
+      display:flex; align-items:center; justify-content:center;
+      font-weight: 800; font-size: 28px;
+      color: rgba(148,163,184,.45);
+      letter-spacing: .04em;
+    }
+    .avatar img{ position:absolute; inset:0; width:100%; height:100%; object-fit: cover; }
+    .avatar::after{
+      content:"";
+      position:absolute; inset:-40%;
+      background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.22) 45%, transparent 60%);
+      transform: translateX(-35%) rotate(10deg);
+      animation: sweep 2.8s ease-in-out infinite;
+      mix-blend-mode: overlay;
+      opacity: .55;
+      pointer-events:none;
+    }
+    @keyframes sweep{
+      0%{ transform: translateX(-55%) rotate(10deg); opacity:.0; }
+      25%{ opacity:.6; }
+      55%{ opacity:.25; }
+      100%{ transform: translateX(55%) rotate(10deg); opacity:0; }
+    }
+
+    .name{ text-align:center; margin-top: 14px; font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
+    .org{ text-align:center; margin-top: 4px; font-size: 11px; letter-spacing: .28em; text-transform: uppercase; color: rgba(56,189,248,.95); font-weight: 600; }
+    .tagline{ text-align:center; margin-top: 8px; font-size: 11px; color: rgba(148,163,184,.85); font-weight: 300; font-style: italic; }
+
+    .socialRow{ margin-top: 18px; display:flex; justify-content:center; gap: 10px; }
+    .sbtn{
+      width: 44px; height:44px;
+      display:flex; align-items:center; justify-content:center;
+      border-radius: 14px;
+      background: rgba(30,41,59,.55);
+      border: 1px solid rgba(255,255,255,.06);
+      color: rgba(226,232,240,.78);
+      transition: transform .22s cubic-bezier(.2,1.2,.3,1), background .22s, border-color .22s, box-shadow .22s;
+      box-shadow: 0 18px 30px rgba(0,0,0,.35);
+    }
+    .sbtn:hover{
+      transform: translateY(-6px) scale(1.08);
+      background: rgba(255,255,255,.09);
+      border-color: rgba(255,255,255,.22);
+      box-shadow: 0 22px 40px rgba(0,0,0,.45), 0 0 0 1px rgba(56,189,248,.18);
+      color: #fff;
+    }
+
+    .chips{ margin-top: 18px; display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .chip{
+      border-radius: 18px;
+      padding: 14px 12px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.06);
+      transition: transform .22s ease, border-color .22s ease, background .22s ease;
+      position:relative; overflow:hidden;
+    }
+    .chip:hover{ transform: translateY(-2px); border-color: rgba(255,255,255,.14); background: rgba(255,255,255,.06); }
+    .chipTop{ display:flex; align-items:center; gap: 10px; }
+    .chipIcon{
+      width: 34px; height:34px;
+      border-radius: 999px;
+      display:flex; align-items:center; justify-content:center;
+      background: rgba(56,189,248,.12);
+      border: 1px solid rgba(56,189,248,.14);
+      color: rgba(56,189,248,.95);
+      flex: 0 0 auto;
+    }
+    .chipTitle{ font-size: 12px; font-weight: 700; color: rgba(226,232,240,.92); line-height: 1.1; }
+    .chipSub{ margin-top: 8px; font-size: 10px; color: rgba(148,163,184,.78); line-height: 1.35; }
+
+    .ctaCol{ margin-top: 14px; display:flex; flex-direction:column; gap: 10px; }
+    .cta{
+      width:100%;
+      border-radius: 18px;
+      padding: 14px 12px;
+      border: 0;
+      cursor:pointer;
+      color:#fff;
+      font-weight: 900;
+      letter-spacing: .02em;
+      background: linear-gradient(90deg, rgba(56,189,248,.95), rgba(99,102,241,.95));
+      box-shadow: 0 18px 40px rgba(56,189,248,.18);
+      position: relative;
+      overflow:hidden;
+      transition: transform .16s ease, box-shadow .16s ease, filter .16s ease;
+    }
+    .cta:hover{ transform: translateY(-2px); box-shadow: 0 22px 55px rgba(56,189,248,.22); filter: saturate(1.05); }
+    .cta:active{ transform: translateY(0px) scale(.99); }
+    .cta .shine{
+      position:absolute; inset:-40%;
+      background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,.24) 50%, transparent 65%);
+      transform: translateX(-55%) rotate(8deg);
+      animation: ctaShine 2.6s ease-in-out infinite;
+      pointer-events:none;
+      opacity:.7;
+    }
+    @keyframes ctaShine{
+      0%{ transform: translateX(-60%) rotate(8deg); opacity:0; }
+      18%{ opacity:.65; }
+      55%{ opacity:.25; }
+      100%{ transform: translateX(60%) rotate(8deg); opacity:0; }
+    }
+    .ctaInner{ position:relative; display:flex; align-items:center; justify-content:center; gap: 10px; font-size: 13px; }
+
+    .miniRow{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .mini{
+      border-radius: 16px;
+      padding: 12px 10px;
+      background: rgba(15,23,42,.75);
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 18px 35px rgba(0,0,0,.35);
+      color: rgba(226,232,240,.85);
+      font-weight: 800;
+      transition: transform .16s ease, border-color .16s ease, background .16s ease;
+    }
+    .mini:hover{ transform: translateY(-2px); border-color: rgba(56,189,248,.22); background: rgba(255,255,255,.06); color:#fff; }
+    .mini:active{ transform: translateY(0px) scale(.99); }
+    .miniInner{ display:flex; align-items:center; justify-content:center; gap: 8px; font-size: 12px; }
+
+    .footer{ margin-top: 14px; text-align:center; font-size: 9px; letter-spacing: .26em; text-transform: uppercase; color: rgba(100,116,139,.75); user-select:none; }
+
+    /* Modal base */
+    .modal{
+      position: fixed; inset: 0; z-index: 50;
+      display:flex; align-items:center; justify-content:center;
+      padding: 18px;
+      background: rgba(0,0,0,.78);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      opacity: 0; pointer-events:none;
+      transition: opacity .14s ease;
+    }
+    .modal.open{ opacity: 1; pointer-events:auto; }
+    .sheet{
+      width: min(360px, 92vw);
+      border-radius: 28px;
+      background: rgba(15,23,42,.86);
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: 0 30px 90px rgba(0,0,0,.75);
+      transform: translateY(10px) scale(.98);
+      transition: transform .14s ease;
+      padding: 18px;
+      position:relative;
+      overflow:hidden;
+    }
+    .modal.open .sheet{ transform: translateY(0) scale(1); }
+    .qrBox{
+      background: #fff;
+      border-radius: 18px;
+      padding: 10px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow: 0 18px 40px rgba(0,0,0,.35);
+    }
+    .sheetBtns{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+    .sheetBtn{
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color: rgba(226,232,240,.8);
+      font-weight: 800;
+      transition: background .14s ease, border-color .14s ease, transform .14s ease;
+    }
+    .sheetBtn:hover{ background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.18); color:#fff; transform: translateY(-1px); }
+    .sheetBtn:active{ transform: translateY(0px) scale(.99); }
+
+    /* Toast */
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%) translateY(18px);
+      background: rgba(15,23,42,.9);
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: 0 25px 70px rgba(0,0,0,.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: rgba(226,232,240,.92);
+      padding: 10px 12px;
+      border-radius: 16px;
+      font-weight: 800;
+      font-size: 12px;
+      opacity: 0;
+      pointer-events:none;
+      transition: opacity .16s ease, transform .16s ease;
+      z-index: 60;
+    }
+    .toast.show{ opacity: 1; transform: translateX(-50%) translateY(0px); }
+
+    @media (prefers-reduced-motion: reduce){
+      .space::before, .space::after, .glass::before, .avatar::after, .avatarRing::before, .cta .shine { animation: none !important; }
+      .card3d { transform: none !important; }
+    }
+  </style>
 </head>
-<body class="flex items-center justify-center p-4">
 
-    <!-- Ambient Background Light -->
-    <div class="fixed top-0 left-0 w-full h-full pointer-events-none z-0">
-        <div class="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] animate-pulse-glow"></div>
-        <div class="absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px] bg-purple-600/15 rounded-full blur-[100px] animate-pulse-glow" style="animation-delay: 2s;"></div>
-    </div>
+<body>
+  <div class="space"></div>
 
-    <!-- Main Card -->
-    <div class="glass-premium w-full max-w-[360px] rounded-[32px] overflow-hidden animate-slide-up-fade relative flex flex-col z-10 border-t border-white/10">
-        
-        <!-- Banner Area -->
-        <div class="h-32 relative bg-slate-900 overflow-hidden">
-            <img 
-                src="https://media.licdn.com/dms/image/v2/C5616AQEbM7jEuB4oLA/profile-displaybackgroundimage-shrink_350_1400/profile-displaybackgroundimage-shrink_350_1400/0/1644636542076?e=1768435200&v=beta&t=68dMNRXCdsKemd_uv5qPcvuOT4qV-wXWpOSBLwYDVvQ" 
-                onerror="this.src='banner.jpg'; this.onerror=function(){this.style.display='none'}" 
-                alt="Banner" 
-                class="absolute inset-0 w-full h-full object-cover opacity-80"
-            >
-            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/20 to-[#0f172a]/90"></div>
+  <div class="wrap">
+    <div id="card3d" class="card3d">
+      <div class="glass">
+        <div class="scan"></div>
+
+        <div class="banner">
+          <img src="banner.jpg" alt="Banner" onerror="this.style.display='none'">
         </div>
 
-        <!-- Content Area -->
-        <div class="px-6 pb-8 -mt-16 relative flex flex-col items-center">
-            
-            <!-- Profile Avatar with Status Ring -->
-            <div class="relative mb-4">
-                <div class="absolute inset-0 bg-blue-500 rounded-full blur-md opacity-40 animate-pulse"></div>
-                <div class="relative w-28 h-28 rounded-full p-[3px] bg-gradient-to-br from-blue-400 via-purple-400 to-slate-800">
-                    <div class="w-full h-full rounded-full overflow-hidden bg-slate-900 border-2 border-slate-900 relative">
-                        <span class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-slate-600">PM</span>
-                        <img 
-                            src="https://media.licdn.com/dms/image/v2/D4D03AQEWitIGD2n5dA/profile-displayphoto-scale_200_200/B4DZiT3KLhH8AY-/0/1754827369989?e=1768435200&v=beta&t=O_WMs8OO9oULfdSk-_bEnU-S2wMXOmL6sf0CkGwz2HM" 
-                            onerror="this.src='profile.jpg'; this.onerror=function(){this.style.display='none'}" 
-                            alt="Prem Mistry" 
-                            class="relative z-10 w-full h-full object-cover"
-                        >
-                    </div>
+        <div class="content">
+          <div class="avatarRing">
+            <div class="avatar">
+              <span id="avatarFallback">PM</span>
+              <img
+                src="profile.jpg"
+                alt="Prem Mistry"
+                onload="document.getElementById('avatarFallback').style.display='none';"
+                onerror="this.style.display='none'"
+              >
+            </div>
+          </div>
+
+          <div class="name">Prem Mistry</div>
+          <div class="org">Zenion Technologies</div>
+          <div class="tagline">"Engineering the Future, End to End."</div>
+
+          <div class="socialRow">
+            <a href="tel:+919408075958" class="sbtn" title="Call"><i class="fas fa-phone text-sm"></i></a>
+            <a href="mailto:info@zeniontechnologies.com" class="sbtn" title="Email"><i class="fas fa-envelope text-sm"></i></a>
+            <a href="https://www.zeniontechnologies.com" target="_blank" rel="noopener" class="sbtn" title="Website"><i class="fas fa-globe text-sm"></i></a>
+            <button class="sbtn" title="WhatsApp" onclick="openWhatsApp()">
+              <i class="fab fa-whatsapp text-base"></i>
+            </button>
+            <a href="https://www.linkedin.com/in/prem-mistry21" target="_blank" rel="noopener" class="sbtn" title="LinkedIn"><i class="fab fa-linkedin-in text-sm"></i></a>
+          </div>
+
+          <div class="chips">
+            <div class="chip">
+              <div class="chipTop">
+                <div class="chipIcon"><i class="fas fa-bolt text-xs"></i></div>
+                <div class="chipTitle">Innovation</div>
+              </div>
+              <div class="chipSub">Future-ready solutions with a product mindset.</div>
+            </div>
+
+            <div class="chip">
+              <div class="chipTop">
+                <div class="chipIcon" style="background: rgba(139,92,246,.12); border-color: rgba(139,92,246,.16); color: rgba(139,92,246,.95);">
+                  <i class="fas fa-microchip text-xs"></i>
                 </div>
-                <!-- Verified Badge REMOVED here -->
+                <div class="chipTitle">Engineering</div>
+              </div>
+              <div class="chipSub">End-to-end delivery with strong execution.</div>
             </div>
+          </div>
 
-            <!-- Name & Title -->
-            <div class="text-center w-full mb-6">
-                <h1 class="text-2xl font-bold text-white tracking-tight flex items-center justify-center gap-2">
-                    Prem Mistry
-                </h1>
-                <p class="text-blue-400 font-medium text-xs tracking-widest uppercase mt-1">Zenion Technologies</p>
-                <p class="text-[11px] text-slate-400 mt-2 italic font-light">"Engineering the Future, End to End."</p>
+          <div class="ctaCol">
+            <button class="cta" onclick="openQR()">
+              <span class="shine"></span>
+              <span class="ctaInner">
+                <i class="fas fa-qrcode text-sm"></i>
+                <span>Show Contact QR</span>
+              </span>
+            </button>
+
+            <div class="miniRow">
+              <button class="mini" onclick="copyAll()">
+                <span class="miniInner"><i class="fas fa-copy text-xs"></i>Copy</span>
+              </button>
+              <button class="mini" onclick="shareCard()">
+                <span class="miniInner"><i class="fas fa-share-nodes text-xs"></i>Share</span>
+              </button>
             </div>
+          </div>
 
-            <!-- Social Dock (Floating Row) -->
-            <div class="flex items-center justify-center gap-3 mb-8 w-full">
-                <a href="tel:+919408075958" class="social-btn w-10 h-10 rounded-xl flex items-center justify-center text-slate-300 hover:text-white" title="Call">
-                    <i class="fas fa-phone text-sm"></i>
-                </a>
-                <a href="mailto:info@zeniontechnologies.com" class="social-btn w-10 h-10 rounded-xl flex items-center justify-center text-slate-300 hover:text-white" title="Email">
-                    <i class="fas fa-envelope text-sm"></i>
-                </a>
-                <a href="https://www.zeniontechnologies.com" target="_blank" class="social-btn w-10 h-10 rounded-xl flex items-center justify-center text-slate-300 hover:text-white" title="Website">
-                    <i class="fas fa-globe text-sm"></i>
-                </a>
-                <a href="https://wa.me/919408075958" target="_blank" class="social-btn w-10 h-10 rounded-xl flex items-center justify-center text-slate-300 hover:text-white" title="WhatsApp">
-                    <i class="fab fa-whatsapp text-base"></i>
-                </a>
-                <a href="https://www.linkedin.com/in/prem-mistry21" target="_blank" class="social-btn w-10 h-10 rounded-xl flex items-center justify-center text-slate-300 hover:text-white" title="LinkedIn">
-                    <i class="fab fa-linkedin-in text-sm"></i>
-                </a>
-            </div>
-
-            <!-- Zenion Ecosystem (Feature Grid) -->
-            <div class="w-full grid grid-cols-2 gap-3 mb-6">
-                <div class="glass-tile rounded-2xl p-4 flex flex-col items-center text-center group cursor-default">
-                    <div class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center mb-2 group-hover:bg-blue-500/20 transition-colors">
-                        <i class="fas fa-lightbulb text-blue-400 text-xs"></i>
-                    </div>
-                    <span class="text-xs font-semibold text-slate-200">Innovation</span>
-                    <span class="text-[9px] text-slate-500 mt-1 leading-tight">Future-ready tech solutions</span>
-                </div>
-                
-                <div class="glass-tile rounded-2xl p-4 flex flex-col items-center text-center group cursor-default">
-                    <div class="w-8 h-8 rounded-full bg-purple-500/10 flex items-center justify-center mb-2 group-hover:bg-purple-500/20 transition-colors">
-                        <i class="fas fa-cogs text-purple-400 text-xs"></i>
-                    </div>
-                    <span class="text-xs font-semibold text-slate-200">Engineering</span>
-                    <span class="text-[9px] text-slate-500 mt-1 leading-tight">End-to-end development</span>
-                </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="w-full flex gap-3">
-                <button id="save-btn" onclick="downloadVCard()" class="flex-1 relative overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl py-3 shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 active:scale-[0.98] transition-all group">
-                    <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-                    <div class="relative flex items-center justify-center gap-2">
-                        <i id="save-icon" class="fas fa-user-plus text-xs"></i>
-                        <span id="save-text" class="text-sm font-semibold tracking-wide">Save Contact</span>
-                    </div>
-                </button>
-                
-                <button onclick="toggleQR()" class="w-12 bg-slate-800 border border-white/5 rounded-xl flex items-center justify-center hover:bg-slate-700 hover:border-white/10 transition-colors active:scale-95 text-slate-400 hover:text-white">
-                    <i class="fas fa-qrcode text-sm"></i>
-                </button>
-            </div>
-
-            <!-- Minimal Footer -->
-            <div class="mt-6">
-                <p class="text-[9px] text-slate-600 uppercase tracking-widest hover:text-slate-400 transition-colors cursor-default">Zenion Technologies</p>
-            </div>
-
+          <div class="footer">Zenion Technologies</div>
         </div>
+      </div>
     </div>
+  </div>
 
-    <!-- QR Modal -->
-    <div id="qr-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300" onclick="toggleQR()">
-        <div class="bg-[#0f172a] border border-white/10 p-6 rounded-3xl shadow-2xl transform scale-95 transition-all duration-300 max-w-xs mx-4 text-center" id="qr-content" onclick="event.stopPropagation()">
-            <div class="w-12 h-12 rounded-full bg-blue-500/10 mx-auto flex items-center justify-center mb-4 text-blue-400">
-                <i class="fas fa-qrcode text-xl"></i>
-            </div>
-            <h3 class="text-white font-bold text-lg mb-1">Scan to Connect</h3>
-            <p class="text-slate-400 text-xs mb-6">Point your camera at the code</p>
-            <div class="bg-white p-2 rounded-xl inline-block">
-                <img id="qr-image" src="" alt="QR" class="w-40 h-40 object-contain">
-            </div>
-            <button onclick="toggleQR()" class="mt-6 w-full py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 transition-colors">Close</button>
+  <!-- QR Modal -->
+  <div id="qr-modal" class="modal" onclick="closeQR()">
+    <div class="sheet" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-center mb-3 text-sky-300">
+        <div class="w-11 h-11 rounded-full flex items-center justify-center"
+             style="background: rgba(56,189,248,.12); border: 1px solid rgba(56,189,248,.16);">
+          <i class="fas fa-qrcode text-xl"></i>
         </div>
+      </div>
+
+      <h3 class="text-white font-extrabold text-lg text-center">Scan to add contact</h3>
+      <p class="text-center text-xs mt-1" style="color: rgba(148,163,184,.85);"></p>
+
+      <div class="mt-4 flex justify-center">
+        <div class="qrBox">
+          <div id="qr-code"></div>
+        </div>
+      </div>
+
+      <div class="sheetBtns">
+        <button class="sheetBtn" onclick="downloadQR()">Download QR</button>
+        <button class="sheetBtn" onclick="copyVCard()">Copy vCard</button>
+      </div>
+
+      <button class="sheetBtn mt-3 w-full" onclick="closeQR()">Close</button>
     </div>
+  </div>
 
-    <script>
-        const contact = {
-            name: "Prem Mistry",
-            company: "Zenion Technologies",
-            phone: "+919408075958",
-            email: "info@zeniontechnologies.com",
-            website: "https://www.zeniontechnologies.com",
-            linkedin: "https://www.linkedin.com/in/prem-mistry21"
-        };
+  <!-- Name Modal (for WhatsApp message personalization) -->
+  <div id="name-modal" class="modal" onclick="closeNameModal()">
+    <div class="sheet" onclick="event.stopPropagation()">
+      <h3 class="text-white font-extrabold text-lg text-center">Your name</h3>
+      <p class="text-center text-xs mt-1" style="color: rgba(148,163,184,.85);">
+        This will be used inside your WhatsApp message.
+      </p>
 
-        function toggleQR() {
-            const modal = document.getElementById('qr-modal');
-            const content = document.getElementById('qr-content');
-            const qrImage = document.getElementById('qr-image');
-            
-            if (modal.classList.contains('opacity-0')) {
-                // Generate high-res QR
-                qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${encodeURIComponent(window.location.href)}&color=0f172a&bgcolor=ffffff&margin=0`;
-                modal.classList.remove('opacity-0', 'pointer-events-none');
-                content.classList.remove('scale-95');
-                content.classList.add('scale-100');
-            } else {
-                modal.classList.add('opacity-0', 'pointer-events-none');
-                content.classList.remove('scale-100');
-                content.classList.add('scale-95');
-            }
+      <div class="mt-4">
+        <input id="sender-name" type="text" placeholder="e.g., Rahul"
+          class="w-full px-4 py-3 rounded-2xl bg-slate-900/70 border border-white/10 text-white outline-none focus:border-sky-400/60">
+      </div>
+
+      <div class="sheetBtns">
+        <button class="sheetBtn" onclick="saveSenderName()">Save</button>
+        <button class="sheetBtn" onclick="closeNameModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">Copied</div>
+
+  <script>
+    // ====== EDIT DETAILS ======
+    const contact = {
+      firstName: "Prem",
+      lastName: "Mistry",
+      fullName: "Prem Mistry",
+      company: "Zenion Technologies",
+      phone: "+919408075958",
+      email: "info@zeniontechnologies.com",
+      website: "https://www.zeniontechnologies.com",
+      linkedin: "https://www.linkedin.com/in/prem-mistry21",
+      note: "Engineering the Future, End to End."
+    };
+
+    // ====== Toast ======
+    function toast(msg) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 1200);
+    }
+
+    // ====== URL helpers ======
+    function getCardUrlAuto() {
+      const canonical = document.querySelector('link[rel="canonical"]')?.href;
+      if (canonical) return canonical;
+      const ogUrl = document.querySelector('meta[property="og:url"]')?.content;
+      if (ogUrl) return ogUrl;
+      return new URL(location.pathname, location.origin).href;
+    }
+
+    function toWaNumber(phone) {
+      return String(phone).replace(/\D/g, "");
+    }
+
+    // ====== Clipboard: secure + fallback ======
+    function legacyCopy(text) {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.left = "-9999px";
+      ta.style.top = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy"); } catch (_) {}
+      document.body.removeChild(ta);
+    }
+
+    async function safeCopy(text) {
+      // Clipboard.writeText is secure-context gated in many browsers. [web:160]
+      try {
+        if (window.isSecureContext && navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(text);
+          toast("Copied");
+        } else {
+          legacyCopy(text);
+          toast("Copied");
         }
+      } catch (e) {
+        legacyCopy(text);
+        toast("Copied");
+      }
+    }
 
-        async function downloadVCard() {
-            // UI Feedback (Loading)
-            const btn = document.getElementById('save-btn');
-            const text = document.getElementById('save-text');
-            const icon = document.getElementById('save-icon');
-            const originalText = text.innerText;
-            const originalIconClass = icon.className;
+    async function copyAll() {
+      const text =
+`Prem Mistry
+Zenion Technologies
+Phone: ${contact.phone}
+Email: ${contact.email}
+Website: ${contact.website}
+LinkedIn: ${contact.linkedin}`;
+      await safeCopy(text);
+    }
 
-            // Haptic
-            if (navigator.vibrate) navigator.vibrate(50);
+    // ====== Share: secure + fallback ======
+    async function shareCard() {
+      const url = getCardUrlAuto();
+      const title = `${contact.fullName} - ${contact.company}`;
+      const text = `Connect with ${contact.fullName}`;
 
-            text.innerText = "Opening...";
-            icon.className = "fas fa-circle-notch fa-spin text-xs";
-
-            // VCF Data
-            const vCardData = [
-                'BEGIN:VCARD', 'VERSION:3.0',
-                `FN:${contact.name}`, 
-                `ORG:${contact.company}`,
-                `TEL;TYPE=WORK,VOICE:${contact.phone}`,
-                `EMAIL:${contact.email}`, 
-                `URL:${contact.website}`,
-                `X-SOCIALPROFILE;type=linkedin:${contact.linkedin}`,
-                `NOTE:Engineering the Future, End to End.`, 
-                'END:VCARD'
-            ].join('\n');
-
-            try {
-                // Method 1: Web Share API (The "Android Dialog" style)
-                // This forces the "Share" sheet to open, which contains "Add to Contacts"
-                const file = new File([vCardData], "contact.vcf", { type: "text/vcard" });
-                
-                if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                    await navigator.share({
-                        files: [file],
-                        title: contact.name,
-                        text: 'Save to Contacts'
-                    });
-                    
-                    // If share successful
-                    text.innerText = "Opened!";
-                    icon.className = "fas fa-check text-xs";
-                } else {
-                    // Force Error to trigger fallback for Desktop/unsupported browsers
-                    throw new Error("Web Share not supported");
-                }
-            } catch (err) {
-                // Method 2: Legacy Fallback (Direct Download)
-                // Necessary for Desktop or older browsers where "Share Sheet" doesn't exist
-                if (err.name !== 'AbortError') { 
-                    const blob = new Blob([vCardData], { type: 'text/vcard' });
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.style.display = 'none'; 
-                    a.href = url; 
-                    a.download = 'prem-mistry.vcf';
-                    document.body.appendChild(a); 
-                    a.click();
-                    window.URL.revokeObjectURL(url); 
-                    document.body.removeChild(a);
-                    
-                    text.innerText = "Saved!";
-                    icon.className = "fas fa-check text-xs";
-                } else {
-                    // User cancelled share
-                    text.innerText = originalText;
-                    icon.className = originalIconClass;
-                }
-            }
-
-            // Reset UI after delay
-            setTimeout(() => {
-                text.innerText = originalText;
-                icon.className = originalIconClass;
-            }, 3000);
+      // navigator.share is secure-context gated and needs user gesture. [web:12]
+      try {
+        if (window.isSecureContext && navigator.share) {
+          await navigator.share({ title, text, url });
+          toast("Shared");
+        } else {
+          await safeCopy(url);
+          toast("Link copied");
         }
-    </script>
+      } catch (e) {
+        await safeCopy(url);
+        toast("Link copied");
+      }
+    }
+
+    // ====== vCard + QR ======
+    let qr;
+    let currentQRData = "";
+
+    function buildVCard() {
+      const CRLF = "\r\n";
+      return [
+        "BEGIN:VCARD",
+        "VERSION:3.0",
+        `N:${contact.lastName};${contact.firstName};;;`,
+        `FN:${contact.fullName}`,
+        `ORG:${contact.company}`,
+        `TEL;TYPE=CELL,VOICE:${contact.phone}`,
+        `EMAIL;TYPE=INTERNET:${contact.email}`,
+        `URL:${contact.website}`,
+        `X-SOCIALPROFILE;TYPE=LINKEDIN:${contact.linkedin}`,
+        `NOTE:${contact.note}`,
+        "END:VCARD",
+        ""
+      ].join(CRLF);
+    }
+
+    function ensureQrInit() {
+      if (qr) return;
+      const el = document.getElementById("qr-code");
+      el.innerHTML = "";
+      qr = new QRCode(el, { width: 200, height: 200, correctLevel: QRCode.CorrectLevel.M });
+    }
+
+    function setQR(data) {
+      ensureQrInit();
+      if (data === currentQRData) return;
+      currentQRData = data;
+      qr.clear();
+      qr.makeCode(data);
+    }
+
+    function openQR() {
+      if (navigator.vibrate) navigator.vibrate(20);
+      setQR(buildVCard());              // always vCard QR (best “add contact” UX)
+      document.getElementById("qr-modal").classList.add("open");
+    }
+
+    function closeQR() {
+      document.getElementById("qr-modal").classList.remove("open");
+    }
+
+    function getQRDataUrl() {
+      const wrap = document.getElementById("qr-code");
+      const img = wrap.querySelector("img");
+      if (img?.src) return img.src;
+      const canvas = wrap.querySelector("canvas");
+      if (canvas) return canvas.toDataURL("image/png");
+      return null;
+    }
+
+    function downloadQR() {
+      const dataUrl = getQRDataUrl();
+      if (!dataUrl) { toast("QR not ready"); return; }
+      const a = document.createElement("a");
+      a.href = dataUrl;
+      a.download = "contact-qr.png";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      toast("Downloaded");
+    }
+
+    async function copyVCard() {
+      await safeCopy(buildVCard());
+      toast("vCard copied");
+    }
+
+    // ====== WhatsApp: ask visitor name once ======
+    function openNameModal() {
+      const m = document.getElementById("name-modal");
+      m.classList.add("open");
+      setTimeout(() => document.getElementById("sender-name")?.focus(), 0);
+    }
+
+    function closeNameModal() {
+      document.getElementById("name-modal").classList.remove("open");
+    }
+
+    function getSenderName() {
+      return (localStorage.getItem("senderName") || "").trim();
+    }
+
+    function saveSenderName() {
+      const v = (document.getElementById("sender-name").value || "").trim();
+      if (!v) { toast("Enter name"); return; }
+      localStorage.setItem("senderName", v);
+      closeNameModal();
+      openWhatsApp();
+    }
+
+    function openWhatsApp() {
+      const sender = getSenderName();
+      if (!sender) { openNameModal(); return; }
+
+      const waNum = toWaNumber(contact.phone);
+
+      const msg =
+        `Hi Prem, this is ${sender} here.\n` +
+        `I found your digital card and would like to connect.`;
+
+      // wa.me + ?text pre-fills message. [web:108]
+      const url = `https://wa.me/${waNum}?text=${encodeURIComponent(msg)}`;
+      window.open(url, "_blank", "noopener");
+    }
+
+    // ====== Pre-warm QR + 3D tilt ======
+    document.addEventListener("DOMContentLoaded", () => {
+      ensureQrInit();
+      setQR(buildVCard());
+
+      // If name exists, keep it in the input for convenience
+      const saved = getSenderName();
+      if (saved) document.getElementById("sender-name").value = saved;
+    });
+
+    const card3d = document.getElementById("card3d");
+    const tiltEnabled = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+    function applyTilt(clientX, clientY) {
+      if (!tiltEnabled) return;
+      const rect = card3d.getBoundingClientRect();
+      const px = (clientX - rect.left) / rect.width;
+      const py = (clientY - rect.top) / rect.height;
+      const rx = clamp((0.5 - py) * 10, -10, 10);
+      const ry = clamp((px - 0.5) * 12, -12, 12);
+      card3d.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+    }
+    function resetTilt(){ card3d.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg)"; }
+    card3d.addEventListener("mousemove", (e) => applyTilt(e.clientX, e.clientY));
+    card3d.addEventListener("mouseleave", resetTilt);
+    card3d.addEventListener("touchmove", (e) => {
+      if (!e.touches?.length) return;
+      applyTilt(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive: true });
+    card3d.addEventListener("touchend", resetTilt);
+  </script>
 </body>
 </html>
