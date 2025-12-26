@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <link rel="manifest" href="/manifest.json">
+  <link rel="manifest" href="./manifest.json">
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta property="og:title" content="Prem Mistry - Zenion Technologies" />
@@ -1543,10 +1543,11 @@ END:VCARD
 
         // Register service worker (root path recommended)
         if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.register('/sw.js')
-            .then(() => console.log('Service Worker registered'))
-            .catch((err) => console.warn('SW registration failed:', err));
-        }
+  navigator.serviceWorker.register('./sw.js')
+    .then(() => console.log('SW registered'))
+    .catch(err => console.error('SW failed', err));
+}
+
 
         // Listen for install prompt availability
         window.addEventListener('beforeinstallprompt', (e) => {
@@ -1599,5 +1600,6 @@ END:VCARD
 </body>
 
 </html>
+
 
 
