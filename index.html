@@ -72,8 +72,7 @@
       position: fixed;
       inset: 0;
       z-index: 0;
-      pointer-events: none;
-      /* CRITICAL */
+      pointer-events: none; /* CRITICAL */
     }
 
     .glass-panel,
@@ -157,6 +156,7 @@
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       transform-style: preserve-3d;
+      transition: transform 0.12s ease-out;
     }
 
     .glass-panel::after {
@@ -281,6 +281,7 @@
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
       transform: translateZ(30px);
+      z-index: 30;
       /* LIFTING BUTTON */
     }
 
@@ -319,6 +320,7 @@
       will-change: transform;
       transform: translateZ(30px);
       pointer-events: auto;
+      z-index: 30;
       /* Ensures clicks register */
     }
 
@@ -394,6 +396,7 @@
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
       transform: translateZ(30px);
+      z-index: 30;
       /* LIFTING BUTTON */
     }
 
@@ -439,6 +442,7 @@
       transform: translateZ(25px);
       touch-action: manipulation;
       pointer-events: auto;
+      z-index: 30;
     }
 
     .holo-btn::before {
@@ -727,32 +731,36 @@
               <p class="text-xs text-slate-300 mt-3 font-light tracking-wide opacity-80">"Engineering the Future, End to
                 End."</p>
             </div>
+
             <!-- BUTTON ROW WITH HAPTIC SCRUBBING -->
             <div class="flex justify-center gap-3 mt-6 animate-fade-in-up stagger-3" id="button-row">
               <!-- Phone: Cyan -->
-              <a href="tel:+919408075958" class="immersive-btn haptic-target" style="--btn-color: #06b6d4;">
+              <a href="tel:+919408075958" class="immersive-btn haptic-target" style="--btn-color: #06b6d4;" role="button"
+                tabindex="0">
                 <i class="fas fa-phone"></i>
               </a>
               <!-- Email: Pink/Rose -->
-              <a href="mailto:info@zeniontechnologies.com" class="immersive-btn haptic-target"
-                style="--btn-color: #f472b6;">
+              <a href="mailto:info@zeniontechnologies.com" class="immersive-btn haptic-target" style="--btn-color: #f472b6;"
+                role="button" tabindex="0">
                 <i class="fas fa-envelope"></i>
               </a>
               <!-- Web: Violet -->
               <a href="https://www.zeniontechnologies.com" target="_blank" class="immersive-btn haptic-target"
-                style="--btn-color: #8b5cf6;">
+                style="--btn-color: #8b5cf6;" role="button" tabindex="0">
                 <i class="fas fa-globe"></i>
               </a>
               <!-- WhatsApp: Green -->
-              <button onclick="openWhatsApp()" class="immersive-btn haptic-target" style="--btn-color: #22c55e;">
+              <button onclick="openWhatsApp()" class="immersive-btn haptic-target" style="--btn-color: #22c55e;"
+                role="button" tabindex="0">
                 <i class="fab fa-whatsapp text-xl"></i>
               </button>
               <!-- LinkedIn: Blue -->
               <a href="https://www.linkedin.com/in/prem-mistry21" target="_blank" class="immersive-btn haptic-target"
-                style="--btn-color: #3b82f6;">
+                style="--btn-color: #3b82f6;" role="button" tabindex="0">
                 <i class="fab fa-linkedin-in"></i>
               </a>
             </div>
+
             <div class="grid grid-cols-2 gap-3 mt-6 animate-fade-in-up stagger-4">
               <div class="info-chip group">
                 <div class="flex items-center gap-2 mb-2">
@@ -781,13 +789,14 @@
             <!-- Added ID for Stability check -->
             <div class="flex flex-col gap-3 mt-6 animate-fade-in-up stagger-5" id="action-container">
               <!-- Holographic Button -->
-              <button onclick="openQR()" class="holo-btn group haptic-target">
+              <button onclick="openQR()" class="holo-btn group haptic-target" role="button" tabindex="0">
                 <div
                   class="flex items-center justify-center w-6 h-6 rounded-full bg-white/10 group-hover:bg-white/20 transition-colors">
                   <i class="fas fa-qrcode text-xs text-white"></i>
                 </div>
                 <span class="text-white/90 group-hover:text-white transition-colors">Connect via QR</span>
               </button>
+
               <div class="grid grid-cols-2 gap-3">
                 <button onclick="saveContact()"
                   class="action-btn py-3 rounded-xl font-medium text-xs text-slate-300 hover:text-white flex items-center justify-center gap-2 haptic-target"><i
@@ -797,8 +806,13 @@
                     class="fas fa-share-nodes text-xs"></i> Share Profile</button>
               </div>
 
-
+              <!-- Gyro control (one-tap enable) -->
+              <div class="mt-1 flex gap-2">
+                <button id="gyro-toggle" onclick="toggleGyro()" class="primary-btn px-4 py-2 text-sm">Enable Gyro</button>
+                <div id="gyro-status" class="text-xs text-slate-400 self-center ml-2">Gyro: Off</div>
+              </div>
             </div>
+
             <div class="text-center mt-6">
               <p class="text-[9px] tracking-[0.3em] text-slate-600 uppercase font-bold opacity-70">Zenion Technologies
               </p>
@@ -839,7 +853,7 @@
     const ctx = canvas.getContext('2d');
     let width, height;
 
-    // Game State
+    // Game / ambient state
     let gameActive = false, isGameOver = false, score = 0;
     let highScore = 0;
     try { highScore = parseInt(localStorage.getItem('zenion-hs')) || 0; } catch (e) { }
@@ -850,6 +864,12 @@
 
     // Input
     const input = { x: null, y: null, down: false };
+
+    // Tilt / Gyro
+    let gyroEnabled = false;
+    let gyroSmoothing = 0.12; // lerp
+    let gyroBeta = 0, gyroGamma = 0; // smoothed
+    let lastGyroBeta = 0, lastGyroGamma = 0;
 
     function handleMove(x, y) { input.x = x; input.y = y; }
 
@@ -864,6 +884,7 @@
       input.down = true;
       if (e.touches.length > 0) handleMove(e.touches[0].clientX, e.touches[0].clientY);
     }, { passive: true });
+    // touchend handled below for scrubbing; keep a global fallback
     window.addEventListener('touchend', () => input.down = false, { passive: true });
 
     document.getElementById('high-score-display').innerText = highScore;
@@ -1123,9 +1144,6 @@
               if (dist < e.size + b.size + 10) {
                 b.dead = true;
                 e.hp--;
-                for (let k = 0; k < 3; k++) {
-                  // Add to particles after
-                }
                 if (e.hp <= 0) {
                   e.dead = true;
                   score += e.type === 'chaser' ? 250 : 100;
@@ -1201,12 +1219,12 @@
     const wrap = document.querySelector('.wrap');
     let ticking = false; // To throttle updates
 
-    function updateTilt(x, y) {
-      if (gameActive) return;
+    function updateTiltFromMouse(x, y) {
+      if (gameActive || gyroEnabled) return;
 
-      // FIX: STABILITY CHECK - Stop tilting if hovering buttons
+      // STOP tilting if hovering buttons / or active element is inside interactive
       const actionContainer = document.getElementById('action-container');
-      const buttonRow = document.getElementById('button-row'); // Added this back for safety
+      const buttonRow = document.getElementById('button-row');
 
       const isIn = (el) => {
         if (!el) return false;
@@ -1218,7 +1236,7 @@
         isIn(actionContainer) ||
         isIn(buttonRow) ||
         document.activeElement?.closest('.action-btn, .holo-btn, .immersive-btn')
-      ) {// Check both
+      ) {
         if (!ticking) {
           requestAnimationFrame(() => {
             card.style.setProperty('--rx', '0deg');
@@ -1246,6 +1264,87 @@
       }
     }
 
+    // Device orientation handler (gyroscope)
+    function deviceOrientationHandler(ev) {
+      // Use beta (x-axis tilt) and gamma (y-axis tilt)
+      // Some devices report null -> guard
+      const rawBeta = ev.beta ?? 0;   // -180..180 (tilt front/back)
+      const rawGamma = ev.gamma ?? 0; // -90..90 (tilt left/right)
+
+      // If user is touching UI we disable gyro transforms temporarily
+      const touchingUI = !!lastTouchedElement || document.activeElement?.closest('.action-btn, .holo-btn, .immersive-btn');
+      if (touchingUI) return;
+
+      // Map to smaller range for nicer tilt
+      const mappedBeta = Math.max(-30, Math.min(30, rawBeta));
+      const mappedGamma = Math.max(-30, Math.min(30, rawGamma));
+
+      // Smooth - lerp
+      gyroBeta += (mappedBeta - gyroBeta) * gyroSmoothing;
+      gyroGamma += (mappedGamma - gyroGamma) * gyroSmoothing;
+
+      // Convert to rx/ry (invert as needed)
+      const rx = (-gyroBeta / 3.5).toFixed(2) + 'deg';
+      const ry = (gyroGamma / 3.5).toFixed(2) + 'deg';
+      card.style.setProperty('--rx', rx);
+      card.style.setProperty('--ry', ry);
+
+      // sheen center from gamma/beta relative to card
+      const rect = card.getBoundingClientRect();
+      const mx = 50 + (gyroGamma / 60) * 40; // -40..40 mapped roughly
+      const my = 50 + (gyroBeta / 60) * 40;
+      card.style.setProperty('--mx', `${mx}%`);
+      card.style.setProperty('--my', `${my}%`);
+      card.style.setProperty('--sheen-op', '1');
+    }
+
+    function enableGyroOnce() {
+      if (gyroEnabled) return;
+      // iOS requires permission via DeviceOrientationEvent.requestPermission()
+      if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+        DeviceOrientationEvent.requestPermission()
+          .then(permissionState => {
+            if (permissionState === 'granted') {
+              window.addEventListener('deviceorientation', deviceOrientationHandler, true);
+              gyroEnabled = true;
+              document.getElementById('gyro-status').innerText = 'Gyro: On';
+              document.getElementById('gyro-toggle').innerText = 'Disable Gyro';
+            } else {
+              showToast('Gyro permission denied');
+            }
+          })
+          .catch((err) => {
+            console.warn('Gyro request error', err);
+            showToast('Gyro not available');
+          });
+      } else if (window.DeviceOrientationEvent) {
+        // non-iOS: just attach
+        window.addEventListener('deviceorientation', deviceOrientationHandler, true);
+        gyroEnabled = true;
+        document.getElementById('gyro-status').innerText = 'Gyro: On';
+        document.getElementById('gyro-toggle').innerText = 'Disable Gyro';
+      } else {
+        showToast('Gyro not supported');
+      }
+    }
+
+    function disableGyro() {
+      if (!gyroEnabled) return;
+      window.removeEventListener('deviceorientation', deviceOrientationHandler, true);
+      gyroEnabled = false;
+      document.getElementById('gyro-status').innerText = 'Gyro: Off';
+      document.getElementById('gyro-toggle').innerText = 'Enable Gyro';
+      // reset tilt visuals
+      card.style.setProperty('--rx', '0deg');
+      card.style.setProperty('--ry', '0deg');
+      card.style.setProperty('--sheen-op', '0');
+    }
+
+    function toggleGyro() {
+      if (gyroEnabled) disableGyro();
+      else enableGyroOnce();
+    }
+
     function fitCard() {
       const s = document.getElementById('scaler');
       if (!s) return;
@@ -1268,20 +1367,28 @@
       }
     }
 
-    // Attach haptics to all interactive elements
+    // Attach haptics to all interactive elements (pointer events for reliability)
     document.querySelectorAll('.haptic-target, .immersive-btn, .holo-btn, .action-btn, .tech-chip').forEach(btn => {
-      btn.addEventListener('touchstart', triggerHaptic, { passive: true });
-      btn.addEventListener('mouseenter', triggerHaptic, { passive: true });
+      // prefer pointer events (covers touch, mouse, stylus)
+      btn.addEventListener('pointerdown', triggerHaptic);
+      btn.addEventListener('pointerenter', () => {
+        if (btn.classList.contains('immersive-btn')) btn.classList.add('is-hovered');
+      });
+      btn.addEventListener('pointerleave', () => {
+        if (btn.classList.contains('immersive-btn')) btn.classList.remove('is-hovered');
+      });
     });
 
-    // Touch "Scrubbing" Logic
+    // Touch "Scrubbing" Logic (improved: detect any interactive type)
     let lastTouchedElement = null;
 
     wrap.addEventListener('touchmove', (e) => {
+      if (!e.touches || e.touches.length === 0) return;
       const touch = e.touches[0];
       const target = document.elementFromPoint(touch.clientX, touch.clientY);
 
-      const btn = target ? target.closest('.immersive-btn') : null;
+      // match all interactive button types used in markup
+      const btn = target ? target.closest('.immersive-btn, .holo-btn, .action-btn') : null;
 
       if (btn && btn !== lastTouchedElement) {
         triggerHaptic();
@@ -1294,22 +1401,33 @@
       }
     }, { passive: true });
 
+    // On touchend: prevent native click (to avoid double-fires) and call the clicked element once
     wrap.addEventListener('touchend', (e) => {
       if (lastTouchedElement) {
-        e.preventDefault();       // STOP native click
+        // Prevent the browser's synthesized click and trigger once manually
+        e.preventDefault();
+        try {
+          lastTouchedElement.click();
+        } catch (err) {
+          // fallback - ignore
+        }
         lastTouchedElement.classList.remove('is-hovered');
         lastTouchedElement = null;
       }
     }, { passive: false });
 
-
-    wrap.addEventListener('mousemove', e => updateTilt(e.clientX, e.clientY), { passive: true });
+    // Mouse tilt fallback
+    wrap.addEventListener('mousemove', e => updateTiltFromMouse(e.clientX, e.clientY), { passive: true });
     wrap.addEventListener('mouseleave', () => {
-      card.style.setProperty('--rx', '0deg');
-      card.style.setProperty('--ry', '0deg');
-      card.style.setProperty('--sheen-op', '0');
+      // Reset tilt only if gyro not active
+      if (!gyroEnabled) {
+        card.style.setProperty('--rx', '0deg');
+        card.style.setProperty('--ry', '0deg');
+        card.style.setProperty('--sheen-op', '0');
+      }
     }, { passive: true });
 
+    // --- QR, Share, Save logic (unchanged behavior) ---
     let qrInstance = null;
     const qrModal = document.getElementById('qr-modal');
     function openQR() {
@@ -1357,7 +1475,7 @@
         url: window.location.href
       };
 
-      // Try native share first, then aggressive fallback
+      // Try native share first, then fallback to copying
       try {
         if (navigator.share) {
           await navigator.share(shareData);
@@ -1365,8 +1483,6 @@
           throw new Error("Web Share API not supported");
         }
       } catch (err) {
-        // If user canceled, do nothing (usually AbortError). 
-        // For everything else (or if browser doesn't support it), copy to clipboard.
         if (err.name !== 'AbortError') {
           copyToClipboardFallback();
         }
@@ -1375,14 +1491,11 @@
 
     function copyToClipboardFallback() {
       const text = window.location.href;
-
-      // Try Modern Async Clipboard API
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text)
           .then(() => showToast("Link Copied"))
           .catch(() => fallbackExecCommand(text));
       } else {
-        // Fallback to legacy execCommand
         fallbackExecCommand(text);
       }
     }
@@ -1390,16 +1503,12 @@
     function fallbackExecCommand(text) {
       const textArea = document.createElement("textarea");
       textArea.value = text;
-
-      // Ensure it's not visible but part of the DOM
       textArea.style.position = "fixed";
       textArea.style.left = "-9999px";
       textArea.style.top = "0";
       document.body.appendChild(textArea);
-
       textArea.focus();
       textArea.select();
-
       try {
         const successful = document.execCommand('copy');
         if (successful) {
@@ -1410,7 +1519,6 @@
       } catch (err) {
         showToast("Copy Failed");
       }
-
       document.body.removeChild(textArea);
     }
 
@@ -1420,7 +1528,6 @@
 
     function downloadQR() {
       const qrContainer = document.getElementById('qr-code');
-      // QRCode.js might render as an IMG or a CANVAS depending on the browser
       const img = qrContainer.querySelector("img");
       const canvas = qrContainer.querySelector("canvas");
       let url = "";
@@ -1435,7 +1542,7 @@
         const a = document.createElement('a');
         a.href = url;
         a.download = "prem-mistry-qr.png";
-        document.body.appendChild(a); // Required for Firefox
+        document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         showToast("QR Saved");
@@ -1444,6 +1551,7 @@
       }
     }
 
+    // Init
     window.addEventListener('resize', resize, { passive: true });
     window.onload = () => {
       resize();
@@ -1454,3 +1562,4 @@
 </body>
 
 </html>
+  
