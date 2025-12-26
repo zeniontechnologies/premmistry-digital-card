@@ -19,8 +19,14 @@
         extend: {
           fontFamily: { sans: ['Outfit', 'sans-serif'], mono: ['Space Mono', 'monospace'] },
           colors: { brand: { dark: '#020617', cyan: '#38bdf8', violet: '#8b5cf6' } },
-          animation: { 'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards' },
-          keyframes: { fadeInUp: { '0%': { opacity: 0, transform: 'translateY(20px)' }, '100%': { opacity: 1, transform: 'translateY(0)' } } }
+          animation: { 
+            'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            'shimmer': 'shimmer 3s linear infinite'
+          },
+          keyframes: { 
+            fadeInUp: { '0%': { opacity: 0, transform: 'translateY(20px)' }, '100%': { opacity: 1, transform: 'translateY(0)' } },
+            shimmer: { '0%': { backgroundPosition: '200% center' }, '100%': { backgroundPosition: '-200% center' } }
+          }
         }
       }
     }
@@ -33,6 +39,17 @@
     
     #bg-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: all; }
     
+    /* Premium Background Overlay */
+    .premium-bg {
+        position: fixed;
+        inset: 0;
+        background: 
+            radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.08), transparent 25%),
+            radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.08), transparent 25%);
+        z-index: 1;
+        pointer-events: none;
+    }
+
     .wrap { position: relative; z-index: 10; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; perspective: 1200px; transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
     .wrap.game-mode { opacity: 0; transform: scale(0.8) translateY(50px); pointer-events: none; filter: blur(10px); }
     
@@ -41,18 +58,34 @@
     .card3d { width: min(380px, 90vw); position: relative; transform-style: preserve-3d; will-change: transform; opacity: 0; transform: translateY(30px) rotateX(10deg); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
     .card3d.loaded { opacity: 1; transform: translateY(0) rotateX(0deg); }
     
-    .glass-panel { position: relative; border-radius: 32px; background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05) inset; overflow: hidden; transform: rotateX(var(--rx)) rotateY(var(--ry)); transition: transform 0.1s linear; }
-    .glass-panel::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at var(--mx) var(--my), rgba(255,255,255,0.15), transparent 60%); opacity: var(--sheen-op); mix-blend-mode: overlay; pointer-events: none; transition: opacity 0.3s ease; z-index: 2; }
-    .border-glow { position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, #38bdf8, #8b5cf6, transparent); z-index: 3; opacity: 0.8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.6); }
+    /* Deep Glass Effect */
+    .glass-panel { 
+        position: relative; 
+        border-radius: 32px; 
+        background: rgba(15, 23, 42, 0.6); 
+        border: 1px solid rgba(255, 255, 255, 0.08); 
+        box-shadow: 
+            0 25px 50px -12px rgba(0, 0, 0, 0.7), 
+            0 0 0 1px rgba(255, 255, 255, 0.03) inset; 
+        overflow: hidden; 
+        transform: rotateX(var(--rx)) rotateY(var(--ry)); 
+        backdrop-filter: blur(20px); 
+        -webkit-backdrop-filter: blur(20px);
+        transform-style: preserve-3d;
+    }
     
-    .banner-area { height: 140px; position: relative; overflow: hidden; }
-    .banner-area::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 0%, rgba(15, 23, 42, 0.8) 90%); }
+    .glass-panel::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at var(--mx) var(--my), rgba(255,255,255,0.1), transparent 50%); opacity: var(--sheen-op); mix-blend-mode: overlay; pointer-events: none; transition: opacity 0.3s ease; z-index: 2; }
+    .border-glow { position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.5), rgba(139, 92, 246, 0.5), transparent); z-index: 3; opacity: 0.6; }
+    
+    .banner-area { height: 140px; position: relative; overflow: hidden; z-index: 0; transform: translateZ(0); }
+    .banner-area::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 0%, rgba(15, 23, 42, 0.85) 90%); }
     .banner-area img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.05); transition: transform 3s ease; }
     .glass-panel:hover .banner-area img { transform: scale(1.10); }
     
-    .profile-section { margin-top: -65px; padding: 0 24px 30px; position: relative; z-index: 5; }
-    .avatar-wrapper { width: 104px; height: 104px; margin: 0 auto; border-radius: 50%; padding: 3px; background: conic-gradient(from 0deg, #38bdf8, #8b5cf6, #38bdf8); position: relative; box-shadow: 0 10px 40px -10px rgba(0,0,0,0.6); }
-    .avatar-inner { width: 100%; height: 100%; border-radius: 50%; background: #0f172a; border: 3px solid #0f172a; overflow: hidden; position: relative; }
+    .profile-section { margin-top: -65px; padding: 0 24px 30px; position: relative; z-index: 5; transform-style: preserve-3d; }
+    
+    .avatar-wrapper { width: 104px; height: 104px; margin: 0 auto; border-radius: 50%; padding: 4px; background: linear-gradient(135deg, rgba(56, 189, 248, 0.5), rgba(139, 92, 246, 0.5)); position: relative; box-shadow: 0 15px 35px -10px rgba(0,0,0,0.5); transform: translateZ(20px); }
+    .avatar-inner { width: 100%; height: 100%; border-radius: 50%; background: #0f172a; border: 4px solid #0f172a; overflow: hidden; position: relative; }
     .avatar-inner img { width: 100%; height: 100%; object-fit: cover; }
     
     .stagger-1 { animation-delay: 100ms; opacity: 0; }
@@ -61,33 +94,44 @@
     .stagger-4 { animation-delay: 400ms; opacity: 0; }
     .stagger-5 { animation-delay: 500ms; opacity: 0; }
     
-    .action-btn { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; overflow: hidden; cursor: pointer; -webkit-tap-highlight-color: transparent; }
-    .action-btn:active { transform: scale(0.95); background: rgba(255, 255, 255, 0.1); }
-    @media(hover: hover) { .action-btn:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); transform: translateY(-2px); } }
+    .action-btn { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; overflow: hidden; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; transform: translateZ(25px); pointer-events: auto; }
     
-    /* Immersive Buttons */
+    /* ADDED GLOW AND HAPTIC VISUALS HERE */
+    .action-btn:active { 
+        transform: translateZ(20px) scale(0.95); 
+        background: rgba(56, 189, 248, 0.15); 
+        border-color: rgba(56, 189, 248, 0.6);
+        box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+    }
+    
+    @media(hover: hover) { .action-btn:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); transform: translateZ(30px) translateY(-2px); } }
+    
+    /* Sleek Immersive Buttons */
     .immersive-btn {
       position: relative;
       width: 48px;
       height: 48px;
-      border-radius: 16px;
+      border-radius: 14px;
       background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.06);
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-      color: #cbd5e1;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s, border-color 0.3s;
+      color: #94a3b8;
       overflow: hidden;
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
       will-change: transform;
+      transform: translateZ(30px);
+      pointer-events: auto; /* Ensures clicks register */
     }
     .immersive-btn::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at center, var(--btn-color), transparent 70%);
+      background: radial-gradient(circle at center, var(--btn-color), transparent 60%);
       opacity: 0;
       transition: opacity 0.3s ease;
       z-index: 0;
@@ -95,26 +139,81 @@
     .immersive-btn i {
       position: relative;
       z-index: 10;
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       font-size: 1.1rem;
     }
-    .immersive-btn:hover {
-      transform: translateY(-5px) scale(1.05);
-      border-color: rgba(255,255,255,0.2);
-      box-shadow: 0 10px 25px -5px var(--btn-glow);
+    /* Combined Hover/Active State class for JS scrubbing */
+    .immersive-btn.is-hovered, .immersive-btn:hover {
+      transform: translateZ(40px) translateY(-6px) scale(1.1);
+      border-color: rgba(255,255,255,0.3);
+      background: rgba(255, 255, 255, 0.1);
       color: #fff;
+      box-shadow: 0 10px 20px -5px rgba(0,0,0,0.5);
     }
-    .immersive-btn:hover::before { opacity: 0.25; }
-    .immersive-btn:hover i { transform: scale(1.15); }
-    .immersive-btn:active { transform: scale(0.92) translateY(0); transition-duration: 0.1s; }
-
-    .info-chip { background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 12px; transition: all 0.3s ease; }
-    .info-chip:hover { background: rgba(255, 255, 255, 0.05); border-color: rgba(56, 189, 248, 0.2); }
+    .immersive-btn.is-hovered::before, .immersive-btn:hover::before { opacity: 0.3; }
+    .immersive-btn.is-hovered i, .immersive-btn:hover i { transform: scale(1.2); text-shadow: 0 0 15px var(--btn-color); }
     
-    .primary-btn { background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%); color: white; border: none; position: relative; overflow: hidden; box-shadow: 0 4px 20px -5px rgba(56, 189, 248, 0.5); cursor: pointer; -webkit-tap-highlight-color: transparent; }
-    .primary-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); transform: skewX(-20deg); transition: 0.5s; pointer-events: none; }
-    .primary-btn:hover::before { left: 150%; transition: 0.7s ease-in-out; }
-    .primary-btn:active { transform: scale(0.98); }
+    /* ADDED GLOW TO IMMERSIVE BTN ACTIVE STATE */
+    .immersive-btn:active { 
+        transform: translateZ(30px) scale(0.95) translateY(0); 
+        transition-duration: 0.1s;
+        box-shadow: 0 0 15px var(--btn-color);
+        border-color: var(--btn-color);
+    }
+
+    .info-chip { background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 12px; transition: all 0.3s ease; position: relative; transform: translateZ(10px); }
+    .info-chip:hover { background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.1); }
+    
+    /* Holographic/Prism Button */
+    .holo-btn {
+      width: 100%;
+      padding: 16px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      font-size: 0.9rem;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      transform: translateZ(25px);
+      touch-action: manipulation;
+      pointer-events: auto;
+    }
+    .holo-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -50%;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.2), rgba(139, 92, 246, 0.2), transparent);
+      transform: skewX(-20deg);
+      background-size: 200% auto;
+      animation: shimmer 4s linear infinite;
+      pointer-events: none;
+    }
+    .holo-btn:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateZ(35px) translateY(-1px);
+      box-shadow: 0 8px 30px rgba(56, 189, 248, 0.15);
+    }
+    
+    /* ADDED GLOW TO HOLO BTN ACTIVE STATE */
+    .holo-btn:active { 
+        transform: translateZ(25px) scale(0.98); 
+        box-shadow: 0 0 25px rgba(56, 189, 248, 0.5);
+        border-color: rgba(56, 189, 248, 0.8);
+    }
     
     .game-ui { position: fixed; inset: 0; z-index: 40; pointer-events: none; opacity: 0; transition: opacity 0.4s ease; display: flex; flex-direction: column; justify-content: space-between; padding: 24px; background: radial-gradient(circle at center, transparent 0%, #000 120%); }
     .game-ui.active { opacity: 1; }
@@ -147,6 +246,7 @@
 <body>
 
   <canvas id="bg-canvas"></canvas>
+  <div class="premium-bg"></div>
 
   <div id="game-ui" class="game-ui">
     <div class="flex justify-between items-start w-full">
@@ -202,63 +302,72 @@
                 <img src="images/profile.jpg" alt="Prem Mistry" onload="document.getElementById('avatar-fallback').style.display='none'" onerror="this.style.display='none'">
               </div>
             </div>
-            <div class="text-center mt-4 animate-fade-in-up stagger-2">
+            <div class="text-center mt-4 animate-fade-in-up stagger-2" style="transform: translateZ(15px);">
               <h1 class="text-2xl font-bold tracking-tight text-white drop-shadow-lg">Prem Mistry</h1>
-              <div class="flex items-center justify-center gap-2 mt-1">
-                <div class="h-[1px] w-8 bg-gradient-to-r from-transparent to-cyan-500"></div>
-                <p class="text-[10px] font-bold tracking-[0.2em] text-cyan-400 uppercase">Zenion Technologies</p>
-                <div class="h-[1px] w-8 bg-gradient-to-l from-transparent to-cyan-500"></div>
+              <div class="flex items-center justify-center gap-2 mt-2 opacity-90">
+                <div class="h-[1px] w-6 bg-gradient-to-r from-transparent to-cyan-400"></div>
+                <p class="text-[11px] font-bold tracking-[0.2em] text-cyan-300 uppercase">Zenion Technologies</p>
+                <div class="h-[1px] w-6 bg-gradient-to-l from-transparent to-cyan-400"></div>
               </div>
-              <p class="text-xs text-slate-300 italic mt-3 font-light tracking-wide opacity-80">"Engineering the Future, End to End."</p>
+              <p class="text-xs text-slate-300 mt-3 font-light tracking-wide opacity-80">"Engineering the Future, End to End."</p>
             </div>
-            <div class="flex justify-center gap-3 mt-6 animate-fade-in-up stagger-3">
+            <!-- BUTTON ROW WITH HAPTIC SCRUBBING -->
+            <div class="flex justify-center gap-3 mt-6 animate-fade-in-up stagger-3" id="button-row">
               <!-- Phone: Cyan -->
-              <a href="tel:+919408075958" class="immersive-btn" style="--btn-color: #06b6d4; --btn-glow: rgba(6,182,212,0.5);">
+              <a href="tel:+919408075958" class="immersive-btn haptic-target" style="--btn-color: #06b6d4;">
                 <i class="fas fa-phone"></i>
               </a>
               <!-- Email: Pink/Rose -->
-              <a href="mailto:info@zeniontechnologies.com" class="immersive-btn" style="--btn-color: #f472b6; --btn-glow: rgba(244,114,182,0.5);">
+              <a href="mailto:info@zeniontechnologies.com" class="immersive-btn haptic-target" style="--btn-color: #f472b6;">
                 <i class="fas fa-envelope"></i>
               </a>
               <!-- Web: Violet -->
-              <a href="https://www.zeniontechnologies.com" target="_blank" class="immersive-btn" style="--btn-color: #8b5cf6; --btn-glow: rgba(139,92,246,0.5);">
+              <a href="https://www.zeniontechnologies.com" target="_blank" class="immersive-btn haptic-target" style="--btn-color: #8b5cf6;">
                 <i class="fas fa-globe"></i>
               </a>
               <!-- WhatsApp: Green -->
-              <button onclick="openWhatsApp()" class="immersive-btn" style="--btn-color: #22c55e; --btn-glow: rgba(34,197,94,0.5);">
+              <button onclick="openWhatsApp()" class="immersive-btn haptic-target" style="--btn-color: #22c55e;">
                 <i class="fab fa-whatsapp text-xl"></i>
               </button>
               <!-- LinkedIn: Blue -->
-              <a href="https://www.linkedin.com/in/prem-mistry21" target="_blank" class="immersive-btn" style="--btn-color: #3b82f6; --btn-glow: rgba(59,130,246,0.5);">
+              <a href="https://www.linkedin.com/in/prem-mistry21" target="_blank" class="immersive-btn haptic-target" style="--btn-color: #3b82f6;">
                 <i class="fab fa-linkedin-in"></i>
               </a>
             </div>
             <div class="grid grid-cols-2 gap-3 mt-6 animate-fade-in-up stagger-4">
               <div class="info-chip group">
                 <div class="flex items-center gap-2 mb-2">
-                  <div class="w-6 h-6 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-xs border border-cyan-500/20 group-hover:bg-cyan-500/30 transition-colors"><i class="fas fa-bolt"></i></div>
+                  <div class="w-6 h-6 rounded-md bg-cyan-500/10 flex items-center justify-center text-cyan-400 text-xs border border-cyan-500/20"><i class="fas fa-bolt"></i></div>
                   <span class="text-sm font-bold text-white tracking-wide">Innovation</span>
                 </div>
-                <p class="text-[10px] text-slate-400 leading-snug font-medium group-hover:text-slate-200 transition-colors">Future-ready solutions with a product mindset.</p>
+                <p class="text-[10px] text-slate-400 leading-snug font-medium group-hover:text-slate-200 transition-colors">Future-ready solutions.</p>
               </div>
               <div class="info-chip group">
                 <div class="flex items-center gap-2 mb-2">
-                  <div class="w-6 h-6 rounded-full bg-violet-500/20 flex items-center justify-center text-violet-400 text-xs border border-violet-500/20 group-hover:bg-violet-500/30 transition-colors"><i class="fas fa-microchip"></i></div>
+                  <div class="w-6 h-6 rounded-md bg-violet-500/10 flex items-center justify-center text-violet-400 text-xs border border-violet-500/20"><i class="fas fa-microchip"></i></div>
                   <span class="text-sm font-bold text-white tracking-wide">Engineering</span>
                 </div>
-                <p class="text-[10px] text-slate-400 leading-snug font-medium group-hover:text-slate-200 transition-colors">End-to-end delivery with strong execution.</p>
+                <p class="text-[10px] text-slate-400 leading-snug font-medium group-hover:text-slate-200 transition-colors">Solid execution.</p>
               </div>
             </div>
             <div class="flex flex-col gap-3 mt-6 animate-fade-in-up stagger-5">
-              <button onclick="openQR()" class="primary-btn w-full py-3.5 rounded-xl font-bold text-sm tracking-wide flex items-center justify-center gap-2 group transform active:scale-[0.98] transition-all">
-                <i class="fas fa-qrcode text-white/90 group-hover:scale-110 transition-transform duration-300"></i><span>Show QR Code</span>
+              
+              <!-- Holographic Button -->
+              <button onclick="openQR()" class="holo-btn group haptic-target">
+                <div class="flex items-center justify-center w-6 h-6 rounded-full bg-white/10 group-hover:bg-white/20 transition-colors">
+                  <i class="fas fa-qrcode text-xs text-white"></i>
+                </div>
+                <span class="text-white/90 group-hover:text-white transition-colors">Connect via QR</span>
               </button>
+              
               <div class="grid grid-cols-2 gap-3">
-                <button onclick="saveContact()" class="action-btn py-3 rounded-xl font-medium text-xs text-slate-300 hover:text-white flex items-center justify-center gap-2"><i class="fas fa-user-plus text-xs"></i> Save Contact</button>
-                <button onclick="shareCard()" class="action-btn py-3 rounded-xl font-medium text-xs text-slate-300 hover:text-white flex items-center justify-center gap-2"><i class="fas fa-share-nodes text-xs"></i> Share Profile</button>
+                <button onclick="saveContact()" class="action-btn py-3 rounded-xl font-medium text-xs text-slate-400 hover:text-white flex items-center justify-center gap-2 hover:bg-white/5 border-white/5 hover:border-white/10 haptic-target"><i class="fas fa-user-plus text-xs"></i> Save Contact</button>
+                <button onclick="shareCard()" class="action-btn py-3 rounded-xl font-medium text-xs text-slate-400 hover:text-white flex items-center justify-center gap-2 hover:bg-white/5 border-white/5 hover:border-white/10 haptic-target"><i class="fas fa-share-nodes text-xs"></i> Share Profile</button>
               </div>
             </div>
-            <div class="text-center mt-6"><p class="text-[9px] tracking-[0.3em] text-slate-600 uppercase font-bold opacity-70">Zenion Technologies</p></div>
+            <div class="text-center mt-6">
+              <p class="text-[9px] tracking-[0.2em] text-slate-600 uppercase font-bold">Zenion Technologies</p>
+            </div>
           </div>
         </div>
       </div>
@@ -647,18 +756,89 @@
     // --- Helpers ---
     const card = document.getElementById('glass');
     const wrap = document.querySelector('.wrap');
+    let ticking = false; // To throttle updates
     
     function updateTilt(x, y) {
       if(gameActive) return;
-      const rect = card.getBoundingClientRect();
-      const rotX = ((y - (rect.top+rect.height/2)) / (window.innerHeight/2)) * -8;
-      const rotY = ((x - (rect.left+rect.width/2)) / (window.innerWidth/2)) * 8;
-      card.style.setProperty('--rx', `${rotX}deg`);
-      card.style.setProperty('--ry', `${rotY}deg`);
-      card.style.setProperty('--mx', `${((x-rect.left)/rect.width)*100}%`);
-      card.style.setProperty('--my', `${((y-rect.top)/rect.height)*100}%`);
-      card.style.setProperty('--sheen-op', '1');
+      
+      // STABILITY CHECK: If user is interacting with buttons, DON'T tilt.
+      // This fixes the "overlapping" feel because the card stops moving while you click.
+      const buttonRow = document.getElementById('button-row');
+      if (buttonRow) {
+          const rect = buttonRow.getBoundingClientRect();
+          // Add some buffer area around the buttons
+          if (x >= rect.left - 20 && x <= rect.right + 20 && y >= rect.top - 20 && y <= rect.bottom + 20) {
+             // Reset tilt gently to make clicking easier
+             card.style.setProperty('--rx','0deg');
+             card.style.setProperty('--ry','0deg');
+             return;
+          }
+      }
+
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const rect = card.getBoundingClientRect();
+          const rotX = ((y - (rect.top+rect.height/2)) / (window.innerHeight/2)) * -8;
+          const rotY = ((x - (rect.left+rect.width/2)) / (window.innerWidth/2)) * 8;
+          card.style.setProperty('--rx', `${rotX}deg`);
+          card.style.setProperty('--ry', `${rotY}deg`);
+          card.style.setProperty('--mx', `${((x-rect.left)/rect.width)*100}%`);
+          card.style.setProperty('--my', `${((y-rect.top)/rect.height)*100}%`);
+          card.style.setProperty('--sheen-op', '1');
+          ticking = false;
+        });
+        ticking = true;
+      }
     }
+
+    // Haptic Feedback Helper
+    function triggerHaptic() {
+        if (navigator.vibrate) {
+            navigator.vibrate(10); // 10ms vibration
+        }
+    }
+    
+    // Attach haptics to all interactive elements
+    document.querySelectorAll('.haptic-target, .immersive-btn, .holo-btn, .action-btn').forEach(btn => {
+        btn.addEventListener('touchstart', triggerHaptic, { passive: true });
+        btn.addEventListener('mouseenter', triggerHaptic, { passive: true });
+    });
+
+    // Touch "Scrubbing" Logic
+    // This allows you to drag your finger across the buttons and have them light up sequentially
+    let lastTouchedElement = null;
+
+    wrap.addEventListener('touchmove', (e) => {
+        const touch = e.touches[0];
+        const target = document.elementFromPoint(touch.clientX, touch.clientY);
+        
+        // Find if we are over a button
+        const btn = target ? target.closest('.immersive-btn') : null;
+
+        if (btn && btn !== lastTouchedElement) {
+            // Entered a new button
+            triggerHaptic();
+            
+            // Manually add hover class because CSS :hover doesn't work well with touch drag
+            if(lastTouchedElement) lastTouchedElement.classList.remove('is-hovered');
+            btn.classList.add('is-hovered');
+            
+            lastTouchedElement = btn;
+        } else if (!btn && lastTouchedElement) {
+            // Left the buttons
+            lastTouchedElement.classList.remove('is-hovered');
+            lastTouchedElement = null;
+        }
+    }, { passive: true });
+
+    wrap.addEventListener('touchend', () => {
+        if (lastTouchedElement) {
+            // Simulate a click if we let go over a button
+            lastTouchedElement.click(); 
+            lastTouchedElement.classList.remove('is-hovered');
+            lastTouchedElement = null;
+        }
+    });
     
     wrap.addEventListener('mousemove', e => updateTilt(e.clientX, e.clientY), { passive: true });
     wrap.addEventListener('mouseleave', () => {
@@ -702,6 +882,7 @@
     }
     
     async function saveContact() {
+      triggerHaptic(); // Haptic feedback on click
       const vcard = "BEGIN:VCARD\nVERSION:3.0\nN:Mistry;Prem;;;\nFN:Prem Mistry\nORG:Zenion Technologies\nTEL;TYPE=CELL:+919408075958\nEMAIL:info@zeniontechnologies.com\nURL:https://www.zeniontechnologies.com\nEND:VCARD";
       const blob = new Blob([vcard], { type: "text/vcard" });
       const url = URL.createObjectURL(blob);
@@ -716,32 +897,40 @@
     }
     
     async function shareCard() {
+      triggerHaptic(); // Haptic feedback on click
+      
       const shareData = {
         title: "Prem Mistry",
         text: "Check out Prem Mistry's Digital Business Card",
         url: window.location.href
       };
 
-      if (navigator.share) {
-        try {
+      // Try native share first, then aggressive fallback
+      try {
+        if (navigator.share) {
           await navigator.share(shareData);
-        } catch (err) {
-          // If user cancels share, do nothing. If error, fall back to copy.
-          if (err.name !== 'AbortError') copyToClipboardFallback();
+        } else {
+          throw new Error("Web Share API not supported");
         }
-      } else {
-        copyToClipboardFallback();
+      } catch (err) {
+        // If user canceled, do nothing (usually AbortError). 
+        // For everything else (or if browser doesn't support it), copy to clipboard.
+        if (err.name !== 'AbortError') {
+          copyToClipboardFallback();
+        }
       }
     }
 
     function copyToClipboardFallback() {
       const text = window.location.href;
       
+      // Try Modern Async Clipboard API
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text)
           .then(() => showToast("Link Copied"))
           .catch(() => fallbackExecCommand(text));
       } else {
+        // Fallback to legacy execCommand
         fallbackExecCommand(text);
       }
     }
@@ -749,16 +938,27 @@
     function fallbackExecCommand(text) {
       const textArea = document.createElement("textarea");
       textArea.value = text;
-      textArea.style.position = "fixed"; // Avoid scrolling to bottom
+      
+      // Ensure it's not visible but part of the DOM
+      textArea.style.position = "fixed";
+      textArea.style.left = "-9999px";
+      textArea.style.top = "0";
       document.body.appendChild(textArea);
+      
       textArea.focus();
       textArea.select();
+      
       try {
-        document.execCommand('copy');
-        showToast("Link Copied");
+        const successful = document.execCommand('copy');
+        if (successful) {
+            showToast("Link Copied");
+        } else {
+            showToast("Copy Failed");
+        }
       } catch (err) {
         showToast("Copy Failed");
       }
+      
       document.body.removeChild(textArea);
     }
     
