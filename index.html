@@ -2,800 +2,696 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta property="og:title" content="Prem Mistry - Zenion Technologies" />
   <meta property="og:description" content="Digital Business Card - Engineering the Future, End to End." />
+  <meta name="theme-color" content="#020617">
   <title>Prem Mistry - Zenion Technologies</title>
-
-  <!-- Optional stable URL (recommended when hosted) -->
-  <!-- <link rel="canonical" href="https://your-domain.com/prem" /> -->
-  <!-- <meta property="og:url" content="https://your-domain.com/prem" /> -->
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Fast local QR -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <script>
-    tailwind.config = { theme: { extend: { fontFamily: { sans: ['Outfit', 'sans-serif'] } } } }
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Outfit', 'sans-serif'], mono: ['Space Mono', 'monospace'] },
+          colors: { brand: { dark: '#020617', cyan: '#38bdf8', violet: '#8b5cf6' } },
+          animation: { 'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards' },
+          keyframes: { fadeInUp: { '0%': { opacity: 0, transform: 'translateY(20px)' }, '100%': { opacity: 1, transform: 'translateY(0)' } } }
+        }
+      }
+    }
   </script>
 
   <style>
-    :root{
-      --bg:#020617;
-      --card: rgba(15, 23, 42, 0.62);
-      --card2: rgba(2, 6, 23, 0.55);
-      --shadow: 0 30px 80px rgba(0,0,0,.55);
-      --mx: 50%;
-      --my: 35%;
-    }
+    :root { --mx: 50%; --my: 50%; --rx: 0deg; --ry: 0deg; --sheen-op: 0; }
+    html, body { height: 100%; width: 100%; overflow: hidden; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+    body { background-color: #020617; color: #fff; font-family: 'Outfit', sans-serif; display: flex; justify-content: center; align-items: center; }
+    
+    #bg-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: all; }
+    
+    .wrap { position: relative; z-index: 10; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; perspective: 1200px; transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+    .wrap.game-mode { opacity: 0; transform: scale(0.8) translateY(50px); pointer-events: none; filter: blur(10px); }
+    
+    #scaler { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; transition: transform 0.1s ease-out; }
+    
+    .card3d { width: min(380px, 90vw); position: relative; transform-style: preserve-3d; will-change: transform; opacity: 0; transform: translateY(30px) rotateX(10deg); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+    .card3d.loaded { opacity: 1; transform: translateY(0) rotateX(0deg); }
+    
+    .glass-panel { position: relative; border-radius: 32px; background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05) inset; overflow: hidden; transform: rotateX(var(--rx)) rotateY(var(--ry)); transition: transform 0.1s linear; }
+    .glass-panel::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at var(--mx) var(--my), rgba(255,255,255,0.15), transparent 60%); opacity: var(--sheen-op); mix-blend-mode: overlay; pointer-events: none; transition: opacity 0.3s ease; z-index: 2; }
+    .border-glow { position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, #38bdf8, #8b5cf6, transparent); z-index: 3; opacity: 0.8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.6); }
+    
+    .banner-area { height: 140px; position: relative; overflow: hidden; }
+    .banner-area::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 0%, rgba(15, 23, 42, 0.8) 90%); }
+    .banner-area img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.05); transition: transform 3s ease; }
+    .glass-panel:hover .banner-area img { transform: scale(1.10); }
+    
+    .profile-section { margin-top: -65px; padding: 0 24px 30px; position: relative; z-index: 5; }
+    .avatar-wrapper { width: 104px; height: 104px; margin: 0 auto; border-radius: 50%; padding: 3px; background: conic-gradient(from 0deg, #38bdf8, #8b5cf6, #38bdf8); position: relative; box-shadow: 0 10px 40px -10px rgba(0,0,0,0.6); }
+    .avatar-inner { width: 100%; height: 100%; border-radius: 50%; background: #0f172a; border: 3px solid #0f172a; overflow: hidden; position: relative; }
+    .avatar-inner img { width: 100%; height: 100%; object-fit: cover; }
+    
+    .stagger-1 { animation-delay: 100ms; opacity: 0; }
+    .stagger-2 { animation-delay: 200ms; opacity: 0; }
+    .stagger-3 { animation-delay: 300ms; opacity: 0; }
+    .stagger-4 { animation-delay: 400ms; opacity: 0; }
+    .stagger-5 { animation-delay: 500ms; opacity: 0; }
+    
+    .action-btn { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; overflow: hidden; cursor: pointer; }
+    .action-btn:active { transform: scale(0.95); }
+    @media(hover: hover) { .action-btn:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); transform: translateY(-2px); } }
+    
+    .info-chip { background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 12px; transition: all 0.3s ease; }
+    .info-chip:hover { background: rgba(255, 255, 255, 0.05); border-color: rgba(56, 189, 248, 0.2); }
+    
+    .primary-btn { background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%); color: white; border: none; position: relative; overflow: hidden; box-shadow: 0 4px 20px -5px rgba(56, 189, 248, 0.5); cursor: pointer; }
+    .primary-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent); transition: 0.5s; }
+    .primary-btn:hover::before { left: 100%; }
+    
+    .game-ui { position: fixed; inset: 0; z-index: 40; pointer-events: none; opacity: 0; transition: opacity 0.4s ease; display: flex; flex-direction: column; justify-content: space-between; padding: 24px; background: radial-gradient(circle at center, transparent 0%, #000 120%); }
+    .game-ui.active { opacity: 1; }
+    
+    .hud-box { background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.1); padding: 10px 16px; border-radius: 12px; border-left: 3px solid #38bdf8; }
+    .hp-bar-container { width: 140px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 99px; overflow: hidden; margin-top: 6px; }
+    .hp-bar-fill { width: 100%; height: 100%; background: #38bdf8; transition: width 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 0 10px #38bdf8; }
+    
+    .game-btn { position: fixed; bottom: 30px; right: 30px; z-index: 100; width: 56px; height: 56px; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 50%; color: #38bdf8; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(0,0,0,0.4); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); cursor: pointer; pointer-events: auto; }
+    .game-btn:hover { transform: scale(1.1) rotate(90deg); border-color: #38bdf8; box-shadow: 0 0 30px rgba(56, 189, 248, 0.4); }
+    .game-btn.active { background: #ef4444; border-color: #ef4444; color: white; transform: rotate(0deg); }
+    
+    .game-over-screen { position: absolute; inset: 0; z-index: 50; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(0,0,0,0.9); backdrop-filter: blur(8px); opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    .game-over-screen.active { opacity: 1; pointer-events: auto; }
+    
+    .modal-backdrop { position: fixed; inset: 0; z-index: 50; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    .modal-backdrop.active { opacity: 1; pointer-events: auto; }
+    .modal-content { background: #0f172a; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 24px; width: min(340px, 90vw); transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 25px 60px -12px rgba(0,0,0,0.8); }
+    .modal-backdrop.active .modal-content { transform: scale(1); }
+    
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px); background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 12px 24px; border-radius: 99px; font-weight: 500; font-size: 0.9rem; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 8px; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    html, body { height:100%; }
-    body{
-      margin:0;
-      background: var(--bg);
-      color:#fff;
-      overflow-x:hidden;
-      -webkit-font-smoothing: antialiased;
-      font-family: 'Outfit', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      touch-action: manipulation;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    /* Futuristic animated background */
-    .space{ position: fixed; inset: 0; z-index: 0; pointer-events:none; overflow:hidden; }
-    .space::before{
-      content:""; position:absolute; inset:-30%;
-      background:
-        radial-gradient(circle at 15% 20%, rgba(56,189,248,.16), transparent 35%),
-        radial-gradient(circle at 85% 80%, rgba(139,92,246,.14), transparent 38%),
-        radial-gradient(circle at 70% 15%, rgba(34,197,94,.08), transparent 36%),
-        radial-gradient(circle at 30% 85%, rgba(56,189,248,.08), transparent 40%);
-      filter: blur(10px);
-      animation: drift 12s ease-in-out infinite alternate;
-      opacity: .95;
-    }
-    .space::after{
-      content:""; position:absolute; inset:0;
-      background:
-        radial-gradient(circle at 20% 30%, rgba(255,255,255,.085) 1px, transparent 2px),
-        radial-gradient(circle at 70% 60%, rgba(255,255,255,.065) 1px, transparent 2px),
-        radial-gradient(circle at 50% 80%, rgba(255,255,255,.055) 1px, transparent 2px);
-      background-size: 240px 240px, 300px 300px, 360px 360px;
-      opacity: .32;
-      animation: stars 22s linear infinite;
-      mix-blend-mode: screen;
-    }
-    @keyframes drift{
-      0%   { transform: translate3d(-2%, -1%, 0) scale(1.02) rotate(0deg); }
-      100% { transform: translate3d( 2%,  1%, 0) scale(1.04) rotate(2deg); }
-    }
-    @keyframes stars{
-      0%   { transform: translate3d(0,0,0); }
-      100% { transform: translate3d(-40px, 60px, 0); }
-    }
-
-    /* Spotlight aura */
-    .spotlight{
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 2;
-      opacity: .9;
-      background:
-        radial-gradient(240px 240px at var(--mx) var(--my),
-          rgba(56,189,248,.18),
-          rgba(139,92,246,.10) 35%,
-          transparent 68%);
-      mix-blend-mode: screen;
-      transition: opacity .2s ease;
-    }
-
-    .wrap{
-      min-height: 100dvh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      position: relative;
-      z-index: 3;
-
-      /* Safe area for notched phones */
-      padding:
-        calc(16px + env(safe-area-inset-top, 0px))
-        calc(16px + env(safe-area-inset-right, 0px))
-        calc(16px + env(safe-area-inset-bottom, 0px))
-        calc(16px + env(safe-area-inset-left, 0px));
-    }
-
-    .card3d{
-      width: min(390px, 95vw);
-      transform-style: preserve-3d;
-      will-change: transform;
-      position:relative;
-    }
-
-    .glass{
-      border-radius: 34px;
-      overflow: hidden;
-      background: linear-gradient(180deg, var(--card), var(--card2));
-      border: 1px solid rgba(255,255,255,.08);
-      box-shadow: var(--shadow);
-      position:relative;
-    }
-
-    /* Only enable heavy blur when supported */
-    @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-      .glass{
-        backdrop-filter: blur(22px) saturate(150%);
-        -webkit-backdrop-filter: blur(22px) saturate(150%);
-      }
-    }
-
-    .glass::before{
-      content:"";
-      position:absolute; inset:-2px;
-      border-radius: 36px;
-      background:
-        conic-gradient(from 140deg,
-          rgba(56,189,248,.55),
-          rgba(139,92,246,.50),
-          rgba(34,197,94,.35),
-          rgba(56,189,248,.55));
-      filter: blur(12px);
-      opacity: .32;
-      animation: spin 7s linear infinite;
-      pointer-events:none;
-    }
-    @keyframes spin{ to { transform: rotate(1turn); } }
-
-    .scan{
-      position:absolute; inset:0;
-      background:
-        repeating-linear-gradient(to bottom,
-          rgba(255,255,255,.03),
-          rgba(255,255,255,.03) 1px,
-          transparent 1px,
-          transparent 8px
-        );
-      opacity: .12;
-      pointer-events:none;
-      mix-blend-mode: overlay;
-    }
-
-    .banner{
-      height: 140px;
-      position: relative;
-      background: radial-gradient(circle at 30% 20%, rgba(56,189,248,.22), transparent 55%),
-                  radial-gradient(circle at 80% 70%, rgba(139,92,246,.20), transparent 60%),
-                  rgba(2,6,23,.9);
-      overflow:hidden;
-    }
-    .banner img{
-      position:absolute; inset:0;
-      width:100%; height:100%;
-      object-fit: cover;
-      opacity: .85;
-      transform: scale(1.05);
-    }
-    .banner::after{
-      content:"";
-      position:absolute; inset:0;
-      background: linear-gradient(to bottom, transparent, rgba(2,6,23,.15), rgba(15,23,42,.94));
-    }
-
-    .content{ padding: 0 20px 22px; margin-top: -58px; position:relative; }
-
-    .avatarRing{
-      width: 104px; height:104px;
-      border-radius: 999px;
-      padding: 3px;
-      background: conic-gradient(from 220deg, rgba(56,189,248,.95), rgba(139,92,246,.9), rgba(34,197,94,.65), rgba(56,189,248,.95));
-      position: relative;
-      box-shadow: 0 0 0 1px rgba(255,255,255,.06), 0 25px 55px rgba(0,0,0,.6);
-      margin: 0 auto;
-    }
-    .avatarRing::before{
-      content:"";
-      position:absolute; inset:-12px;
-      border-radius: 999px;
-      background: radial-gradient(circle, rgba(56,189,248,.32), transparent 60%);
-      filter: blur(10px);
-      opacity: .7;
-      animation: pulse 2s ease-in-out infinite alternate;
-      pointer-events:none;
-    }
-    @keyframes pulse{ from { transform: scale(.98); opacity:.55; } to { transform: scale(1.03); opacity:.85; } }
-
-    .avatar{
-      width:100%; height:100%;
-      border-radius:999px;
-      overflow:hidden;
-      background: rgba(2,6,23,.9);
-      border: 2px solid rgba(2,6,23,.9);
-      position: relative;
-    }
-    .avatar span{
-      position:absolute; inset:0;
-      display:flex; align-items:center; justify-content:center;
-      font-weight: 800; font-size: 28px;
-      color: rgba(148,163,184,.45);
-      letter-spacing: .04em;
-      user-select:none;
-    }
-    .avatar img{ position:absolute; inset:0; width:100%; height:100%; object-fit: cover; }
-    .avatar::after{
-      content:"";
-      position:absolute; inset:-40%;
-      background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.20) 45%, transparent 60%);
-      transform: translateX(-35%) rotate(10deg);
-      animation: sweep 3s ease-in-out infinite;
-      mix-blend-mode: overlay;
-      opacity: .55;
-      pointer-events:none;
-    }
-    @keyframes sweep{
-      0%{ transform: translateX(-55%) rotate(10deg); opacity:.0; }
-      25%{ opacity:.6; }
-      55%{ opacity:.25; }
-      100%{ transform: translateX(55%) rotate(10deg); opacity:0; }
-    }
-
-    .name{ text-align:center; margin-top: 14px; font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
-    .org{ text-align:center; margin-top: 4px; font-size: 11px; letter-spacing: .28em; text-transform: uppercase; color: rgba(56,189,248,.95); font-weight: 600; }
-    .tagline{ text-align:center; margin-top: 8px; font-size: 11px; color: rgba(148,163,184,.85); font-weight: 300; font-style: italic; }
-
-    /* Bigger touch targets */
-    .socialRow{ margin-top: 18px; display:flex; justify-content:center; gap: 10px; }
-    .sbtn{
-      width: 50px; height:50px;
-      display:flex; align-items:center; justify-content:center;
-      border-radius: 16px;
-      background: rgba(30,41,59,.55);
-      border: 1px solid rgba(255,255,255,.06);
-      color: rgba(226,232,240,.86);
-      box-shadow: 0 18px 30px rgba(0,0,0,.35);
-      cursor: pointer;
-      user-select:none;
-      -webkit-user-select:none;
-      transition: transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
-    }
-
-    .chips{ margin-top: 18px; display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .chip{
-      border-radius: 18px;
-      padding: 14px 12px;
-      background: rgba(255,255,255,.03);
-      border: 1px solid rgba(255,255,255,.06);
-      transition: transform .18s ease, border-color .18s ease, background .18s ease;
-      position:relative; overflow:hidden;
-    }
-    .chipTop{ display:flex; align-items:center; gap: 10px; }
-    .chipIcon{
-      width: 34px; height:34px;
-      border-radius: 999px;
-      display:flex; align-items:center; justify-content:center;
-      background: rgba(56,189,248,.12);
-      border: 1px solid rgba(56,189,248,.14);
-      color: rgba(56,189,248,.95);
-      flex: 0 0 auto;
-    }
-    .chipTitle{ font-size: 12px; font-weight: 700; color: rgba(226,232,240,.92); line-height: 1.1; }
-    .chipSub{ margin-top: 8px; font-size: 10px; color: rgba(148,163,184,.78); line-height: 1.35; }
-
-    .ctaCol{ margin-top: 14px; display:flex; flex-direction:column; gap: 10px; }
-    .cta{
-      width:100%;
-      border-radius: 18px;
-      padding: 16px 12px;
-      border: 0;
-      cursor:pointer;
-      color:#fff;
-      font-weight: 900;
-      letter-spacing: .02em;
-      background: linear-gradient(90deg, rgba(56,189,248,.95), rgba(99,102,241,.95));
-      box-shadow: 0 18px 40px rgba(56,189,248,.18);
-      position: relative;
-      overflow:hidden;
-      user-select:none;
-      -webkit-user-select:none;
-      transition: transform .16s ease, box-shadow .16s ease, filter .16s ease;
-    }
-    .cta .shine{
-      position:absolute; inset:-40%;
-      background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,.22) 50%, transparent 65%);
-      transform: translateX(-55%) rotate(8deg);
-      animation: ctaShine 2.8s ease-in-out infinite;
-      pointer-events:none;
-      opacity:.7;
-    }
-    @keyframes ctaShine{
-      0%{ transform: translateX(-60%) rotate(8deg); opacity:0; }
-      18%{ opacity:.65; }
-      55%{ opacity:.25; }
-      100%{ transform: translateX(60%) rotate(8deg); opacity:0; }
-    }
-    .ctaInner{ position:relative; display:flex; align-items:center; justify-content:center; gap: 10px; font-size: 13px; }
-
-    .miniRow{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .mini{
-      border-radius: 16px;
-      padding: 13px 10px;
-      background: rgba(15,23,42,.75);
-      border: 1px solid rgba(255,255,255,.08);
-      box-shadow: 0 18px 35px rgba(0,0,0,.35);
-      color: rgba(226,232,240,.90);
-      font-weight: 900;
-      cursor:pointer;
-      user-select:none;
-      -webkit-user-select:none;
-      transition: transform .16s ease, border-color .16s ease, background .16s ease;
-    }
-    .miniInner{ display:flex; align-items:center; justify-content:center; gap: 8px; font-size: 12px; }
-
-    .footer{ margin-top: 14px; text-align:center; font-size: 9px; letter-spacing: .26em; text-transform: uppercase; color: rgba(100,116,139,.75); user-select:none; }
-
-    /* Modal */
-    .modal{
-      position: fixed; inset: 0; z-index: 50;
-      display:flex; align-items:center; justify-content:center;
-      padding:
-        calc(16px + env(safe-area-inset-top, 0px))
-        calc(16px + env(safe-area-inset-right, 0px))
-        calc(16px + env(safe-area-inset-bottom, 0px))
-        calc(16px + env(safe-area-inset-left, 0px));
-      background: rgba(0,0,0,.78);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      opacity: 0; pointer-events:none;
-      transition: opacity .14s ease;
-    }
-    .modal.open{ opacity: 1; pointer-events:auto; }
-    .sheet{
-      width: min(360px, 92vw);
-      border-radius: 28px;
-      background: rgba(15,23,42,.88);
-      border: 1px solid rgba(255,255,255,.10);
-      box-shadow: 0 30px 90px rgba(0,0,0,.75);
-      transform: translateY(10px) scale(.98);
-      transition: transform .14s ease;
-      padding: 18px;
-      position:relative;
-      overflow:hidden;
-    }
-    .modal.open .sheet{ transform: translateY(0) scale(1); }
-    .qrBox{
-      background: #fff;
-      border-radius: 18px;
-      padding: 10px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      box-shadow: 0 18px 40px rgba(0,0,0,.35);
-    }
-    .sheetBtns{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
-    .sheetBtn{
-      padding: 12px 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
-      color: rgba(226,232,240,.9);
-      font-weight: 900;
-      cursor:pointer;
-      transition: transform .14s ease, background .14s ease, border-color .14s ease;
-    }
-
-    /* Toast */
-    .toast{
-      position: fixed;
-      left: 50%;
-      bottom: calc(16px + env(safe-area-inset-bottom, 0px));
-      transform: translateX(-50%) translateY(18px);
-      background: rgba(15,23,42,.92);
-      border: 1px solid rgba(255,255,255,.10);
-      box-shadow: 0 25px 70px rgba(0,0,0,.6);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      color: rgba(226,232,240,.95);
-      padding: 10px 12px;
-      border-radius: 16px;
-      font-weight: 900;
-      font-size: 12px;
-      opacity: 0;
-      pointer-events:none;
-      transition: opacity .16s ease, transform .16s ease;
-      z-index: 60;
-    }
-    .toast.show{ opacity: 1; transform: translateX(-50%) translateY(0px); }
-
-    /* Hover effects only on hover-capable devices */
-    @media (hover: hover) {
-      .sbtn:hover{
-        transform: translateY(-6px) scale(1.06);
-        background: rgba(255,255,255,.09);
-        border-color: rgba(255,255,255,.22);
-        box-shadow: 0 22px 40px rgba(0,0,0,.45), 0 0 0 1px rgba(56,189,248,.18);
-        color:#fff;
-      }
-      .chip:hover{ transform: translateY(-2px); border-color: rgba(255,255,255,.14); background: rgba(255,255,255,.06); }
-      .cta:hover{ transform: translateY(-2px); box-shadow: 0 22px 55px rgba(56,189,248,.22); filter: saturate(1.05); }
-      .mini:hover{ transform: translateY(-2px); border-color: rgba(56,189,248,.22); background: rgba(255,255,255,.06); color:#fff; }
-      .sheetBtn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.18); color:#fff; }
-    }
-
-    /* Touch-only tuning */
-    @media (hover: none) {
-      .spotlight{ opacity: .78; }
-      .scan{ opacity: .10; }
-    }
-
-    @media (prefers-reduced-motion: reduce){
-      .space::before, .space::after, .glass::before, .avatar::after, .avatarRing::before, .cta .shine { animation: none !important; }
-      .card3d { transform: none !important; }
-      .spotlight { display:none; }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
     }
   </style>
 </head>
-
 <body>
-  <div class="space"></div>
-  <div class="spotlight" id="spotlight"></div>
 
-  <div class="wrap">
-    <div id="card3d" class="card3d">
-      <div class="glass">
-        <div class="scan"></div>
+  <canvas id="bg-canvas"></canvas>
 
-        <div class="banner">
-          <img src="banner.jpg" alt="Banner" onerror="this.style.display='none'">
+  <div id="game-ui" class="game-ui">
+    <div class="flex justify-between items-start w-full">
+      <div class="hud-box">
+        <div class="text-[10px] text-cyan-400 font-mono tracking-widest opacity-80">SCORE</div>
+        <div class="text-3xl font-mono font-bold text-white leading-none" id="score-display">0</div>
+        <div class="mt-2">
+          <div class="text-[10px] text-cyan-400 font-mono tracking-widest opacity-80">SHIELDS</div>
+          <div class="hp-bar-container">
+            <div class="hp-bar-fill" id="hp-bar"></div>
+          </div>
         </div>
+      </div>
+      <div class="text-right">
+         <div class="text-[10px] font-mono text-white/50 tracking-wider">HIGH SCORE</div>
+         <div class="text-xl font-mono font-bold text-violet-400" id="high-score-display">0</div>
+      </div>
+    </div>
+    <div class="text-center mb-12 pointer-events-none">
+      <div class="text-cyan-500/40 font-mono text-xs tracking-[0.4em] animate-pulse" id="game-hint">
+        <i class="fas fa-crosshairs mr-2"></i>ENGAGE TARGETS
+      </div>
+    </div>
+    <div id="game-over" class="game-over-screen">
+      <div class="text-6xl text-red-500 mb-4 opacity-80"><i class="fas fa-exclamation-triangle"></i></div>
+      <h2 class="text-4xl font-black text-white mb-2 tracking-tight font-mono">CRITICAL FAILURE</h2>
+      <p class="text-cyan-400 font-mono text-lg mb-8 tracking-widest">FINAL SCORE: <span id="final-score" class="text-white">0</span></p>
+      <button onclick="restartGame()" class="group relative px-8 py-3 bg-cyan-500 text-black font-bold rounded-full overflow-hidden transition-transform hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(6,182,212,0.5)]">
+        <span class="relative z-10">REBOOT SYSTEM</span>
+        <div class="absolute inset-0 bg-white/30 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+      </button>
+      <button onclick="toggleGame()" class="mt-6 text-xs text-white/40 hover:text-white font-mono tracking-widest uppercase hover:underline underline-offset-4 transition-colors">
+        Return to Interface
+      </button>
+    </div>
+  </div>
 
-        <div class="content">
-          <div class="avatarRing">
-            <div class="avatar">
-              <span id="avatarFallback">PM</span>
-              <img
-                src="profile.jpg"
-                alt="Prem Mistry"
-                onload="document.getElementById('avatarFallback').style.display='none';"
-                onerror="this.style.display='none'"
-              >
-            </div>
-          </div>
+  <button id="game-toggle" class="game-btn" onclick="toggleGame()" title="Toggle Interface Mode">
+    <i class="fas fa-gamepad text-2xl"></i>
+  </button>
 
-          <div class="name">Prem Mistry</div>
-          <div class="org">Zenion Technologies</div>
-          <div class="tagline">"Engineering the Future, End to End."</div>
-
-          <div class="socialRow">
-            <a href="tel:+919408075958" class="sbtn" title="Call"><i class="fas fa-phone text-base"></i></a>
-            <a href="mailto:info@zeniontechnologies.com" class="sbtn" title="Email"><i class="fas fa-envelope text-base"></i></a>
-            <a href="https://www.zeniontechnologies.com" target="_blank" rel="noopener" class="sbtn" title="Website"><i class="fas fa-globe text-base"></i></a>
-            <button class="sbtn" title="WhatsApp" onclick="openWhatsApp()">
-              <i class="fab fa-whatsapp text-lg"></i>
-            </button>
-            <a href="https://www.linkedin.com/in/prem-mistry21" target="_blank" rel="noopener" class="sbtn" title="LinkedIn"><i class="fab fa-linkedin-in text-base"></i></a>
-          </div>
-
-          <div class="chips">
-            <div class="chip">
-              <div class="chipTop">
-                <div class="chipIcon"><i class="fas fa-bolt text-xs"></i></div>
-                <div class="chipTitle">Innovation</div>
+  <div class="wrap" id="main-wrap">
+    <div id="scaler">
+      <div class="card3d" id="card">
+        <div class="glass-panel" id="glass">
+          <div class="border-glow"></div>
+          <!-- Banner -->
+         <div class="banner-area">   <img src="images/banner.jpg" alt="Banner" /> </div> 
+          <div class="profile-section">
+            <div class="avatar-wrapper animate-fade-in-up stagger-1">
+              <div class="avatar-inner">
+                <div id="avatar-fallback" class="bg-slate-800 w-full h-full flex items-center justify-center text-slate-500 font-bold text-2xl">PM</div>
+                <img src="images/profile.jpg" alt="Prem Mistry"
+     onload="document.getElementById('avatar-fallback').style.display='none'"
+     onerror="this.style.display='none'">
               </div>
-              <div class="chipSub">Future-ready solutions with a product mindset.</div>
             </div>
-
-            <div class="chip">
-              <div class="chipTop">
-                <div class="chipIcon" style="background: rgba(139,92,246,.12); border-color: rgba(139,92,246,.16); color: rgba(139,92,246,.95);">
-                  <i class="fas fa-microchip text-xs"></i>
+            <div class="text-center mt-4 animate-fade-in-up stagger-2">
+              <h1 class="text-2xl font-bold tracking-tight text-white drop-shadow-lg">Prem Mistry</h1>
+              <div class="flex items-center justify-center gap-2 mt-1">
+                <div class="h-[1px] w-8 bg-gradient-to-r from-transparent to-cyan-500"></div>
+                <p class="text-[10px] font-bold tracking-[0.2em] text-cyan-400 uppercase">Zenion Technologies</p>
+                <div class="h-[1px] w-8 bg-gradient-to-l from-transparent to-cyan-500"></div>
+              </div>
+              <p class="text-xs text-slate-300 italic mt-3 font-light tracking-wide opacity-80">"Engineering the Future, End to End."</p>
+            </div>
+            <div class="flex justify-center gap-3 mt-6 animate-fade-in-up stagger-3">
+              <a href="tel:+919408075958" class="action-btn w-10 h-10 rounded-xl flex items-center justify-center text-slate-200"><i class="fas fa-phone text-sm"></i></a>
+              <a href="mailto:info@zeniontechnologies.com" class="action-btn w-10 h-10 rounded-xl flex items-center justify-center text-slate-200"><i class="fas fa-envelope text-sm"></i></a>
+              <a href="https://www.zeniontechnologies.com" target="_blank" class="action-btn w-10 h-10 rounded-xl flex items-center justify-center text-slate-200"><i class="fas fa-globe text-sm"></i></a>
+              <button onclick="openWhatsApp()" class="action-btn w-10 h-10 rounded-xl flex items-center justify-center text-slate-200"><i class="fab fa-whatsapp text-base"></i></button>
+              <a href="https://www.linkedin.com/in/prem-mistry21" target="_blank" class="action-btn w-10 h-10 rounded-xl flex items-center justify-center text-slate-200"><i class="fab fa-linkedin-in text-sm"></i></a>
+            </div>
+            <div class="grid grid-cols-2 gap-3 mt-6 animate-fade-in-up stagger-4">
+              <div class="info-chip group">
+                <div class="flex items-center gap-2 mb-2">
+                  <div class="w-6 h-6 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-xs border border-cyan-500/20 group-hover:bg-cyan-500/30 transition-colors"><i class="fas fa-bolt"></i></div>
+                  <span class="text-sm font-bold text-white tracking-wide">Innovation</span>
                 </div>
-                <div class="chipTitle">Engineering</div>
+                <p class="text-[10px] text-slate-400 leading-snug font-medium group-hover:text-slate-200 transition-colors">Future-ready solutions with a product mindset.</p>
               </div>
-              <div class="chipSub">End-to-end delivery with strong execution.</div>
+              <div class="info-chip group">
+                <div class="flex items-center gap-2 mb-2">
+                  <div class="w-6 h-6 rounded-full bg-violet-500/20 flex items-center justify-center text-violet-400 text-xs border border-violet-500/20 group-hover:bg-violet-500/30 transition-colors"><i class="fas fa-microchip"></i></div>
+                  <span class="text-sm font-bold text-white tracking-wide">Engineering</span>
+                </div>
+                <p class="text-[10px] text-slate-400 leading-snug font-medium group-hover:text-slate-200 transition-colors">End-to-end delivery with strong execution.</p>
+              </div>
             </div>
-          </div>
-
-          <div class="ctaCol">
-            <button class="cta" onclick="openQR()">
-              <span class="shine"></span>
-              <span class="ctaInner">
-                <i class="fas fa-qrcode text-sm"></i>
-                <span>Show Contact QR</span>
-              </span>
-            </button>
-
-            <div class="miniRow">
-              <button class="mini" onclick="copyAll()">
-                <span class="miniInner"><i class="fas fa-copy text-xs"></i>Copy</span>
+            <div class="flex flex-col gap-3 mt-6 animate-fade-in-up stagger-5">
+              <button onclick="openQR()" class="primary-btn w-full py-3.5 rounded-xl font-bold text-sm tracking-wide flex items-center justify-center gap-2 group transform active:scale-[0.98] transition-all">
+                <i class="fas fa-qrcode text-white/90 group-hover:scale-110 transition-transform duration-300"></i><span>Show QR Code</span>
               </button>
-              <button class="mini" onclick="shareCard()">
-                <span class="miniInner"><i class="fas fa-share-nodes text-xs"></i>Share</span>
-              </button>
+              <div class="grid grid-cols-2 gap-3">
+                <button onclick="saveContact()" class="action-btn py-3 rounded-xl font-medium text-xs text-slate-300 hover:text-white flex items-center justify-center gap-2"><i class="fas fa-user-plus text-xs"></i> Save Contact</button>
+                <button onclick="shareCard()" class="action-btn py-3 rounded-xl font-medium text-xs text-slate-300 hover:text-white flex items-center justify-center gap-2"><i class="fas fa-share-nodes text-xs"></i> Share Profile</button>
+              </div>
             </div>
+            <div class="text-center mt-6"><p class="text-[9px] tracking-[0.3em] text-slate-600 uppercase font-bold opacity-70">Zenion Technologies</p></div>
           </div>
-
-          <div class="footer">Zenion Technologies</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- QR Modal -->
-  <div id="qr-modal" class="modal" onclick="closeQR()">
-    <div class="sheet" onclick="event.stopPropagation()">
-      <div class="flex items-center justify-center mb-3 text-sky-300">
-        <div class="w-11 h-11 rounded-full flex items-center justify-center"
-             style="background: rgba(56,189,248,.12); border: 1px solid rgba(56,189,248,.16);">
-          <i class="fas fa-qrcode text-xl"></i>
+  <div id="qr-modal" class="modal-backdrop" onclick="closeQR()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="text-center">
+        <div class="w-12 h-12 bg-cyan-500/10 rounded-full flex items-center justify-center mx-auto mb-4 text-cyan-400 ring-1 ring-cyan-500/20"><i class="fas fa-qrcode text-xl"></i></div>
+        <h3 class="text-lg font-bold text-white mb-1">Scan to Connect</h3>
+        <p class="text-xs text-slate-400 mb-5">Point your camera to save details directly</p>
+        <div class="bg-white p-3 rounded-xl inline-block shadow-lg"><div id="qr-code"></div></div>
+        <div class="grid grid-cols-2 gap-3 mt-6">
+           <button onclick="downloadQR()" class="py-2.5 rounded-lg border border-white/10 text-xs font-semibold text-slate-300 hover:bg-white/5 transition-colors"><i class="fas fa-download mr-1"></i> Download</button>
+           <button onclick="closeQR()" class="py-2.5 rounded-lg bg-white/10 text-xs font-semibold text-white hover:bg-white/20 transition-colors">Close</button>
         </div>
       </div>
-
-      <h3 class="text-white font-extrabold text-lg text-center">Scan to add contact</h3>
-
-      <div class="mt-4 flex justify-center">
-        <div class="qrBox">
-          <div id="qr-code"></div>
-        </div>
-      </div>
-
-      <div class="sheetBtns">
-        <button class="sheetBtn" onclick="downloadQR()">Download QR</button>
-        <button class="sheetBtn" onclick="copyVCard()">Copy vCard</button>
-      </div>
-
-      <button class="sheetBtn mt-3 w-full" onclick="closeQR()">Close</button>
     </div>
   </div>
 
-  <div id="toast" class="toast">Copied</div>
+  <div id="toast" class="toast"><i class="fas fa-check-circle text-green-400"></i><span id="toast-msg">Action Successful</span></div>
 
   <script>
-    // ====== EDIT DETAILS ======
-    const contact = {
-      firstName: "Prem",
-      lastName: "Mistry",
-      fullName: "Prem Mistry",
-      company: "Zenion Technologies",
-      phone: "+919408075958",
-      email: "info@zeniontechnologies.com",
-      website: "https://www.zeniontechnologies.com",
-      linkedin: "https://www.linkedin.com/in/prem-mistry21",
-      note: "Engineering the Future, End to End."
-    };
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    
+    // Game State
+    let gameActive = false, isGameOver = false, score = 0;
+    let highScore = 0;
+    try { highScore = parseInt(localStorage.getItem('zenion-hs')) || 0; } catch(e){}
+    
+    let player = { x: 0, y: 0, size: 20, hp: 100, maxHp: 100 };
+    let bullets = [], enemies = [], ambientNodes = [], stars = [];
+    let lastTime = 0, shakeAmount = 0;
+    
+    // Input
+    const input = { x: null, y: null, down: false };
+    
+    function handleMove(x, y) { input.x = x; input.y = y; }
+    
+    window.addEventListener('mousemove', e => handleMove(e.clientX, e.clientY), { passive: true });
+    window.addEventListener('touchmove', e => {
+      if(e.touches.length > 0) handleMove(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive: true });
+    
+    window.addEventListener('mousedown', () => input.down = true, { passive: true });
+    window.addEventListener('mouseup', () => input.down = false, { passive: true });
+    window.addEventListener('touchstart', e => {
+      input.down = true;
+      if(e.touches.length > 0) handleMove(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive: true });
+    window.addEventListener('touchend', () => input.down = false, { passive: true });
 
-    // ====== Mobile-friendly spotlight follow ======
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.getElementById('high-score-display').innerText = highScore;
 
-    function setSpot(x, y) {
-      const px = (x / window.innerWidth) * 100;
-      const py = (y / window.innerHeight) * 100;
-      document.documentElement.style.setProperty("--mx", px + "%");
-      document.documentElement.style.setProperty("--my", py + "%");
+    function toggleGame() {
+      if(gameActive || isGameOver) stopGame();
+      else startGame();
     }
 
-    if (!reduceMotion) {
-      window.addEventListener("pointermove", (e) => setSpot(e.clientX, e.clientY), { passive: true });
-      window.addEventListener("touchstart", (e) => {
-        if (!e.touches?.length) return;
-        setSpot(e.touches[0].clientX, e.touches[0].clientY);
-      }, { passive: true });
-      window.addEventListener("touchmove", (e) => {
-        if (!e.touches?.length) return;
-        setSpot(e.touches[0].clientX, e.touches[0].clientY);
-      }, { passive: true });
+    function startGame() {
+      gameActive = true; isGameOver = false;
+      document.getElementById('main-wrap').classList.add('game-mode');
+      document.getElementById('game-ui').classList.add('active');
+      const btn = document.getElementById('game-toggle');
+      btn.classList.add('active');
+      btn.querySelector('i').className = "fas fa-times text-2xl";
+      restartGameLogic();
     }
 
-    // ====== Toast ======
-    function toast(msg) {
-      const t = document.getElementById("toast");
-      t.textContent = msg;
-      t.classList.add("show");
-      setTimeout(() => t.classList.remove("show"), 1200);
+    function stopGame() {
+      gameActive = false; isGameOver = false;
+      document.getElementById('main-wrap').classList.remove('game-mode');
+      document.getElementById('game-ui').classList.remove('active');
+      document.getElementById('game-over').classList.remove('active');
+      const btn = document.getElementById('game-toggle');
+      btn.classList.remove('active');
+      btn.querySelector('i').className = "fas fa-gamepad text-2xl";
+      initAmbient();
     }
 
-    function getCardUrlAuto() {
-      const canonical = document.querySelector('link[rel="canonical"]')?.href;
-      if (canonical) return canonical;
-      const ogUrl = document.querySelector('meta[property="og:url"]')?.content;
-      if (ogUrl) return ogUrl;
-      return new URL(location.pathname, location.origin).href;
+    function restartGame() {
+      document.getElementById('game-over').classList.remove('active');
+      restartGameLogic();
     }
 
-    function toWaNumber(phone) {
-      return String(phone).replace(/\D/g, "");
+    function restartGameLogic() {
+      score = 0; shakeAmount = 0; isGameOver = false;
+      player.hp = player.maxHp;
+      document.getElementById('score-display').innerText = "0";
+      updateHpBar();
+      bullets = []; enemies = [];
+      player.x = width/2; player.y = height - 100;
     }
 
-    function openWhatsApp() {
-      const waNum = toWaNumber(contact.phone);
-      const msg =
-        `Hi Prem,\n` +
-        `I found your digital card and would like to connect.\n` +
-        `Can we discuss a project/requirement?`;
-      const url = `https://wa.me/${waNum}?text=${encodeURIComponent(msg)}`;
-      window.open(url, "_blank", "noopener");
+    function updateHpBar() {
+      const pct = Math.max(0, (player.hp / player.maxHp) * 100);
+      const bar = document.getElementById('hp-bar');
+      bar.style.width = pct + '%';
+      bar.style.backgroundColor = pct < 30 ? '#ef4444' : '#38bdf8';
+      bar.style.boxShadow = pct < 30 ? '0 0 10px #ef4444' : '0 0 10px #38bdf8';
     }
 
-    // ====== Copy (secure + fallback) ======
-    function legacyCopy(text) {
-      const ta = document.createElement("textarea");
-      ta.value = text;
-      ta.setAttribute("readonly", "");
-      ta.style.position = "fixed";
-      ta.style.left = "-9999px";
-      ta.style.top = "0";
-      document.body.appendChild(ta);
-      ta.select();
-      try { document.execCommand("copy"); } catch (_) {}
-      document.body.removeChild(ta);
+    // --- Entities ---
+    class Star {
+      constructor() {
+        this.x = Math.random() * width; this.y = Math.random() * height;
+        this.z = Math.random() * 2 + 0.5; this.size = Math.random() * 1.5; this.alpha = Math.random() * 0.5 + 0.1;
+      }
+      update(speedY) {
+        this.y += speedY * this.z;
+        if(this.y > height) { this.y = -10; this.x = Math.random() * width; }
+      }
+      draw() { ctx.fillStyle = `rgba(255,255,255,${this.alpha})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill(); }
     }
 
-    async function safeCopy(text) {
-      try {
-        if (window.isSecureContext && navigator.clipboard?.writeText) {
-          await navigator.clipboard.writeText(text);
-          toast("Copied");
-        } else {
-          legacyCopy(text);
-          toast("Copied");
-        }
-      } catch (e) {
-        legacyCopy(text);
-        toast("Copied");
+    class Particle {
+      constructor(x, y, color, speed, life) {
+        this.x = x; this.y = y; this.color = color; this.life = life; this.maxLife = life;
+        const angle = Math.random() * Math.PI * 2;
+        const spd = Math.random() * speed;
+        this.vx = Math.cos(angle) * spd; this.vy = Math.sin(angle) * spd;
+        this.size = Math.random() * 3 + 1; this.decay = Math.random() * 0.03 + 0.01;
+      }
+      update() { this.x += this.vx; this.y += this.vy; this.vx *= 0.95; this.vy *= 0.95; this.life -= this.decay; }
+      draw() {
+        ctx.globalAlpha = Math.max(0, this.life / this.maxLife);
+        ctx.fillStyle = `rgb(${this.color})`;
+        ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill();
+        ctx.globalAlpha = 1;
       }
     }
 
-    async function copyAll() {
-      const text =
-`Prem Mistry
-Zenion Technologies
-Phone: ${contact.phone}
-Email: ${contact.email}
-Website: ${contact.website}
-LinkedIn: ${contact.linkedin}`;
-      await safeCopy(text);
-    }
-
-    async function shareCard() {
-      const url = getCardUrlAuto();
-      const title = `${contact.fullName} - ${contact.company}`;
-      const text = `Connect with ${contact.fullName}`;
-
-      try {
-        if (window.isSecureContext && navigator.share) {
-          await navigator.share({ title, text, url });
-          toast("Shared");
-        } else {
-          await safeCopy(url);
-          toast("Link copied");
-        }
-      } catch (e) {
-        await safeCopy(url);
-        toast("Link copied");
+    class AmbientNode {
+      constructor() {
+        this.x = Math.random() * width; this.y = Math.random() * height;
+        this.vx = (Math.random()-0.5) * 0.5; this.vy = (Math.random()-0.5) * 0.5;
+        this.color = Math.random() > 0.5 ? '56, 189, 248' : '139, 92, 246';
+      }
+      update() {
+        this.x += this.vx; this.y += this.vy;
+        if(this.x < 0 || this.x > width) this.vx *= -1;
+        if(this.y < 0 || this.y > height) this.vy *= -1;
+      }
+      draw() {
+        ctx.fillStyle = `rgba(${this.color}, 0.5)`;
+        ctx.beginPath(); ctx.arc(this.x, this.y, 1.5, 0, Math.PI*2); ctx.fill();
       }
     }
 
-    // ====== vCard + QR ======
-    let qr;
-    let currentQRData = "";
-
-    function buildVCard() {
-      const CRLF = "\r\n";
-      return [
-        "BEGIN:VCARD",
-        "VERSION:3.0",
-        `N:${contact.lastName};${contact.firstName};;;`,
-        `FN:${contact.fullName}`,
-        `ORG:${contact.company}`,
-        `TEL;TYPE=CELL,VOICE:${contact.phone}`,
-        `EMAIL;TYPE=INTERNET:${contact.email}`,
-        `URL:${contact.website}`,
-        `X-SOCIALPROFILE;TYPE=LINKEDIN:${contact.linkedin}`,
-        `NOTE:${contact.note}`,
-        "END:VCARD",
-        ""
-      ].join(CRLF);
+    class Enemy {
+      constructor(type) {
+        this.x = Math.random() * width; this.y = -30; this.type = type;
+        this.vx = (Math.random()-0.5) * 2; this.vy = Math.random() * 2 + 1;
+        if(type === 'chaser') { this.color = '239, 68, 68'; this.size = 10; this.hp = 3; }
+        else { this.color = '167, 139, 250'; this.size = 14; this.hp = 1; }
+        this.dead = false;
+      }
+      update() {
+        if(this.type === 'chaser') {
+          const dx = player.x - this.x; const dy = player.y - this.y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if(dist > 0) { this.vx += (dx/dist)*0.15; this.vy += (dy/dist)*0.15; }
+          const spd = Math.sqrt(this.vx*this.vx + this.vy*this.vy);
+          if(spd > 5) { this.vx *= 0.9; this.vy *= 0.9; }
+        }
+        this.x += this.vx; this.y += this.vy;
+        if(this.y > height + 50) this.dead = true;
+        if(this.x < -20) this.x = width+20; if(this.x > width+20) this.x = -20;
+      }
+      draw() {
+        ctx.shadowBlur = 15; ctx.shadowColor = `rgb(${this.color})`; ctx.fillStyle = `rgb(${this.color})`;
+        ctx.beginPath();
+        if(this.type === 'chaser') {
+          ctx.save();
+          ctx.translate(this.x, this.y);
+          ctx.rotate(Math.atan2(this.vy, this.vx)+Math.PI/2);
+          ctx.moveTo(0, -this.size);
+          ctx.lineTo(this.size, this.size);
+          ctx.lineTo(-this.size, this.size);
+          ctx.restore();
+        } else {
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+        }
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
     }
 
-    function ensureQrInit() {
-      if (qr) return;
-      const el = document.getElementById("qr-code");
-      el.innerHTML = "";
-      qr = new QRCode(el, { width: 200, height: 200, correctLevel: QRCode.CorrectLevel.M });
+    class Bullet {
+      constructor(x, y) {
+        this.x = x; this.y = y; this.vy = -15; this.size = 4; this.dead = false;
+        // Create particles on fire
+        for(let i = 0; i < 2; i++) {
+          const particles = [];
+          particles.push(new Particle(x, y-10, '56, 189, 248', 5, 0.5));
+        }
+      }
+      update() { this.y += this.vy; if(this.y < -20) this.dead = true; }
+      draw() {
+        ctx.shadowBlur = 10; ctx.shadowColor = '#38bdf8'; ctx.fillStyle = '#fff';
+        ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill(); ctx.shadowBlur = 0;
+      }
     }
 
-    function setQR(data) {
-      ensureQrInit();
-      if (data === currentQRData) return;
-      currentQRData = data;
-      qr.clear();
-      qr.makeCode(data);
+    function initAmbient() {
+      ambientNodes = [];
+      stars = [];
+      const num = Math.max(10, Math.floor((width * height) / 15000));
+      for(let i=0; i<num; i++) ambientNodes.push(new AmbientNode());
+      for(let i=0; i<80; i++) stars.push(new Star());
     }
 
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      if(!gameActive) initAmbient();
+      else {
+         player.x = Math.min(width, Math.max(0, player.x));
+         player.y = Math.min(height, Math.max(0, player.y));
+      }
+      fitCard();
+    }
+
+    let fireCooldown = 0;
+    
+    function loop(timestamp) {
+      if(!lastTime) lastTime = timestamp;
+      
+      try {
+        ctx.save();
+        
+        if(shakeAmount > 0) {
+          ctx.translate((Math.random()-0.5)*shakeAmount, (Math.random()-0.5)*shakeAmount);
+          shakeAmount *= 0.9;
+          if(shakeAmount < 0.5) shakeAmount = 0;
+        }
+        
+        ctx.fillStyle = '#020617';
+        ctx.fillRect(0, 0, width, height);
+
+        // Stars (always)
+        const starSpeed = gameActive ? 8 : 0.5;
+        stars.forEach(s => { s.update(starSpeed); s.draw(); });
+
+        if(gameActive && !isGameOver) {
+          // Spawn enemies
+          const rate = Math.max(0.005, Math.min(0.04, 0.005 + (score/10000)));
+          if(Math.random() < rate) {
+            enemies.push(new Enemy(Math.random()<0.25?'chaser':'basic'));
+          }
+
+          // Player tracking
+          const targetX = input.x || width/2;
+          const targetY = input.y || height - 100;
+          player.x += (targetX - player.x) * 0.12;
+          player.y += (targetY - player.y) * 0.12;
+
+          // Draw player
+          ctx.save();
+          ctx.translate(player.x, player.y);
+          ctx.shadowBlur = 20; ctx.shadowColor = '#0ea5e9'; ctx.fillStyle = '#fff';
+          ctx.beginPath();
+          ctx.moveTo(0,-24);
+          ctx.lineTo(16,16);
+          ctx.lineTo(0,8);
+          ctx.lineTo(-16,16);
+          ctx.fill();
+          
+          if(input.down) {
+            ctx.fillStyle = '#f59e0b';
+            ctx.beginPath();
+            ctx.moveTo(-6,16);
+            ctx.lineTo(0,30+Math.random()*15);
+            ctx.lineTo(6,16);
+            ctx.fill();
+          }
+          ctx.restore();
+
+          // Fire
+          if(input.down && fireCooldown <= 0) {
+            bullets.push(new Bullet(player.x, player.y - 20));
+            fireCooldown = 6;
+          }
+          if(fireCooldown > 0) fireCooldown--;
+
+          // Update bullets
+          for(let i = bullets.length - 1; i >= 0; i--) {
+            let b = bullets[i];
+            if(!b) continue;
+            b.update();
+            b.draw();
+            if(b.dead) bullets.splice(i, 1);
+          }
+
+          // Update enemies
+          for(let i = enemies.length - 1; i >= 0; i--) {
+            let e = enemies[i];
+            if(!e) continue;
+            e.update();
+            e.draw();
+            
+            // Bullet collisions
+            for(let j=bullets.length-1; j>=0; j--) {
+              const b = bullets[j];
+              if(!b || b.dead) continue;
+              const dist = Math.sqrt((b.x-e.x)**2 + (b.y-e.y)**2);
+              if(dist < e.size + b.size + 10) {
+                b.dead = true;
+                e.hp--;
+                for(let k=0; k<3; k++) {
+                  // Add to particles after
+                }
+                if(e.hp <= 0) {
+                  e.dead = true;
+                  score += e.type==='chaser'?250:100;
+                  document.getElementById('score-display').innerText = score;
+                  for(let k=0; k<12; k++) {
+                    const particles = [];
+                    particles.push(new Particle(e.x, e.y, e.type==='chaser'?'239,68,68':'167,139,250', 8, 1.0));
+                  }
+                  shakeAmount = 5;
+                }
+                break;
+              }
+            }
+
+            // Player collision
+            const pDist = Math.sqrt((player.x-e.x)**2 + (player.y-e.y)**2);
+            if(pDist < e.size + 20) {
+              e.dead = true;
+              player.hp -= 25;
+              shakeAmount = 25;
+              updateHpBar();
+              for(let k=0; k<15; k++) {
+                const particles = [];
+                particles.push(new Particle(e.x, e.y, '239,68,68', 10, 1.5));
+              }
+              if(player.hp <= 0) {
+                isGameOver = true;
+                if(score > highScore) {
+                  highScore = score;
+                  try { localStorage.setItem('zenion-hs', highScore); } catch(e){}
+                }
+                document.getElementById('high-score-display').innerText = highScore;
+                document.getElementById('final-score').innerText = score;
+                document.getElementById('game-over').classList.add('active');
+              }
+            }
+            if(e.dead) enemies.splice(i, 1);
+          }
+        } else if(!gameActive) {
+          // Ambient mode
+          for(let a=0; a<ambientNodes.length; a++) {
+            if(!ambientNodes[a]) continue;
+            
+            for(let b=a+1; b<ambientNodes.length; b++) {
+              if(!ambientNodes[b]) continue;
+              const dx = ambientNodes[a].x - ambientNodes[b].x;
+              const dy = ambientNodes[a].y - ambientNodes[b].y;
+              const dist = Math.sqrt(dx*dx + dy*dy);
+              if(dist < 100) {
+                ctx.strokeStyle = `rgba(${ambientNodes[a].color}, ${0.3 * (1 - dist/100)})`;
+                ctx.lineWidth = 0.5;
+                ctx.beginPath();
+                ctx.moveTo(ambientNodes[a].x, ambientNodes[a].y);
+                ctx.lineTo(ambientNodes[b].x, ambientNodes[b].y);
+                ctx.stroke();
+              }
+            }
+            ambientNodes[a].update();
+            ambientNodes[a].draw();
+          }
+        }
+        
+        ctx.restore();
+      } catch (err) {
+        console.error("Game Loop Error:", err);
+      }
+      
+      requestAnimationFrame(loop);
+    }
+
+    // --- Helpers ---
+    const card = document.getElementById('glass');
+    const wrap = document.querySelector('.wrap');
+    
+    function updateTilt(x, y) {
+      if(gameActive) return;
+      const rect = card.getBoundingClientRect();
+      const rotX = ((y - (rect.top+rect.height/2)) / (window.innerHeight/2)) * -8;
+      const rotY = ((x - (rect.left+rect.width/2)) / (window.innerWidth/2)) * 8;
+      card.style.setProperty('--rx', `${rotX}deg`);
+      card.style.setProperty('--ry', `${rotY}deg`);
+      card.style.setProperty('--mx', `${((x-rect.left)/rect.width)*100}%`);
+      card.style.setProperty('--my', `${((y-rect.top)/rect.height)*100}%`);
+      card.style.setProperty('--sheen-op', '1');
+    }
+    
+    wrap.addEventListener('mousemove', e => updateTilt(e.clientX, e.clientY), { passive: true });
+    wrap.addEventListener('mouseleave', () => {
+      card.style.setProperty('--rx','0deg');
+      card.style.setProperty('--ry','0deg');
+      card.style.setProperty('--sheen-op','0');
+    }, { passive: true });
+    
+    function fitCard() {
+      const s = document.getElementById('scaler');
+      s.style.transform = 'scale(1)';
+      const h = document.getElementById('glass').offsetHeight;
+      const w = document.getElementById('glass').offsetWidth;
+      let sc = Math.min((window.innerHeight-40)/h, (window.innerWidth-40)/w);
+      if(sc > 1) sc = 1;
+      s.style.transform = `scale(${sc})`;
+      document.getElementById('card').classList.add('loaded');
+    }
+
+    let qrInstance = null;
+    const qrModal = document.getElementById('qr-modal');
     function openQR() {
-      if (navigator.vibrate) navigator.vibrate(15);
-      setQR(buildVCard());
-      document.getElementById("qr-modal").classList.add("open");
-    }
-
-    function closeQR() {
-      document.getElementById("qr-modal").classList.remove("open");
-    }
-
-    function getQRDataUrl() {
-      const wrap = document.getElementById("qr-code");
-      const img = wrap.querySelector("img");
-      if (img?.src) return img.src;
-      const canvas = wrap.querySelector("canvas");
-      if (canvas) return canvas.toDataURL("image/png");
-      return null;
-    }
-
-    function downloadQR() {
-      const dataUrl = getQRDataUrl();
-      if (!dataUrl) { toast("QR not ready"); return; }
-      const a = document.createElement("a");
-      a.href = dataUrl;
-      a.download = "contact-qr.png";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      toast("Downloaded");
-    }
-
-    async function copyVCard() {
-      await safeCopy(buildVCard());
-      toast("vCard copied");
-    }
-
-    // ====== Press FX (mobile tactile) ======
-    function addPressFX(selector) {
-      document.querySelectorAll(selector).forEach((el) => {
-        el.addEventListener("pointerdown", () => {
-          if (reduceMotion) return;
-          if (typeof el.animate !== "function") return;
-
-          el.animate(
-            [
-              { transform: "translateY(0px) scale(1)", filter: "brightness(1)" },
-              { transform: "translateY(1px) scale(0.985)", filter: "brightness(1.08)" },
-              { transform: "translateY(0px) scale(1)", filter: "brightness(1)" }
-            ],
-            { duration: 220, easing: "cubic-bezier(.2,1,.2,1)" }
-          );
-        }, { passive: true });
+      const qrContainer = document.getElementById('qr-code');
+      qrContainer.innerHTML = "";
+      qrInstance = new QRCode(qrContainer, {
+        text: "https://zeniontechnologies.com",
+        width: 180,
+        height: 180,
+        correctLevel: QRCode.CorrectLevel.M
       });
+      qrModal.classList.add('active');
     }
-
-    // ====== Tilt only on hover-capable devices (desktop), not on phones ======
-    const hoverCapable = window.matchMedia("(hover: hover)").matches;
-    const card3d = document.getElementById("card3d");
-    function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
-    function applyTilt(clientX, clientY) {
-      if (!hoverCapable || reduceMotion) return;
-      const rect = card3d.getBoundingClientRect();
-      const px = (clientX - rect.left) / rect.width;
-      const py = (clientY - rect.top) / rect.height;
-      const rx = clamp((0.5 - py) * 10, -10, 10);
-      const ry = clamp((px - 0.5) * 12, -12, 12);
-      card3d.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+    
+    function closeQR() { qrModal.classList.remove('active'); }
+    
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      document.getElementById('toast-msg').innerText = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
     }
-    function resetTilt(){
-      if (!hoverCapable) return;
-      card3d.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg)";
+    
+    async function saveContact() {
+      const vcard = "BEGIN:VCARD\nVERSION:3.0\nN:Mistry;Prem;;;\nFN:Prem Mistry\nORG:Zenion Technologies\nTEL;TYPE=CELL:+919408075958\nEMAIL:info@zeniontechnologies.com\nURL:https://www.zeniontechnologies.com\nEND:VCARD";
+      const blob = new Blob([vcard], { type: "text/vcard" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = "contact.vcf";
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast("Downloading Contact...");
     }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      ensureQrInit();
-      setQR(buildVCard());
-      addPressFX(".cta, .mini, .sbtn, .sheetBtn");
-      if (hoverCapable) {
-        card3d.addEventListener("mousemove", (e) => applyTilt(e.clientX, e.clientY));
-        card3d.addEventListener("mouseleave", resetTilt);
+    
+    async function shareCard() {
+      if(navigator.share) {
+        navigator.share({
+          title: "Prem Mistry",
+          url: window.location.href
+        }).catch(() => {
+          navigator.clipboard.writeText(window.location.href);
+          showToast("Link Copied");
+        });
+      } else {
+        navigator.clipboard.writeText(window.location.href);
+        showToast("Link Copied");
       }
-    });
+    }
+    
+    function openWhatsApp() {
+      window.open(`https://wa.me/919408075958?text=${encodeURIComponent("Hi Prem, I found your digital card!")}`, '_blank');
+    }
+    
+    function downloadQR() {
+      const qrContainer = document.getElementById('qr-code');
+      const img = qrContainer.querySelector("img");
+      if(img) {
+        const a = document.createElement('a');
+        a.href = img.src;
+        a.download = "qr.png";
+        a.click();
+        showToast("QR Downloaded");
+      }
+    }
+
+    window.addEventListener('resize', resize, { passive: true });
+    window.onload = () => {
+      resize();
+      loop(0);
+      setTimeout(fitCard, 100);
+    };
   </script>
 </body>
 </html>
