@@ -50,8 +50,29 @@
         pointer-events: none;
     }
 
-    .wrap { position: relative; z-index: 10; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; perspective: 1200px; transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
-    .wrap.game-mode { opacity: 0; transform: scale(0.8) translateY(50px); pointer-events: none; filter: blur(10px); }
+    /* Updated Wrap for robust game mode toggling */
+    .wrap { 
+        position: relative; 
+        z-index: 10; 
+        width: 100%; 
+        height: 100%; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        perspective: 1200px; 
+        /* Transition visibility immediately when coming back, but delay when leaving */
+        transition: opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s 0s;
+    }
+    
+    .wrap.game-mode { 
+        opacity: 0; 
+        transform: scale(0.8) translateY(50px); 
+        pointer-events: none; 
+        filter: blur(10px); 
+        visibility: hidden; /* Key fix: hides element from clicks */
+        /* Delay visibility hide until after opacity fade out (0.6s) */
+        transition: opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s 0.6s;
+    }
     
     #scaler { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; transition: transform 0.1s ease-out; }
     
@@ -96,7 +117,6 @@
     
     .action-btn { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; overflow: hidden; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; transform: translateZ(25px); pointer-events: auto; }
     
-    /* ADDED GLOW AND HAPTIC VISUALS HERE */
     .action-btn:active { 
         transform: translateZ(20px) scale(0.95); 
         background: rgba(56, 189, 248, 0.15); 
@@ -153,7 +173,6 @@
     .immersive-btn.is-hovered::before, .immersive-btn:hover::before { opacity: 0.3; }
     .immersive-btn.is-hovered i, .immersive-btn:hover i { transform: scale(1.2); text-shadow: 0 0 15px var(--btn-color); }
     
-    /* ADDED GLOW TO IMMERSIVE BTN ACTIVE STATE */
     .immersive-btn:active { 
         transform: translateZ(30px) scale(0.95) translateY(0); 
         transition-duration: 0.1s;
@@ -208,7 +227,6 @@
       box-shadow: 0 8px 30px rgba(56, 189, 248, 0.15);
     }
     
-    /* ADDED GLOW TO HOLO BTN ACTIVE STATE */
     .holo-btn:active { 
         transform: translateZ(25px) scale(0.98); 
         box-shadow: 0 0 25px rgba(56, 189, 248, 0.5);
