@@ -2,12 +2,17 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
+  <link rel="manifest" href="/manifest.json">
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta property="og:title" content="Prem Mistry - Zenion Technologies" />
   <meta property="og:description" content="Digital Business Card - Engineering the Future, End to End." />
   <meta name="theme-color" content="#020617">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Zenion Card">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
   <title>Prem Mistry - Zenion Technologies</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
@@ -820,6 +825,15 @@
                     class="fas fa-share-nodes text-xs"></i> Share Profile</button>
               </div>
 
+              <!-- PWA Install Button (initially hidden, will appear when available) -->
+              <button
+                id="pwa-install-btn"
+                onclick="installPWA()"
+                class="action-btn py-3 rounded-xl font-medium text-xs text-slate-300 hover:text-white flex items-center justify-center gap-2 haptic-target hidden"
+                aria-hidden="true"
+              >
+                <i class="fas fa-download text-xs"></i> Install App
+              </button>
 
             </div>
             <div class="text-center mt-6">
@@ -1512,6 +1526,68 @@ END:VCARD
           showToast("Error saving QR");
         }
       }
+
+      /* ===== PWA: safe install flow + SW registration =====
+         - waits for DOMContentLoaded to avoid race with beforeinstallprompt
+         - registers service worker from root (/sw.js)
+         - shows install button only when prompt is available
+      */
+      document.addEventListener('DOMContentLoaded', () => {
+        let deferredPrompt = null;
+        const installBtn = document.getElementById('pwa-install-btn');
+
+        // If app is already standalone, hide install button
+        if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+          if (installBtn) installBtn.classList.add('hidden');
+        }
+
+        // Register service worker (root path recommended)
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('/sw.js')
+            .then(() => console.log('Service Worker registered'))
+            .catch((err) => console.warn('SW registration failed:', err));
+        }
+
+        // Listen for install prompt availability
+        window.addEventListener('beforeinstallprompt', (e) => {
+          e.preventDefault(); // stop automatic mini-infobar
+          deferredPrompt = e;
+          if (installBtn) {
+            installBtn.classList.remove('hidden');
+            installBtn.setAttribute('aria-hidden', 'false');
+          }
+        });
+
+        // Expose a global installPWA() for the button's onclick
+        window.installPWA = async function () {
+          triggerHaptic();
+          if (!deferredPrompt) return;
+          try {
+            deferredPrompt.prompt();
+            const choice = await deferredPrompt.userChoice;
+            if (choice && choice.outcome === 'accepted') {
+              showToast('App Installed');
+            } else {
+              showToast('Install dismissed');
+            }
+          } catch (err) {
+            console.warn('Install prompt failed:', err);
+          } finally {
+            deferredPrompt = null;
+            if (installBtn) {
+              installBtn.classList.add('hidden');
+              installBtn.setAttribute('aria-hidden', 'true');
+            }
+          }
+        };
+
+        // Hide install button once installed
+        window.addEventListener('appinstalled', () => {
+          const installBtn = document.getElementById('pwa-install-btn');
+          if (installBtn) installBtn.classList.add('hidden');
+          console.log('PWA installed');
+        });
+      });
 
       window.addEventListener('resize', resize, { passive: true });
       window.onload = () => {
