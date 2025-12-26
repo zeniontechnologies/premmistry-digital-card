@@ -517,64 +517,64 @@
       box-shadow: 0 0 10px #38bdf8;
     }
 
-.game-btn {
-  position: fixed;
-  bottom: 25px;
-  right: 35px;
-  z-index: 100;
+    .game-btn {
+      position: fixed;
+      bottom: 25px;
+      right: 35px;
+      z-index: 100;
 
-  width: 44px;
-  height: 44px;
+      width: 44px;
+      height: 44px;
 
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(14px);
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(14px);
 
-  border: 1px solid rgba(56, 189, 248, 0.25);
-  border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 999px;
 
-  color: #38bdf8;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-  box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.45),
-    inset 0 0 0 1px rgba(255,255,255,0.03);
+      box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.45),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.03);
 
-  transition:
-    transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.25s,
-    border-color 0.25s,
-    background 0.25s;
+      transition:
+        transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.25s,
+        border-color 0.25s,
+        background 0.25s;
 
-  cursor: pointer;
-  pointer-events: auto;
-  -webkit-tap-highlight-color: transparent;
-}
-
-
-.game-btn:hover {
-  transform: scale(1.08);
-  border-color: rgba(56, 189, 248, 0.6);
-  box-shadow:
-    0 10px 28px rgba(56, 189, 248, 0.25),
-    0 0 0 1px rgba(56,189,248,0.15);
-}
+      cursor: pointer;
+      pointer-events: auto;
+      -webkit-tap-highlight-color: transparent;
+    }
 
 
-.game-btn:active {
-  transform: scale(0.92);
-}
+    .game-btn:hover {
+      transform: scale(1.08);
+      border-color: rgba(56, 189, 248, 0.6);
+      box-shadow:
+        0 10px 28px rgba(56, 189, 248, 0.25),
+        0 0 0 1px rgba(56, 189, 248, 0.15);
+    }
 
-.game-btn.active {
-  background: rgba(239, 68, 68, 0.9);
-  border-color: rgba(239, 68, 68, 0.9);
-  color: white;
 
-  box-shadow:
-    0 10px 30px rgba(239, 68, 68, 0.35),
-    inset 0 0 0 1px rgba(255,255,255,0.15);
-}
+    .game-btn:active {
+      transform: scale(0.92);
+    }
+
+    .game-btn.active {
+      background: rgba(239, 68, 68, 0.9);
+      border-color: rgba(239, 68, 68, 0.9);
+      color: white;
+
+      box-shadow:
+        0 10px 30px rgba(239, 68, 68, 0.35),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+    }
 
 
     .game-over-screen {
@@ -715,7 +715,7 @@
   </div>
 
   <button id="game-toggle" class="game-btn" onclick="toggleGame()" title="Toggle Interface Mode">
-<i class="fas fa-gamepad text-lg"></i>
+    <i class="fas fa-gamepad text-lg"></i>
   </button>
 
   <div class="wrap" id="main-wrap">
@@ -824,546 +824,534 @@
             </div>
 
             <div class="text-center mt-6">
-  <a
-    href="https://www.zeniontechnologies.com"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="group inline-block"
-  >
-    <p
-      class="text-[9px] tracking-[0.3em] uppercase font-bold text-slate-500
-             group-hover:text-cyan-400 transition-colors duration-300"
-    >
-      © <span id="copyright-year"></span>Zenion Technologies <br align="center"> All rights reserved
-    </p>
+              <a href="https://www.zeniontechnologies.com" target="_blank" rel="noopener noreferrer"
+                class="group inline-block">
+                <p class="text-[9px] tracking-[0.3em] uppercase font-bold text-slate-500
+                group-hover:text-cyan-400 transition-colors duration-300">
+                  © <span id="copyright-year"></span> Zenion Technologies · All rights reserved
+                </p>
 
-    <span
-      class="mx-auto mt-1 block h-[1px] w-10
-             bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent
-             opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-    ></span>
-  </a>
-</div>
 
- 
 
+
+
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div id="qr-modal" class="modal-backdrop" onclick="closeQR()">
-    <div class="modal-content" onclick="event.stopPropagation()">
-      <div class="text-center">
-        <div
-          class="w-12 h-12 bg-cyan-500/10 rounded-full flex items-center justify-center mx-auto mb-4 text-cyan-400 ring-1 ring-cyan-500/20">
-          <i class="fas fa-qrcode text-xl"></i>
-        </div>
-        <h3 class="text-lg font-bold text-white mb-1">Scan to Save Contact</h3>
-<p class="text-xs text-slate-400 mb-5">
-  Scan to instantly save my contact details
-</p>
-        <div class="bg-white p-3 rounded-xl inline-block shadow-lg">
-          <div id="qr-code"></div>
-        </div>
-        <div class="grid grid-cols-2 gap-3 mt-6">
-          <button onclick="downloadQR()"
-            class="py-2.5 rounded-lg border border-white/10 text-xs font-semibold text-slate-300 hover:bg-white/5 transition-colors"><i
-              class="fas fa-download mr-1"></i> Download</button>
-          <button onclick="closeQR()"
-            class="py-2.5 rounded-lg bg-white/10 text-xs font-semibold text-white hover:bg-white/20 transition-colors">Close</button>
+    <div id="qr-modal" class="modal-backdrop" onclick="closeQR()">
+      <div class="modal-content" onclick="event.stopPropagation()">
+        <div class="text-center">
+          <div
+            class="w-12 h-12 bg-cyan-500/10 rounded-full flex items-center justify-center mx-auto mb-4 text-cyan-400 ring-1 ring-cyan-500/20">
+            <i class="fas fa-qrcode text-xl"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-1">Scan to Save Contact</h3>
+          <p class="text-xs text-slate-400 mb-5">
+            Scan to instantly save my contact details
+          </p>
+          <div class="bg-white p-3 rounded-xl inline-block shadow-lg">
+            <div id="qr-code"></div>
+          </div>
+          <div class="grid grid-cols-2 gap-3 mt-6">
+            <button onclick="downloadQR()"
+              class="py-2.5 rounded-lg border border-white/10 text-xs font-semibold text-slate-300 hover:bg-white/5 transition-colors"><i
+                class="fas fa-download mr-1"></i> Download</button>
+            <button onclick="closeQR()"
+              class="py-2.5 rounded-lg bg-white/10 text-xs font-semibold text-white hover:bg-white/20 transition-colors">Close</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div id="toast" class="toast"><i class="fas fa-check-circle text-green-400"></i><span id="toast-msg">Action
-      Successful</span></div>
+    <div id="toast" class="toast"><i class="fas fa-check-circle text-green-400"></i><span id="toast-msg">Action
+        Successful</span></div>
 
-  <script>
-    const canvas = document.getElementById('bg-canvas');
-    const ctx = canvas.getContext('2d');
-    let width, height;
+    <script>
+      const canvas = document.getElementById('bg-canvas');
+      const ctx = canvas.getContext('2d');
+      let width, height;
 
-    // Game State
-    let gameActive = false, isGameOver = false, score = 0;
-    let highScore = 0;
-    try { highScore = parseInt(localStorage.getItem('zenion-hs')) || 0; } catch (e) { }
+      // Game State
+      let gameActive = false, isGameOver = false, score = 0;
+      let highScore = 0;
+      try { highScore = parseInt(localStorage.getItem('zenion-hs')) || 0; } catch (e) { }
 
-    let player = { x: 0, y: 0, size: 20, hp: 100, maxHp: 100 };
-    let bullets = [], enemies = [], ambientNodes = [], stars = [];
-    let lastTime = 0, shakeAmount = 0;
+      let player = { x: 0, y: 0, size: 20, hp: 100, maxHp: 100 };
+      let bullets = [], enemies = [], ambientNodes = [], stars = [];
+      let lastTime = 0, shakeAmount = 0;
 
-    // Input
-    const input = { x: null, y: null, down: false };
+      // Input
+      const input = { x: null, y: null, down: false };
 
-    function handleMove(x, y) { input.x = x; input.y = y; }
+      function handleMove(x, y) { input.x = x; input.y = y; }
 
-    window.addEventListener('mousemove', e => handleMove(e.clientX, e.clientY), { passive: true });
-    window.addEventListener('touchmove', e => {
-      if (e.touches.length > 0) handleMove(e.touches[0].clientX, e.touches[0].clientY);
-    }, { passive: true });
+      window.addEventListener('mousemove', e => handleMove(e.clientX, e.clientY), { passive: true });
+      window.addEventListener('touchmove', e => {
+        if (e.touches.length > 0) handleMove(e.touches[0].clientX, e.touches[0].clientY);
+      }, { passive: true });
 
-    window.addEventListener('mousedown', () => input.down = true, { passive: true });
-    window.addEventListener('mouseup', () => input.down = false, { passive: true });
-    window.addEventListener('touchstart', e => {
-      input.down = true;
-      if (e.touches.length > 0) handleMove(e.touches[0].clientX, e.touches[0].clientY);
-    }, { passive: true });
-    window.addEventListener('touchend', () => input.down = false, { passive: true });
+      window.addEventListener('mousedown', () => input.down = true, { passive: true });
+      window.addEventListener('mouseup', () => input.down = false, { passive: true });
+      window.addEventListener('touchstart', e => {
+        input.down = true;
+        if (e.touches.length > 0) handleMove(e.touches[0].clientX, e.touches[0].clientY);
+      }, { passive: true });
+      window.addEventListener('touchend', () => input.down = false, { passive: true });
 
-    document.getElementById('high-score-display').innerText = highScore;
+      document.getElementById('high-score-display').innerText = highScore;
 
-    function toggleGame() {
-      if (gameActive || isGameOver) stopGame();
-      else startGame();
-    }
-
-    function startGame() {
-      gameActive = true; isGameOver = false;
-      document.getElementById('main-wrap').classList.add('game-mode');
-      document.getElementById('game-ui').classList.add('active');
-      const btn = document.getElementById('game-toggle');
-      btn.classList.add('active');
-btn.querySelector('i').className = "fas fa-times text-lg";
-      restartGameLogic();
-    }
-
-    function stopGame() {
-      gameActive = false; isGameOver = false;
-      document.getElementById('main-wrap').classList.remove('game-mode');
-      document.getElementById('game-ui').classList.remove('active');
-      document.getElementById('game-over').classList.remove('active');
-      const btn = document.getElementById('game-toggle');
-      btn.classList.remove('active');
-btn.querySelector('i').className = "fas fa-gamepad text-lg";
-      initAmbient();
-    }
-
-    function restartGame() {
-      document.getElementById('game-over').classList.remove('active');
-      restartGameLogic();
-    }
-
-    function restartGameLogic() {
-      score = 0; shakeAmount = 0; isGameOver = false;
-      player.hp = player.maxHp;
-      document.getElementById('score-display').innerText = "0";
-      updateHpBar();
-      bullets = []; enemies = [];
-      player.x = width / 2; player.y = height - 100;
-    }
-
-    function updateHpBar() {
-      const pct = Math.max(0, (player.hp / player.maxHp) * 100);
-      const bar = document.getElementById('hp-bar');
-      bar.style.width = pct + '%';
-      bar.style.backgroundColor = pct < 30 ? '#ef4444' : '#38bdf8';
-      bar.style.boxShadow = pct < 30 ? '0 0 10px #ef4444' : '0 0 10px #38bdf8';
-    }
-
-    // --- Entities ---
-    class Star {
-      constructor() {
-        this.x = Math.random() * width; this.y = Math.random() * height;
-        this.z = Math.random() * 2 + 0.5; this.size = Math.random() * 1.5; this.alpha = Math.random() * 0.5 + 0.1;
+      function toggleGame() {
+        if (gameActive || isGameOver) stopGame();
+        else startGame();
       }
-      update(speedY) {
-        this.y += speedY * this.z;
-        if (this.y > height) { this.y = -10; this.x = Math.random() * width; }
-      }
-      draw() { ctx.fillStyle = `rgba(255,255,255,${this.alpha})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
-    }
 
-    class Particle {
-      constructor(x, y, color, speed, life) {
-        this.x = x; this.y = y; this.color = color; this.life = life; this.maxLife = life;
-        const angle = Math.random() * Math.PI * 2;
-        const spd = Math.random() * speed;
-        this.vx = Math.cos(angle) * spd; this.vy = Math.sin(angle) * spd;
-        this.size = Math.random() * 3 + 1; this.decay = Math.random() * 0.03 + 0.01;
+      function startGame() {
+        gameActive = true; isGameOver = false;
+        document.getElementById('main-wrap').classList.add('game-mode');
+        document.getElementById('game-ui').classList.add('active');
+        const btn = document.getElementById('game-toggle');
+        btn.classList.add('active');
+        btn.querySelector('i').className = "fas fa-times text-lg";
+        restartGameLogic();
       }
-      update() { this.x += this.vx; this.y += this.vy; this.vx *= 0.95; this.vy *= 0.95; this.life -= this.decay; }
-      draw() {
-        ctx.globalAlpha = Math.max(0, this.life / this.maxLife);
-        ctx.fillStyle = `rgb(${this.color})`;
-        ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
-        ctx.globalAlpha = 1;
-      }
-    }
 
-    class AmbientNode {
-      constructor() {
-        this.x = Math.random() * width; this.y = Math.random() * height;
-        this.vx = (Math.random() - 0.5) * 0.5; this.vy = (Math.random() - 0.5) * 0.5;
-        this.color = Math.random() > 0.5 ? '56, 189, 248' : '139, 92, 246';
+      function stopGame() {
+        gameActive = false; isGameOver = false;
+        document.getElementById('main-wrap').classList.remove('game-mode');
+        document.getElementById('game-ui').classList.remove('active');
+        document.getElementById('game-over').classList.remove('active');
+        const btn = document.getElementById('game-toggle');
+        btn.classList.remove('active');
+        btn.querySelector('i').className = "fas fa-gamepad text-lg";
+        initAmbient();
       }
-      update() {
-        this.x += this.vx; this.y += this.vy;
-        if (this.x < 0 || this.x > width) this.vx *= -1;
-        if (this.y < 0 || this.y > height) this.vy *= -1;
-      }
-      draw() {
-        ctx.fillStyle = `rgba(${this.color}, 0.5)`;
-        ctx.beginPath(); ctx.arc(this.x, this.y, 1.5, 0, Math.PI * 2); ctx.fill();
-      }
-    }
 
-    class Enemy {
-      constructor(type) {
-        this.x = Math.random() * width; this.y = -30; this.type = type;
-        this.vx = (Math.random() - 0.5) * 2; this.vy = Math.random() * 2 + 1;
-        if (type === 'chaser') { this.color = '239, 68, 68'; this.size = 10; this.hp = 3; }
-        else { this.color = '167, 139, 250'; this.size = 14; this.hp = 1; }
-        this.dead = false;
+      function restartGame() {
+        document.getElementById('game-over').classList.remove('active');
+        restartGameLogic();
       }
-      update() {
-        if (this.type === 'chaser') {
-          const dx = player.x - this.x; const dy = player.y - this.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist > 0) { this.vx += (dx / dist) * 0.15; this.vy += (dy / dist) * 0.15; }
-          const spd = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
-          if (spd > 5) { this.vx *= 0.9; this.vy *= 0.9; }
+
+      function restartGameLogic() {
+        score = 0; shakeAmount = 0; isGameOver = false;
+        player.hp = player.maxHp;
+        document.getElementById('score-display').innerText = "0";
+        updateHpBar();
+        bullets = []; enemies = [];
+        player.x = width / 2; player.y = height - 100;
+      }
+
+      function updateHpBar() {
+        const pct = Math.max(0, (player.hp / player.maxHp) * 100);
+        const bar = document.getElementById('hp-bar');
+        bar.style.width = pct + '%';
+        bar.style.backgroundColor = pct < 30 ? '#ef4444' : '#38bdf8';
+        bar.style.boxShadow = pct < 30 ? '0 0 10px #ef4444' : '0 0 10px #38bdf8';
+      }
+
+      // --- Entities ---
+      class Star {
+        constructor() {
+          this.x = Math.random() * width; this.y = Math.random() * height;
+          this.z = Math.random() * 2 + 0.5; this.size = Math.random() * 1.5; this.alpha = Math.random() * 0.5 + 0.1;
         }
-        this.x += this.vx; this.y += this.vy;
-        if (this.y > height + 50) this.dead = true;
-        if (this.x < -20) this.x = width + 20; if (this.x > width + 20) this.x = -20;
-      }
-      draw() {
-        ctx.shadowBlur = 15; ctx.shadowColor = `rgb(${this.color})`; ctx.fillStyle = `rgb(${this.color})`;
-        ctx.beginPath();
-        if (this.type === 'chaser') {
-          ctx.save();
-          ctx.translate(this.x, this.y);
-          ctx.rotate(Math.atan2(this.vy, this.vx) + Math.PI / 2);
-          ctx.moveTo(0, -this.size);
-          ctx.lineTo(this.size, this.size);
-          ctx.lineTo(-this.size, this.size);
-          ctx.restore();
-        } else {
-          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        update(speedY) {
+          this.y += speedY * this.z;
+          if (this.y > height) { this.y = -10; this.x = Math.random() * width; }
         }
-        ctx.fill();
-        ctx.shadowBlur = 0;
+        draw() { ctx.fillStyle = `rgba(255,255,255,${this.alpha})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
       }
-    }
 
-    class Bullet {
-      constructor(x, y) {
-        this.x = x; this.y = y; this.vy = -15; this.size = 4; this.dead = false;
-        // Create particles on fire
-        for (let i = 0; i < 2; i++) {
-          const particles = [];
-          particles.push(new Particle(x, y - 10, '56, 189, 248', 5, 0.5));
+      class Particle {
+        constructor(x, y, color, speed, life) {
+          this.x = x; this.y = y; this.color = color; this.life = life; this.maxLife = life;
+          const angle = Math.random() * Math.PI * 2;
+          const spd = Math.random() * speed;
+          this.vx = Math.cos(angle) * spd; this.vy = Math.sin(angle) * spd;
+          this.size = Math.random() * 3 + 1; this.decay = Math.random() * 0.03 + 0.01;
+        }
+        update() { this.x += this.vx; this.y += this.vy; this.vx *= 0.95; this.vy *= 0.95; this.life -= this.decay; }
+        draw() {
+          ctx.globalAlpha = Math.max(0, this.life / this.maxLife);
+          ctx.fillStyle = `rgb(${this.color})`;
+          ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+          ctx.globalAlpha = 1;
         }
       }
-      update() { this.y += this.vy; if (this.y < -20) this.dead = true; }
-      draw() {
-        ctx.shadowBlur = 10; ctx.shadowColor = '#38bdf8'; ctx.fillStyle = '#fff';
-        ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); ctx.shadowBlur = 0;
-      }
-    }
 
-    function initAmbient() {
-      ambientNodes = [];
-      stars = [];
-      const num = Math.max(10, Math.floor((width * height) / 15000));
-      for (let i = 0; i < num; i++) ambientNodes.push(new AmbientNode());
-      for (let i = 0; i < 80; i++) stars.push(new Star());
-    }
-
-    function resize() {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-      if (!gameActive) initAmbient();
-      else {
-        player.x = Math.min(width, Math.max(0, player.x));
-        player.y = Math.min(height, Math.max(0, player.y));
-      }
-      fitCard();
-    }
-
-    let fireCooldown = 0;
-
-    function loop(timestamp) {
-      if (!lastTime) lastTime = timestamp;
-
-      try {
-        ctx.save();
-
-        if (shakeAmount > 0) {
-          ctx.translate((Math.random() - 0.5) * shakeAmount, (Math.random() - 0.5) * shakeAmount);
-          shakeAmount *= 0.9;
-          if (shakeAmount < 0.5) shakeAmount = 0;
+      class AmbientNode {
+        constructor() {
+          this.x = Math.random() * width; this.y = Math.random() * height;
+          this.vx = (Math.random() - 0.5) * 0.5; this.vy = (Math.random() - 0.5) * 0.5;
+          this.color = Math.random() > 0.5 ? '56, 189, 248' : '139, 92, 246';
         }
+        update() {
+          this.x += this.vx; this.y += this.vy;
+          if (this.x < 0 || this.x > width) this.vx *= -1;
+          if (this.y < 0 || this.y > height) this.vy *= -1;
+        }
+        draw() {
+          ctx.fillStyle = `rgba(${this.color}, 0.5)`;
+          ctx.beginPath(); ctx.arc(this.x, this.y, 1.5, 0, Math.PI * 2); ctx.fill();
+        }
+      }
 
-        ctx.fillStyle = '#020617';
-        ctx.fillRect(0, 0, width, height);
-
-        // Stars (always)
-        const starSpeed = gameActive ? 8 : 0.5;
-        stars.forEach(s => { s.update(starSpeed); s.draw(); });
-
-        if (gameActive && !isGameOver) {
-          // Spawn enemies
-          const rate = Math.max(0.005, Math.min(0.04, 0.005 + (score / 10000)));
-          if (Math.random() < rate) {
-            enemies.push(new Enemy(Math.random() < 0.25 ? 'chaser' : 'basic'));
+      class Enemy {
+        constructor(type) {
+          this.x = Math.random() * width; this.y = -30; this.type = type;
+          this.vx = (Math.random() - 0.5) * 2; this.vy = Math.random() * 2 + 1;
+          if (type === 'chaser') { this.color = '239, 68, 68'; this.size = 10; this.hp = 3; }
+          else { this.color = '167, 139, 250'; this.size = 14; this.hp = 1; }
+          this.dead = false;
+        }
+        update() {
+          if (this.type === 'chaser') {
+            const dx = player.x - this.x; const dy = player.y - this.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist > 0) { this.vx += (dx / dist) * 0.15; this.vy += (dy / dist) * 0.15; }
+            const spd = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+            if (spd > 5) { this.vx *= 0.9; this.vy *= 0.9; }
           }
-
-          // Player tracking
-          const targetX = input.x || width / 2;
-          const targetY = input.y || height - 100;
-          player.x += (targetX - player.x) * 0.12;
-          player.y += (targetY - player.y) * 0.12;
-
-          // Draw player
-          ctx.save();
-          ctx.translate(player.x, player.y);
-          ctx.shadowBlur = 20; ctx.shadowColor = '#0ea5e9'; ctx.fillStyle = '#fff';
+          this.x += this.vx; this.y += this.vy;
+          if (this.y > height + 50) this.dead = true;
+          if (this.x < -20) this.x = width + 20; if (this.x > width + 20) this.x = -20;
+        }
+        draw() {
+          ctx.shadowBlur = 15; ctx.shadowColor = `rgb(${this.color})`; ctx.fillStyle = `rgb(${this.color})`;
           ctx.beginPath();
-          ctx.moveTo(0, -24);
-          ctx.lineTo(16, 16);
-          ctx.lineTo(0, 8);
-          ctx.lineTo(-16, 16);
+          if (this.type === 'chaser') {
+            ctx.save();
+            ctx.translate(this.x, this.y);
+            ctx.rotate(Math.atan2(this.vy, this.vx) + Math.PI / 2);
+            ctx.moveTo(0, -this.size);
+            ctx.lineTo(this.size, this.size);
+            ctx.lineTo(-this.size, this.size);
+            ctx.restore();
+          } else {
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          }
           ctx.fill();
-
-          if (input.down) {
-            ctx.fillStyle = '#f59e0b';
-            ctx.beginPath();
-            ctx.moveTo(-6, 16);
-            ctx.lineTo(0, 30 + Math.random() * 15);
-            ctx.lineTo(6, 16);
-            ctx.fill();
-          }
-          ctx.restore();
-
-          // Fire
-          if (input.down && fireCooldown <= 0) {
-            bullets.push(new Bullet(player.x, player.y - 20));
-            fireCooldown = 6;
-          }
-          if (fireCooldown > 0) fireCooldown--;
-
-          // Update bullets
-          for (let i = bullets.length - 1; i >= 0; i--) {
-            let b = bullets[i];
-            if (!b) continue;
-            b.update();
-            b.draw();
-            if (b.dead) bullets.splice(i, 1);
-          }
-
-          // Update enemies
-          for (let i = enemies.length - 1; i >= 0; i--) {
-            let e = enemies[i];
-            if (!e) continue;
-            e.update();
-            e.draw();
-
-            // Bullet collisions
-            for (let j = bullets.length - 1; j >= 0; j--) {
-              const b = bullets[j];
-              if (!b || b.dead) continue;
-              const dist = Math.sqrt((b.x - e.x) ** 2 + (b.y - e.y) ** 2);
-              if (dist < e.size + b.size + 10) {
-                b.dead = true;
-                e.hp--;
-                for (let k = 0; k < 3; k++) {
-                  // Add to particles after
-                }
-                if (e.hp <= 0) {
-                  e.dead = true;
-                  score += e.type === 'chaser' ? 250 : 100;
-                  document.getElementById('score-display').innerText = score;
-                  for (let k = 0; k < 12; k++) {
-                    const particles = [];
-                    particles.push(new Particle(e.x, e.y, e.type === 'chaser' ? '239,68,68' : '167,139,250', 8, 1.0));
-                  }
-                  shakeAmount = 5;
-                }
-                break;
-              }
-            }
-
-            // Player collision
-            const pDist = Math.sqrt((player.x - e.x) ** 2 + (player.y - e.y) ** 2);
-            if (pDist < e.size + 20) {
-              e.dead = true;
-              player.hp -= 25;
-              shakeAmount = 25;
-              updateHpBar();
-              for (let k = 0; k < 15; k++) {
-                const particles = [];
-                particles.push(new Particle(e.x, e.y, '239,68,68', 10, 1.5));
-              }
-              if (player.hp <= 0) {
-                isGameOver = true;
-                if (score > highScore) {
-                  highScore = score;
-                  try { localStorage.setItem('zenion-hs', highScore); } catch (e) { }
-                }
-                document.getElementById('high-score-display').innerText = highScore;
-                document.getElementById('final-score').innerText = score;
-                document.getElementById('game-over').classList.add('active');
-              }
-            }
-            if (e.dead) enemies.splice(i, 1);
-          }
-        } else if (!gameActive) {
-          // Ambient mode
-          for (let a = 0; a < ambientNodes.length; a++) {
-            if (!ambientNodes[a]) continue;
-
-            for (let b = a + 1; b < ambientNodes.length; b++) {
-              if (!ambientNodes[b]) continue;
-              const dx = ambientNodes[a].x - ambientNodes[b].x;
-              const dy = ambientNodes[a].y - ambientNodes[b].y;
-              const dist = Math.sqrt(dx * dx + dy * dy);
-              if (dist < 100) {
-                ctx.strokeStyle = `rgba(${ambientNodes[a].color}, ${0.3 * (1 - dist / 100)})`;
-                ctx.lineWidth = 0.5;
-                ctx.beginPath();
-                ctx.moveTo(ambientNodes[a].x, ambientNodes[a].y);
-                ctx.lineTo(ambientNodes[b].x, ambientNodes[b].y);
-                ctx.stroke();
-              }
-            }
-            ambientNodes[a].update();
-            ambientNodes[a].draw();
-          }
+          ctx.shadowBlur = 0;
         }
-
-        ctx.restore();
-      } catch (err) {
-        console.error("Game Loop Error:", err);
       }
 
-      requestAnimationFrame(loop);
-    }
+      class Bullet {
+        constructor(x, y) {
+          this.x = x; this.y = y; this.vy = -15; this.size = 4; this.dead = false;
+          // Create particles on fire
+          for (let i = 0; i < 2; i++) {
+            const particles = [];
+            particles.push(new Particle(x, y - 10, '56, 189, 248', 5, 0.5));
+          }
+        }
+        update() { this.y += this.vy; if (this.y < -20) this.dead = true; }
+        draw() {
+          ctx.shadowBlur = 10; ctx.shadowColor = '#38bdf8'; ctx.fillStyle = '#fff';
+          ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); ctx.shadowBlur = 0;
+        }
+      }
 
-    // --- Helpers ---
-    const card = document.getElementById('glass');
-    const wrap = document.querySelector('.wrap');
-    let ticking = false; // To throttle updates
+      function initAmbient() {
+        ambientNodes = [];
+        stars = [];
+        const num = Math.max(10, Math.floor((width * height) / 15000));
+        for (let i = 0; i < num; i++) ambientNodes.push(new AmbientNode());
+        for (let i = 0; i < 80; i++) stars.push(new Star());
+      }
 
-    function updateTilt(x, y) {
-      if (gameActive) return;
+      function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        if (!gameActive) initAmbient();
+        else {
+          player.x = Math.min(width, Math.max(0, player.x));
+          player.y = Math.min(height, Math.max(0, player.y));
+        }
+        fitCard();
+      }
 
-      // FIX: STABILITY CHECK - Stop tilting if hovering buttons
-      const actionContainer = document.getElementById('action-container');
-      const buttonRow = document.getElementById('button-row'); // Added this back for safety
+      let fireCooldown = 0;
 
-      const isIn = (el) => {
-        if (!el) return false;
-        const rect = el.getBoundingClientRect();
-        return x >= rect.left - 10 && x <= rect.right + 10 && y >= rect.top - 10 && y <= rect.bottom + 10;
-      };
+      function loop(timestamp) {
+        if (!lastTime) lastTime = timestamp;
 
-      if (
-        isIn(actionContainer) ||
-        isIn(buttonRow) ||
-        document.activeElement?.closest('.action-btn, .holo-btn, .immersive-btn')
-      ) {// Check both
+        try {
+          ctx.save();
+
+          if (shakeAmount > 0) {
+            ctx.translate((Math.random() - 0.5) * shakeAmount, (Math.random() - 0.5) * shakeAmount);
+            shakeAmount *= 0.9;
+            if (shakeAmount < 0.5) shakeAmount = 0;
+          }
+
+          ctx.fillStyle = '#020617';
+          ctx.fillRect(0, 0, width, height);
+
+          // Stars (always)
+          const starSpeed = gameActive ? 8 : 0.5;
+          stars.forEach(s => { s.update(starSpeed); s.draw(); });
+
+          if (gameActive && !isGameOver) {
+            // Spawn enemies
+            const rate = Math.max(0.005, Math.min(0.04, 0.005 + (score / 10000)));
+            if (Math.random() < rate) {
+              enemies.push(new Enemy(Math.random() < 0.25 ? 'chaser' : 'basic'));
+            }
+
+            // Player tracking
+            const targetX = input.x || width / 2;
+            const targetY = input.y || height - 100;
+            player.x += (targetX - player.x) * 0.12;
+            player.y += (targetY - player.y) * 0.12;
+
+            // Draw player
+            ctx.save();
+            ctx.translate(player.x, player.y);
+            ctx.shadowBlur = 20; ctx.shadowColor = '#0ea5e9'; ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.moveTo(0, -24);
+            ctx.lineTo(16, 16);
+            ctx.lineTo(0, 8);
+            ctx.lineTo(-16, 16);
+            ctx.fill();
+
+            if (input.down) {
+              ctx.fillStyle = '#f59e0b';
+              ctx.beginPath();
+              ctx.moveTo(-6, 16);
+              ctx.lineTo(0, 30 + Math.random() * 15);
+              ctx.lineTo(6, 16);
+              ctx.fill();
+            }
+            ctx.restore();
+
+            // Fire
+            if (input.down && fireCooldown <= 0) {
+              bullets.push(new Bullet(player.x, player.y - 20));
+              fireCooldown = 6;
+            }
+            if (fireCooldown > 0) fireCooldown--;
+
+            // Update bullets
+            for (let i = bullets.length - 1; i >= 0; i--) {
+              let b = bullets[i];
+              if (!b) continue;
+              b.update();
+              b.draw();
+              if (b.dead) bullets.splice(i, 1);
+            }
+
+            // Update enemies
+            for (let i = enemies.length - 1; i >= 0; i--) {
+              let e = enemies[i];
+              if (!e) continue;
+              e.update();
+              e.draw();
+
+              // Bullet collisions
+              for (let j = bullets.length - 1; j >= 0; j--) {
+                const b = bullets[j];
+                if (!b || b.dead) continue;
+                const dist = Math.sqrt((b.x - e.x) ** 2 + (b.y - e.y) ** 2);
+                if (dist < e.size + b.size + 10) {
+                  b.dead = true;
+                  e.hp--;
+                  for (let k = 0; k < 3; k++) {
+                    // Add to particles after
+                  }
+                  if (e.hp <= 0) {
+                    e.dead = true;
+                    score += e.type === 'chaser' ? 250 : 100;
+                    document.getElementById('score-display').innerText = score;
+                    for (let k = 0; k < 12; k++) {
+                      const particles = [];
+                      particles.push(new Particle(e.x, e.y, e.type === 'chaser' ? '239,68,68' : '167,139,250', 8, 1.0));
+                    }
+                    shakeAmount = 5;
+                  }
+                  break;
+                }
+              }
+
+              // Player collision
+              const pDist = Math.sqrt((player.x - e.x) ** 2 + (player.y - e.y) ** 2);
+              if (pDist < e.size + 20) {
+                e.dead = true;
+                player.hp -= 25;
+                shakeAmount = 25;
+                updateHpBar();
+                for (let k = 0; k < 15; k++) {
+                  const particles = [];
+                  particles.push(new Particle(e.x, e.y, '239,68,68', 10, 1.5));
+                }
+                if (player.hp <= 0) {
+                  isGameOver = true;
+                  if (score > highScore) {
+                    highScore = score;
+                    try { localStorage.setItem('zenion-hs', highScore); } catch (e) { }
+                  }
+                  document.getElementById('high-score-display').innerText = highScore;
+                  document.getElementById('final-score').innerText = score;
+                  document.getElementById('game-over').classList.add('active');
+                }
+              }
+              if (e.dead) enemies.splice(i, 1);
+            }
+          } else if (!gameActive) {
+            // Ambient mode
+            for (let a = 0; a < ambientNodes.length; a++) {
+              if (!ambientNodes[a]) continue;
+
+              for (let b = a + 1; b < ambientNodes.length; b++) {
+                if (!ambientNodes[b]) continue;
+                const dx = ambientNodes[a].x - ambientNodes[b].x;
+                const dy = ambientNodes[a].y - ambientNodes[b].y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 100) {
+                  ctx.strokeStyle = `rgba(${ambientNodes[a].color}, ${0.3 * (1 - dist / 100)})`;
+                  ctx.lineWidth = 0.5;
+                  ctx.beginPath();
+                  ctx.moveTo(ambientNodes[a].x, ambientNodes[a].y);
+                  ctx.lineTo(ambientNodes[b].x, ambientNodes[b].y);
+                  ctx.stroke();
+                }
+              }
+              ambientNodes[a].update();
+              ambientNodes[a].draw();
+            }
+          }
+
+          ctx.restore();
+        } catch (err) {
+          console.error("Game Loop Error:", err);
+        }
+
+        requestAnimationFrame(loop);
+      }
+
+      // --- Helpers ---
+      const card = document.getElementById('glass');
+      const wrap = document.querySelector('.wrap');
+      let ticking = false; // To throttle updates
+
+      function updateTilt(x, y) {
+        if (gameActive) return;
+
+        // FIX: STABILITY CHECK - Stop tilting if hovering buttons
+        const actionContainer = document.getElementById('action-container');
+        const buttonRow = document.getElementById('button-row'); // Added this back for safety
+
+        const isIn = (el) => {
+          if (!el) return false;
+          const rect = el.getBoundingClientRect();
+          return x >= rect.left - 10 && x <= rect.right + 10 && y >= rect.top - 10 && y <= rect.bottom + 10;
+        };
+
+        if (
+          isIn(actionContainer) ||
+          isIn(buttonRow) ||
+          document.activeElement?.closest('.action-btn, .holo-btn, .immersive-btn')
+        ) {// Check both
+          if (!ticking) {
+            requestAnimationFrame(() => {
+              card.style.setProperty('--rx', '0deg');
+              card.style.setProperty('--ry', '0deg');
+              ticking = false;
+            });
+            ticking = true;
+          }
+          return;
+        }
+
         if (!ticking) {
-          requestAnimationFrame(() => {
-            card.style.setProperty('--rx', '0deg');
-            card.style.setProperty('--ry', '0deg');
+          window.requestAnimationFrame(() => {
+            const rect = card.getBoundingClientRect();
+            const rotX = ((y - (rect.top + rect.height / 2)) / (window.innerHeight / 2)) * -8;
+            const rotY = ((x - (rect.left + rect.width / 2)) / (window.innerWidth / 2)) * 8;
+            card.style.setProperty('--rx', `${rotX}deg`);
+            card.style.setProperty('--ry', `${rotY}deg`);
+            card.style.setProperty('--mx', `${((x - rect.left) / rect.width) * 100}%`);
+            card.style.setProperty('--my', `${((y - rect.top) / rect.height) * 100}%`);
+            card.style.setProperty('--sheen-op', '1');
             ticking = false;
           });
           ticking = true;
         }
-        return;
       }
 
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const rect = card.getBoundingClientRect();
-          const rotX = ((y - (rect.top + rect.height / 2)) / (window.innerHeight / 2)) * -8;
-          const rotY = ((x - (rect.left + rect.width / 2)) / (window.innerWidth / 2)) * 8;
-          card.style.setProperty('--rx', `${rotX}deg`);
-          card.style.setProperty('--ry', `${rotY}deg`);
-          card.style.setProperty('--mx', `${((x - rect.left) / rect.width) * 100}%`);
-          card.style.setProperty('--my', `${((y - rect.top) / rect.height) * 100}%`);
-          card.style.setProperty('--sheen-op', '1');
-          ticking = false;
-        });
-        ticking = true;
+      function fitCard() {
+        const s = document.getElementById('scaler');
+        if (!s) return;
+        s.style.transform = 'scale(1)';
+        const glass = document.getElementById('glass');
+        if (!glass) return;
+        const h = glass.offsetHeight;
+        const w = glass.offsetWidth;
+        let sc = Math.min((window.innerHeight - 40) / h, (window.innerWidth - 40) / w);
+        if (sc > 1) sc = 1;
+        s.style.transform = `scale(${sc})`;
+        const c = document.getElementById('card');
+        if (c) c.classList.add('loaded');
       }
-    }
 
-    function fitCard() {
-      const s = document.getElementById('scaler');
-      if (!s) return;
-      s.style.transform = 'scale(1)';
-      const glass = document.getElementById('glass');
-      if (!glass) return;
-      const h = glass.offsetHeight;
-      const w = glass.offsetWidth;
-      let sc = Math.min((window.innerHeight - 40) / h, (window.innerWidth - 40) / w);
-      if (sc > 1) sc = 1;
-      s.style.transform = `scale(${sc})`;
-      const c = document.getElementById('card');
-      if (c) c.classList.add('loaded');
-    }
-
-    // Haptic Feedback Helper
-    function triggerHaptic() {
-      if (navigator.vibrate) {
-        navigator.vibrate(10); // 10ms vibration
+      // Haptic Feedback Helper
+      function triggerHaptic() {
+        if (navigator.vibrate) {
+          navigator.vibrate(10); // 10ms vibration
+        }
       }
-    }
 
-    // Attach haptics to all interactive elements
-    document.querySelectorAll('.haptic-target, .immersive-btn, .holo-btn, .action-btn, .tech-chip').forEach(btn => {
-      btn.addEventListener('touchstart', triggerHaptic, { passive: true });
-      btn.addEventListener('mouseenter', triggerHaptic, { passive: true });
-    });
+      // Attach haptics to all interactive elements
+      document.querySelectorAll('.haptic-target, .immersive-btn, .holo-btn, .action-btn, .tech-chip').forEach(btn => {
+        btn.addEventListener('touchstart', triggerHaptic, { passive: true });
+        btn.addEventListener('mouseenter', triggerHaptic, { passive: true });
+      });
 
-    // Touch "Scrubbing" Logic
-    let lastTouchedElement = null;
+      // Touch "Scrubbing" Logic
+      let lastTouchedElement = null;
 
-    wrap.addEventListener('touchmove', (e) => {
-      const touch = e.touches[0];
-      const target = document.elementFromPoint(touch.clientX, touch.clientY);
+      wrap.addEventListener('touchmove', (e) => {
+        const touch = e.touches[0];
+        const target = document.elementFromPoint(touch.clientX, touch.clientY);
 
-      const btn = target ? target.closest('.immersive-btn') : null;
+        const btn = target ? target.closest('.immersive-btn') : null;
 
-      if (btn && btn !== lastTouchedElement) {
-        triggerHaptic();
-        if (lastTouchedElement) lastTouchedElement.classList.remove('is-hovered');
-        btn.classList.add('is-hovered');
-        lastTouchedElement = btn;
-      } else if (!btn && lastTouchedElement) {
-        lastTouchedElement.classList.remove('is-hovered');
-        lastTouchedElement = null;
-      }
-    }, { passive: true });
+        if (btn && btn !== lastTouchedElement) {
+          triggerHaptic();
+          if (lastTouchedElement) lastTouchedElement.classList.remove('is-hovered');
+          btn.classList.add('is-hovered');
+          lastTouchedElement = btn;
+        } else if (!btn && lastTouchedElement) {
+          lastTouchedElement.classList.remove('is-hovered');
+          lastTouchedElement = null;
+        }
+      }, { passive: true });
 
-    wrap.addEventListener('touchend', (e) => {
-      if (lastTouchedElement) {
-        e.preventDefault();       // STOP native click
-        lastTouchedElement.classList.remove('is-hovered');
-        lastTouchedElement = null;
-      }
-    }, { passive: false });
+      wrap.addEventListener('touchend', (e) => {
+        if (lastTouchedElement) {
+          e.preventDefault();       // STOP native click
+          lastTouchedElement.classList.remove('is-hovered');
+          lastTouchedElement = null;
+        }
+      }, { passive: false });
 
 
-    wrap.addEventListener('mousemove', e => updateTilt(e.clientX, e.clientY), { passive: true });
-    wrap.addEventListener('mouseleave', () => {
-      card.style.setProperty('--rx', '0deg');
-      card.style.setProperty('--ry', '0deg');
-      card.style.setProperty('--sheen-op', '0');
-    }, { passive: true });
+      wrap.addEventListener('mousemove', e => updateTilt(e.clientX, e.clientY), { passive: true });
+      wrap.addEventListener('mouseleave', () => {
+        card.style.setProperty('--rx', '0deg');
+        card.style.setProperty('--ry', '0deg');
+        card.style.setProperty('--sheen-op', '0');
+      }, { passive: true });
 
-    let qrInstance = null;
-    const qrModal = document.getElementById('qr-modal');
-    function openQR() {
-  const qrContainer = document.getElementById('qr-code');
-  qrContainer.innerHTML = "";
+      let qrInstance = null;
+      const qrModal = document.getElementById('qr-modal');
+      function openQR() {
+        const qrContainer = document.getElementById('qr-code');
+        qrContainer.innerHTML = "";
 
-  const vCardData = `
+        const vCardData = `
 BEGIN:VCARD
 VERSION:3.0
 N:Mistry;Prem;;;
@@ -1376,144 +1364,146 @@ URL:https://www.zeniontechnologies.com
 END:VCARD
   `.trim();
 
-  qrInstance = new QRCode(qrContainer, {
-    text: vCardData,
-    width: 180,
-    height: 180,
-    correctLevel: QRCode.CorrectLevel.M
-  });
+        qrInstance = new QRCode(qrContainer, {
+          text: vCardData,
+          width: 180,
+          height: 180,
+          correctLevel: QRCode.CorrectLevel.M
+        });
 
-  qrModal.classList.add('active');
-}
-
-
-    function closeQR() { qrModal.classList.remove('active'); }
-
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      document.getElementById('toast-msg').innerText = msg;
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2000);
-    }
-
-    async function saveContact() {
-      triggerHaptic(); // Haptic feedback on click
-      const vcard = "BEGIN:VCARD\nVERSION:3.0\nN:Mistry;Prem;;;\nFN:Prem Mistry\nORG:Zenion Technologies\nTEL;TYPE=CELL:+919408075958\nEMAIL:info@zeniontechnologies.com\nURL:https://www.zeniontechnologies.com\nEND:VCARD";
-      const blob = new Blob([vcard], { type: "text/vcard" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = "Prem Mistry.vcf";
-      document.body.appendChild(a); // Appending to body is required for Firefox/iOS in some cases
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      showToast("Downloading Contact...");
-    }
-
-    async function shareCard() {
-      triggerHaptic(); // Haptic feedback on click
-
-      const shareData = {
-        title: "Prem Mistry",
-        text: "Check out Prem Mistry's Digital Business Card",
-        url: window.location.href
-      };
-
-      // Try native share first, then aggressive fallback
-      try {
-        if (navigator.share) {
-          await navigator.share(shareData);
-        } else {
-          throw new Error("Web Share API not supported");
-        }
-      } catch (err) {
-        // If user canceled, do nothing (usually AbortError). 
-        // For everything else (or if browser doesn't support it), copy to clipboard.
-        if (err.name !== 'AbortError') {
-          copyToClipboardFallback();
-        }
-      }
-    }
-
-    function copyToClipboardFallback() {
-      const text = window.location.href;
-
-      // Try Modern Async Clipboard API
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text)
-          .then(() => showToast("Link Copied"))
-          .catch(() => fallbackExecCommand(text));
-      } else {
-        // Fallback to legacy execCommand
-        fallbackExecCommand(text);
-      }
-    }
-
-    function fallbackExecCommand(text) {
-      const textArea = document.createElement("textarea");
-      textArea.value = text;
-
-      // Ensure it's not visible but part of the DOM
-      textArea.style.position = "fixed";
-      textArea.style.left = "-9999px";
-      textArea.style.top = "0";
-      document.body.appendChild(textArea);
-
-      textArea.focus();
-      textArea.select();
-
-      try {
-        const successful = document.execCommand('copy');
-        if (successful) {
-          showToast("Link Copied");
-        } else {
-          showToast("Copy Failed");
-        }
-      } catch (err) {
-        showToast("Copy Failed");
+        qrModal.classList.add('active');
       }
 
-      document.body.removeChild(textArea);
-    }
+document.getElementById("copyright-year").textContent =
+  new Date().getFullYear();
 
-    function openWhatsApp() {
-      window.open(`https://wa.me/919408075958?text=${encodeURIComponent("Hi Prem, I found your digital card!")}`, '_blank');
-    }
+      function closeQR() { qrModal.classList.remove('active'); }
 
-    function downloadQR() {
-      const qrContainer = document.getElementById('qr-code');
-      // QRCode.js might render as an IMG or a CANVAS depending on the browser
-      const img = qrContainer.querySelector("img");
-      const canvas = qrContainer.querySelector("canvas");
-      let url = "";
-
-      if (img && img.src) {
-        url = img.src;
-      } else if (canvas) {
-        url = canvas.toDataURL("image/png");
+      function showToast(msg) {
+        const t = document.getElementById('toast');
+        document.getElementById('toast-msg').innerText = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2000);
       }
 
-      if (url) {
+      async function saveContact() {
+        triggerHaptic(); // Haptic feedback on click
+        const vcard = "BEGIN:VCARD\nVERSION:3.0\nN:Mistry;Prem;;;\nFN:Prem Mistry\nORG:Zenion Technologies\nTEL;TYPE=CELL:+919408075958\nEMAIL:info@zeniontechnologies.com\nURL:https://www.zeniontechnologies.com\nEND:VCARD";
+        const blob = new Blob([vcard], { type: "text/vcard" });
+        const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = "prem-mistry-qr.png";
-        document.body.appendChild(a); // Required for Firefox
+        a.download = "Prem Mistry.vcf";
+        document.body.appendChild(a); // Appending to body is required for Firefox/iOS in some cases
         a.click();
         document.body.removeChild(a);
-        showToast("QR Saved");
-      } else {
-        showToast("Error saving QR");
+        URL.revokeObjectURL(url);
+        showToast("Downloading Contact...");
       }
-    }
 
-    window.addEventListener('resize', resize, { passive: true });
-    window.onload = () => {
-      resize();
-      loop(0);
-      setTimeout(fitCard, 100);
-    };
-  </script>
+      async function shareCard() {
+        triggerHaptic(); // Haptic feedback on click
+
+        const shareData = {
+          title: "Prem Mistry",
+          text: "Check out Prem Mistry's Digital Business Card",
+          url: window.location.href
+        };
+
+        // Try native share first, then aggressive fallback
+        try {
+          if (navigator.share) {
+            await navigator.share(shareData);
+          } else {
+            throw new Error("Web Share API not supported");
+          }
+        } catch (err) {
+          // If user canceled, do nothing (usually AbortError). 
+          // For everything else (or if browser doesn't support it), copy to clipboard.
+          if (err.name !== 'AbortError') {
+            copyToClipboardFallback();
+          }
+        }
+      }
+
+      function copyToClipboardFallback() {
+        const text = window.location.href;
+
+        // Try Modern Async Clipboard API
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text)
+            .then(() => showToast("Link Copied"))
+            .catch(() => fallbackExecCommand(text));
+        } else {
+          // Fallback to legacy execCommand
+          fallbackExecCommand(text);
+        }
+      }
+
+      function fallbackExecCommand(text) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+
+        // Ensure it's not visible but part of the DOM
+        textArea.style.position = "fixed";
+        textArea.style.left = "-9999px";
+        textArea.style.top = "0";
+        document.body.appendChild(textArea);
+
+        textArea.focus();
+        textArea.select();
+
+        try {
+          const successful = document.execCommand('copy');
+          if (successful) {
+            showToast("Link Copied");
+          } else {
+            showToast("Copy Failed");
+          }
+        } catch (err) {
+          showToast("Copy Failed");
+        }
+
+        document.body.removeChild(textArea);
+      }
+
+      function openWhatsApp() {
+        window.open(`https://wa.me/919408075958?text=${encodeURIComponent("Hi Prem, I found your digital card!")}`, '_blank');
+      }
+
+      function downloadQR() {
+        const qrContainer = document.getElementById('qr-code');
+        // QRCode.js might render as an IMG or a CANVAS depending on the browser
+        const img = qrContainer.querySelector("img");
+        const canvas = qrContainer.querySelector("canvas");
+        let url = "";
+
+        if (img && img.src) {
+          url = img.src;
+        } else if (canvas) {
+          url = canvas.toDataURL("image/png");
+        }
+
+        if (url) {
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = "prem-mistry-qr.png";
+          document.body.appendChild(a); // Required for Firefox
+          a.click();
+          document.body.removeChild(a);
+          showToast("QR Saved");
+        } else {
+          showToast("Error saving QR");
+        }
+      }
+
+      window.addEventListener('resize', resize, { passive: true });
+      window.onload = () => {
+        resize();
+        loop(0);
+        setTimeout(fitCard, 100);
+      };
+    </script>
 </body>
 
 </html>
