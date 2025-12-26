@@ -1,20 +1,20 @@
 {
   "name": "Prem Mistry – Zenion Technologies",
   "short_name": "Zenion Card",
-  "start_url": "/index.html",
-  "scope": "/",
+  "start_url": "/premmistry-digital-card/index.html",
+  "scope": "/premmistry-digital-card/",
   "display": "standalone",
   "background_color": "#020617",
   "theme_color": "#020617",
   "icons": [
     {
-      "src": "/icons/icon-192.png",
+      "src": "/premmistry-digital-card/icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/icons/icon-512.png",
+      "src": "/premmistry-digital-card/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
